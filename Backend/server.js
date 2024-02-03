@@ -7,7 +7,7 @@ const { connect } = require('./database/database');
 const ngrok = require('ngrok');
 
 /*
-TO RUN SERVER DO NPM START AND ON ANOTHER TERMINAL DO NGROK HTTP 8080
+TO RUN SERVER DO NPM START AND ON ANOTHER TERMINAL DO NPX NGROK HTTP 8080
 */
 
 app.use(cors());
@@ -20,6 +20,8 @@ app.get('/', function(req, res) {
 
 app.post('/', (req, res) => {
     console.log("Webhook received:");
+    //THIS INFORMATION WE NEED TO SEND IT TO THE DATABASE, SO WE CAN STORE 
+    //WHICH ACTIVITIES ARE RELATED TO THE TAGS THAT THE HOST CREATES 
     console.log(req.body);
     res.status(200).send(req.body);
 });
