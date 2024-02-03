@@ -1,7 +1,9 @@
 const { MongoClient } = require('mongodb');
+require('dotenv').config();
 
 // Connection URL
-const url = 'mongodb://localhost:27017'; // edit this
+const url = process.env.DATABASE_URL;
+
 const client = new MongoClient(url);
 
 async function connect() {
