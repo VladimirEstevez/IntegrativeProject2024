@@ -1,23 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
+// App.js
+
+import React from 'react';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ backgroundColor: 'white', padding: '20px', textAlign: 'center', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+      <h1>Valcourt2030</h1>
+      <button style={{ backgroundColor: 'blue', color: 'white', padding: '10px 20px', margin: '10px', borderRadius: '10px', border: 'none' }}>S'inscrire</button>
+      <button style={{ backgroundColor: 'blue', color: 'white', padding: '10px 20px', margin: '10px', borderRadius: '10px', border: 'none' }}>Se connecter</button>
     </div>
   );
 }
