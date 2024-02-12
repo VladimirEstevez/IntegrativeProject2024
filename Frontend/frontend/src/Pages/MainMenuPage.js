@@ -1,6 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const MainMenuPage = () => {
+  const navigate = useNavigate();
+
   return (
     <div style={{ 
         backgroundColor: 'white',
@@ -10,7 +13,7 @@ const MainMenuPage = () => {
         <h1 style={{ 
           fontSize: '24px',
           marginBottom: '20px',
-        }}>Bonjour Guillaume</h1>
+        }}>Bonjour "UserName"</h1>
         <div style={{ 
           backgroundColor: 'white',
           padding: '20px',
@@ -18,7 +21,7 @@ const MainMenuPage = () => {
           maxWidth: '300px', // Adjust the maximum width as needed
           margin: '0 auto', // Center the container
         }}>
-          <button style={{ 
+          <button onClick ={()=>navigate("/activities")} style={{ 
             backgroundColor: 'blue',
             color: 'white',
             padding: '10px 20px',
@@ -32,7 +35,7 @@ const MainMenuPage = () => {
           }}>
             Voir mes activités
           </button>
-          <button style={{ 
+          <button onClick ={()=>navigate("/modify")} style={{ 
             backgroundColor: 'blue',
             color: 'white',
             padding: '10px 20px',
@@ -46,7 +49,7 @@ const MainMenuPage = () => {
           }}>
             Modifier mon profil
           </button>
-          <button style={{ 
+          <button onClick ={()=>navigate("/")} style={{ 
             backgroundColor: 'blue',
             color: 'white',
             padding: '10px 20px',
@@ -58,7 +61,7 @@ const MainMenuPage = () => {
             display: 'block',
             width: '100%',
           }}>
-            Retour au menu
+            Se deconnecter
           </button>
         </div>
       </div>

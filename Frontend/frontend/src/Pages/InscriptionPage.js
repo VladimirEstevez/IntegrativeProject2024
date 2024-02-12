@@ -2,9 +2,11 @@
 import React, {useState} from 'react';
 import { toast,ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 function InscriptionPage() {
 
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     prenom: '',
@@ -30,6 +32,13 @@ function InscriptionPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+
+    if (!emailRegex.test(form.courriel)) {
+      toast.error('Invalid email format', { autoClose: 3000, pauseOnHover: false });
+      return;
+    }
+
     const confirmPassword = form.confirmerMotDePasse;
     const password = form.motDePasse;
     const hasUpperCase = /[A-Z]/.test(password);
@@ -43,7 +52,7 @@ function InscriptionPage() {
   
     
   if (password !== confirmPassword) {
-    toast.error('Passwords do not match.');
+    toast.error('Passwords do not match.',  { autoClose: 3000, pauseOnHover: false });
     return;
   }
   delete form.confirmerMotDePasse;
@@ -58,7 +67,7 @@ function InscriptionPage() {
 
   if (!emailResponse.ok) {
     const data = await emailResponse.json();
-    toast.error(data.message);
+    toast.error(data.message, { autoClose: 3000, pauseOnHover: false });
     return;
   }
 
@@ -75,10 +84,13 @@ function InscriptionPage() {
     if (response.ok) {
       const data = await response.json();
       console.log(data);
-      toast.success('You have been successfully registered!');
+      toast.success('Login successful!',  { autoClose: 3000, pauseOnHover: false  });
+      setTimeout(() => {
+        navigate('/menu');  // Navigate to /menu after a delay
+      }, 4000);
       // Handle successful form submission here
     } else {
-      toast.error('Error:', response.status);
+      toast.error('Error:', response.status , { autoClose: 3000, pauseOnHover: false });
       // Handle error here
     }
   };
@@ -126,8 +138,13 @@ function InscriptionPage() {
             <label htmlFor="interet1" style={{ marginBottom: '5px' }}><input  onChange={handleChange} type="checkbox" id="interet1" name="interet1" /> Intérêt 1</label>
             <label htmlFor="interet2" style={{ marginBottom: '5px' }}><input  onChange={handleChange} type="checkbox" id="interet2" name="interet2" /> Intérêt 2</label>
           </div>
-        </div>
-        <button type="submit" style={{ borderRadius: '5px', padding: '8px 16px', backgroundColor: '#007bff', color: 'white', border: 'none', cursor: 'pointer', width: '100%', maxWidth: '400px' }}>S'inscrire</button>
+        </div >
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+
+        <button type="button" onClick= {()=>navigate("/")} style={{ backgroundColor: 'blue', color: 'white', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>Annuler</button>
+        <button type="submit" style={{ backgroundColor: 'blue', color: 'white', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer',  marginLeft: '10px'  }}>S'inscrire</button>
+
+      </div>
       </form>
     </div></div>
   );

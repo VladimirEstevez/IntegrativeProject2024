@@ -3,12 +3,15 @@
 import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 function ConnectionPage() {
   const [form, setForm] = useState({
     courriel: '',
     motDePasse: '',
   });
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,11 +25,14 @@ function ConnectionPage() {
     });
 
     if (response.ok) {
-      toast.success('Login successful!');
+      toast.success('Login successful!',  { autoClose: 3000 , pauseOnHover: false });
+      setTimeout(() => {
+        navigate('/menu');  // Navigate to /menu after a delay
+      }, 4000);
       // Handle successful login here
     } else {
       const data = await response.json();
-      toast.error(data.message);
+      toast.error(data.message, { autoClose: 3000, pauseOnHover: false });
       // Handle error here
     }
   };
@@ -49,7 +55,7 @@ function ConnectionPage() {
             <input type="password" id="password" onChange={e => setForm({ ...form, motDePasse: e.target.value })}   name="password" style={{ margin: '5px', padding: '8px', borderRadius: '5px', border: '1px solid #ccc' }} />
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <button type="button" style={{ backgroundColor: 'blue', color: 'white', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>Annuler</button>
+            <button type="button" onClick= {()=>navigate("/")} style={{ backgroundColor: 'blue', color: 'white', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>Annuler</button>
             <button type="submit" style={{ backgroundColor: 'blue', color: 'white', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>Se Connecter</button>
           </div>
         </form>
