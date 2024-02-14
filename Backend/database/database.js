@@ -2,7 +2,7 @@ const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
 // Connection URL
-const url = "mongodb+srv://host:mariadb@integrativeprojectdb.o5dpgni.mongodb.net/"
+const url = process.env.DATABASE_URL;
 
 const client = new MongoClient(url);
 

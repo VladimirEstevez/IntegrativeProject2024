@@ -1,9 +1,11 @@
+require('dotenv').config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const {
     connect
 } = require("./database/database");
@@ -24,6 +26,11 @@ app.get("/", function (req, res) {
     res.send("Hello World");
 });
 
+//Specify the database and collection
+const db = client.db("integrativeProjectDB");
+const UsersCollection = db.collection("Users");
+const ActivitiesCollection = db.collection("Activities");
+
 app.post("/", async (req, res) => {
     console.log("Webhook received:");
     console.log(req.body);
@@ -33,12 +40,8 @@ app.post("/", async (req, res) => {
     //Ensure the client is connected
     //if (!client.isConnected()) await client.connect();
 
-    //Specify the database and collection
-    const db = client.db("integrativeProjectDB");
-    const collection = db.collection("Activities");
-
     //Insert the data into the database
-    await collection.insertOne(req.body);
+    await ActivitiesCollection.insertOne(req.body);
 
     res.status(200).send(req.body);
 });
@@ -50,11 +53,11 @@ app.post("/subscribe", async (req, res) => {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(user.motDePasse, saltRounds);
     user.motDePasse = hashedPassword;
-    const db = client.db("integrativeProjectDB");
-    const collection = db.collection("Users");
-    await collection.insertOne(user);
+    await UsersCollection.insertOne(user);
 
-    res.status(200).send(user);
+    const accessToken = GenerateToken(user.prenom);
+
+    res.status(200).send({accessToken: accessToken, user: user});
 });
 
 app.post("/verifyEmail", async (req, res) => {
@@ -62,10 +65,7 @@ app.post("/verifyEmail", async (req, res) => {
         courriel
     } = req.body;
 
-    const db = client.db("integrativeProjectDB");
-    const collection = db.collection("Users");
-
-    const users = await collection.find().toArray();
+    const users = await UsersCollection.find().toArray();
 
     const emailExists = users.some((user) => user.courriel === courriel);
 
@@ -86,10 +86,7 @@ app.post("/login", async (req, res) => {
     console.log('motDePasse: ', motDePasse);
     console.log('courriel: ', courriel);
 
-    const db = client.db("integrativeProjectDB");
-    const collection = db.collection("Users");
-
-    const user = await collection.findOne({ courriel });
+    const user = await UsersCollection.findOne({ courriel });
 
     if (!user) {
         return res.status(400).send({ message: "Email does not exist" });
@@ -101,7 +98,9 @@ app.post("/login", async (req, res) => {
         return res.status(400).send({ message: "Incorrect password" });
     }
 
-    res.status(200).send({ message: "Login successful" });
+    const accessToken = GenerateToken(user.prenom);
+
+;   res.status(200).send({ message: "Login successful", accessToken: accessToken, user: user });
 });
 
 const port = process.env.PORT || 8080;
@@ -109,3 +108,8 @@ app.listen(port, () => {
     connect();
     console.log("Server listening on port " + port);
 });
+
+function GenerateToken(username){
+    return jwt.sign(username, process.env.SECRET_TOKEN);
+    //return jwt.sign(username, process.env.SECRET_KEY, {expiresIn: '1h'});
+}
