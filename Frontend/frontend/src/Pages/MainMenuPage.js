@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 const MainMenuPage = () => {
   const navigate = useNavigate();
+  const prenom = localStorage.getItem('prenom');
+  console.log("Prenom: ", prenom);
 
   return (
     <div style={{ 
@@ -13,7 +15,7 @@ const MainMenuPage = () => {
         <h1 style={{ 
           fontSize: '24px',
           marginBottom: '20px',
-        }}>Bonjour "UserName"</h1>
+        }}>Bonjour {prenom}</h1>
         <div style={{ 
           backgroundColor: 'white',
           padding: '20px',

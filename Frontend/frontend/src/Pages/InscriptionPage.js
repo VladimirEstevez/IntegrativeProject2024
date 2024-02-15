@@ -83,7 +83,9 @@ function InscriptionPage() {
 
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
+      console.log('data: ', data);
+      localStorage.setItem('prenom', data.user.prenom);
+
       toast.success('Login successful!',  { autoClose: 3000, pauseOnHover: false  });
       setTimeout(() => {
         navigate('/menu');  // Navigate to /menu after a delay
