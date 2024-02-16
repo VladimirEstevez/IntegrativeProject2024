@@ -1,26 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const MainMenuPage =  () => {
   const navigate = useNavigate();
-  //useEffect( () => {
-    const token = localStorage.getItem('token');
 
-  if (!token) {
-    navigate('/');
-  }else{
-    const response = fetch('http://localhost:8080/protectedRoute', {
-      method: 'GET',
-      headers: {
-        'authorization': 'Bearer ' + token,
+  useEffect(() => {
+    const fetchProtectedRoute = async () => {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        navigate('/');
+      } else {
+        try {
+          const response = await fetch('http://localhost:8080/protectedRoute', {
+            method: 'GET',
+            headers: {
+              'authorization': 'Bearer ' + token,
+            }
+          });
+
+          console.log('response: ', response);
+          if (response.status === 401){
+            navigate('/');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
       }
-    });
-    
-    console.log('response: ', response);
-    if (response.status === 401){
-      navigate('/');
-    }
-  }
+    };
+
+    fetchProtectedRoute();
+  }, [navigate]);
   
   return (
     <div className="container-fluid bg-white vh-100 d-flex justify-content-center align-items-center">
