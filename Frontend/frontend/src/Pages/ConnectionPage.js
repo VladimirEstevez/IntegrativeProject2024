@@ -26,8 +26,8 @@ function ConnectionPage() {
 
     if (response.ok) {
       const data = await response.json();
-      console.log('data: ', data);
-      localStorage.setItem('prenom', data.user.prenom);
+      console.log('Token: ', data.accessToken);
+      localStorage.setItem('token', data.accessToken);
       
 
       toast.success('Login successful!',  { autoClose: 3000 , pauseOnHover: false });

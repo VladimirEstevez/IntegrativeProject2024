@@ -6,14 +6,12 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const {
-    connect
-} = require("./database/database");
+const { connect } = require("./database/database");
 const ngrok = require("ngrok");
-const {
-    client
-} = require("./database/database");
+const { client } = require("./database/database");
+const util = require("util");
 
+const jwtVerify = util.promisify(jwt.verify);
 /*
 TO RUN SERVER DO NPM START AND ON ANOTHER TERMINAL DO NPX NGROK HTTP 8080
 */
@@ -55,9 +53,12 @@ app.post("/subscribe", async (req, res) => {
     user.motDePasse = hashedPassword;
     await UsersCollection.insertOne(user);
 
-    const accessToken = GenerateToken(user.prenom);
+    const accessToken = GenerateToken({
+        prenom: user.prenom,
+        courriel: user.courriel
+    });
 
-    res.status(200).send({accessToken: accessToken, user: user});
+    res.status(200).send({accessToken: accessToken});
 });
 
 app.post("/verifyEmail", async (req, res) => {
@@ -98,9 +99,32 @@ app.post("/login", async (req, res) => {
         return res.status(400).send({ message: "Incorrect password" });
     }
 
-    const accessToken = GenerateToken(user.prenom);
+    const accessToken = GenerateToken({
+        prenom: user.prenom,
+        courriel: user.courriel
+    });
 
-;   res.status(200).send({ message: "Login successful", accessToken: accessToken, user: user });
+;   res.status(200).send({ message: "Login successful", accessToken: accessToken});
+});
+
+app.get('/protectedRoute', async (req, res) => {
+    //console.log('req: ', req);
+    const authHeader = req.headers['authorization'];
+    //console.log('authHeader: ', authHeader);
+    const token = authHeader && authHeader.split(' ')[1];
+    console.log('token: ', token);
+
+    if (!token) {
+        return res.sendStatus(401);
+    }
+
+    try {
+        const user = await jwtVerify(token, process.env.SECRET_TOKEN);
+        req.user = user;
+        res.send('You have accessed a protected route');
+    } catch (err) {
+        return res.sendStatus(403);
+    }
 });
 
 const port = process.env.PORT || 8080;
@@ -110,6 +134,6 @@ app.listen(port, () => {
 });
 
 function GenerateToken(username){
-    return jwt.sign(username, process.env.SECRET_TOKEN);
-    //return jwt.sign(username, process.env.SECRET_KEY, {expiresIn: '1h'});
+    //return jwt.sign(username, process.env.SECRET_TOKEN);
+    return jwt.sign(username, process.env.SECRET_TOKEN, {expiresIn: '1d'});
 }
