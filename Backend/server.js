@@ -121,6 +121,7 @@ app.get('/protectedRoute', async (req, res) => {
     try {
         const user = await jwtVerify(token, process.env.SECRET_TOKEN);
         req.user = user;
+        console.log('You have accessed a protected route');
         res.send('You have accessed a protected route');
     } catch (err) {
         return res.sendStatus(403);
