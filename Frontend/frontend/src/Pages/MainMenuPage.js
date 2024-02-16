@@ -4,8 +4,11 @@ import { useNavigate } from 'react-router-dom';
 const MainMenuPage = () => {
   const navigate = useNavigate();
 
+  const prenom = localStorage.getItem('prenom');
+  console.log("Prenom: ", prenom);
+
   return (
-    <div className="container-fluid bg-white vh-100 d-flex justify-content-center align-items-center">
+       <div className="container-fluid bg-white vh-100 d-flex justify-content-center align-items-center">
       <div className="container-md text-center">
         <h1 className="fs-4 mb-4">Bonjour "UserName"</h1>
         <div className="mb-2">
@@ -16,9 +19,9 @@ const MainMenuPage = () => {
         </div>
         <div>
           <button onClick={() => navigate("/")} className="btn btn-primary btn-block">Se déconnecter</button>
+
         </div>
       </div>
-    </div>
   );
 };
 
