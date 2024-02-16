@@ -42,24 +42,24 @@ function ConnectionPage() {
   return (
     <div>
       <ToastContainer />
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: 'white' }}>
-      <div style={{ textAlign: 'center' }}>
-        <h1>Connexion</h1>
-        <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: '20px' }}>
-            <label htmlFor="email">Adresse Courriel:</label>
-            <input type="email" id="email"  onChange={e => setForm({ ...form, courriel: e.target.value })}  name="email" style={{ margin: '5px', padding: '8px', borderRadius: '5px', border: '1px solid #ccc' }} />
-          </div>
-          <div style={{ marginBottom: '20px' }}>
-            <label htmlFor="password">Mot de Passe:</label>
-            <input type="password" id="password" onChange={e => setForm({ ...form, motDePasse: e.target.value })}   name="password" style={{ margin: '5px', padding: '8px', borderRadius: '5px', border: '1px solid #ccc' }} />
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <button type="button" onClick= {()=>navigate("/")} style={{ backgroundColor: 'blue', color: 'white', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>Annuler</button>
-            <button type="submit" style={{ backgroundColor: 'blue', color: 'white', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>Se Connecter</button>
-          </div>
-        </form>
-      </div>
+      <div className="container-fluid d-flex justify-content-center align-items-center" style={{ height: '100vh', backgroundColor: 'white' }}>
+        <div className="text-center">
+          <h1>Connexion</h1>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label">Adresse Courriel:</label>
+              <input type="email" className="form-control" id="email" onChange={e => setForm({ ...form, courriel: e.target.value })} name="email" />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="password" className="form-label">Mot de Passe:</label>
+              <input type="password" className="form-control" id="password" onChange={e => setForm({ ...form, motDePasse: e.target.value })} name="password" />
+            </div>
+            <div className="d-flex justify-content-between">
+              <button type="button" onClick={() => navigate("/")} className="btn btn-primary">Annuler</button>
+              <button type="submit" className="btn btn-primary">Se Connecter</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
