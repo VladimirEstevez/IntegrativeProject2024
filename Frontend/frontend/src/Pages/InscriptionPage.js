@@ -35,7 +35,7 @@ function InscriptionPage() {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
     if (!emailRegex.test(form.courriel)) {
-      toast.error('Invalid email format', { autoClose: 3000, pauseOnHover: false });
+      toast.error('Format d\'email invalide', { autoClose: 3000, pauseOnHover: false });
       return;
     }
 
@@ -46,13 +46,13 @@ function InscriptionPage() {
     const hasMinLength = password.length >= 8;
   
     if (!hasUpperCase || !hasNumber || !hasMinLength) {
-      toast.error('Password must be at least 8 characters, include an uppercase letter and a number.');
+      toast.error('Le mot de passe doit comporter au moins 8 caractères, dont une lettre majuscule et un chiffre.');
       return;
     }
   
     
   if (password !== confirmPassword) {
-    toast.error('Passwords do not match.',  { autoClose: 3000, pauseOnHover: false });
+    toast.error('Les mots de passe ne correspondent pas.',  { autoClose: 3000, pauseOnHover: false });
     return;
   }
   delete form.confirmerMotDePasse;
@@ -86,9 +86,9 @@ function InscriptionPage() {
       console.log('data: ', data);
       localStorage.setItem('prenom', data.user.prenom);
 
-      toast.success('Login successful!',  { autoClose: 3000, pauseOnHover: false  });
+      toast.success('Votre utilisateur a été créé avec succès!',  { autoClose: 3000, pauseOnHover: false  });
       setTimeout(() => {
-        navigate('/menu');  // Navigate to /menu after a delay
+        navigate('/');  // Navigate to /menu after a delay
       }, 4000);
       // Handle successful form submission here
     } else {
@@ -123,7 +123,7 @@ function InscriptionPage() {
           <input type="password" id="motDePasse"  onChange={handleChange} name="motDePasse" style={{ borderRadius: '5px', padding: '5px', width: '100%' }} />
         </div>
         <div style={{ marginBottom: '20px', width: '100%', maxWidth: '400px' }}>
-          <label htmlFor="confirmerMotDePasse" style={{ marginBottom: '5px' }}>Confirmer:</label>
+          <label htmlFor="confirmerMotDePasse" style={{ marginBottom: '5px' }}>Confirmer le mot de passe:</label>
           <input type="password" id="confirmerMotDePasse" onChange={handleChange} name="confirmerMotDePasse" style={{ borderRadius: '5px', padding: '5px', width: '100%' }} />
         </div>
         <div style={{ marginBottom: '20px', width: '100%', maxWidth: '400px' }}>

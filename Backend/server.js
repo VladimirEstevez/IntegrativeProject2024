@@ -32,13 +32,7 @@ const ActivitiesCollection = db.collection("Activities");
 app.post("/", async (req, res) => {
     console.log("Webhook received:");
     console.log(req.body);
-    //THIS INFORMATION WE NEED TO SEND IT TO THE DATABASE, SO WE CAN STORE
-    //WHICH ACTIVITIES ARE RELATED TO THE TAGS THAT THE HOST CREATES
 
-    //Ensure the client is connected
-    //if (!client.isConnected()) await client.connect();
-
-    //Insert the data into the database
     await ActivitiesCollection.insertOne(req.body);
 
     res.status(200).send(req.body);
@@ -101,10 +95,47 @@ app.post("/login", async (req, res) => {
 
     const accessToken = GenerateToken({
         prenom: user.prenom,
-        courriel: user.courriel
+        courriel: user.courriel,
+        nom: user.nom,
+        municipalite: user.municipalite,
+        sports: user.sports,
+        festivals: user.festivals
     });
 
 ;   res.status(200).send({ message: "Login successful", accessToken: accessToken});
+});
+
+app.patch("/updateUser", async (req, res) => {
+    const updatedUser = req.body;
+    console.log('updatedUser: ', updatedUser);
+
+    const authHeader = req.headers.authorization;
+    //console.log('authHeader: ', authHeader);
+    const token = authHeader && authHeader.split(' ')[1];
+    //console.log('token: ', token);
+
+    if (token == null) {
+        return res.sendStatus(401); // If there's no token, return a 401 status
+    }
+    try {
+        // Use the promisified jwt.verify function with async/await
+        const user = await jwtVerify(token, process.env.SECRET_TOKEN);
+        console.log('user: ', user);
+
+        console.log('user.email: ', user.courriel);
+        // Use the email from the JWT payload to update the user
+        const result = await UsersCollection.updateOne({ courriel: user.courriel }, { $set: updatedUser });
+
+        if (result.modifiedCount === 1) {
+            const newAccessToken = GenerateToken(updatedUser);
+            res.status(200).send({ message: "User updated successfully", accessToken: newAccessToken });
+        } else {
+            res.status(400).send({ message: "Error updating user" });
+        }
+    } catch (err) {
+        // If the token is not valid, return a 403 status
+        return res.sendStatus(403);
+    }
 });
 
 app.get('/protectedRoute', async (req, res) => {
@@ -120,19 +151,27 @@ app.get('/protectedRoute', async (req, res) => {
 
     try {
         const user = await jwtVerify(token, process.env.SECRET_TOKEN);
+        console.log('user: ', user);
         req.user = user;
         console.log('You have accessed a protected route');
-        res.send('You have accessed a protected route');
+        res.send(user);
     } catch (err) {
+        console.log('err: ', err);
         return res.sendStatus(403);
     }
 });
+
+
+
+
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
     connect();
     console.log("Server listening on port " + port);
 });
+
+
 
 function GenerateToken(username){
     //return jwt.sign(username, process.env.SECRET_TOKEN);

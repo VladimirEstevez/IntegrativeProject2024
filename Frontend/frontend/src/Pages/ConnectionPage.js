@@ -30,7 +30,7 @@ function ConnectionPage() {
       localStorage.setItem('token', data.accessToken);
       
 
-      toast.success('Login successful!',  { autoClose: 3000 , pauseOnHover: false });
+      toast.success('Connexion réussie!',  { autoClose: 3000 , pauseOnHover: false });
       setTimeout(() => {
         navigate('/menu');  // Navigate to /menu after a delay
       }, 4000);

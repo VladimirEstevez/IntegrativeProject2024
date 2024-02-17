@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const MainMenuPage =  () => {
   const navigate = useNavigate();
+  const [prenom, setPrenom] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    
     const fetchProtectedRoute = async () => {
       const token = localStorage.getItem('token');
 
@@ -19,9 +22,18 @@ const MainMenuPage =  () => {
             }
           });
 
-          console.log('response: ', response);
+          console.log('prenom: ', response);
           if (response.status === 401){
             navigate('/');
+          } else if (!response.ok) {
+            console.error('Error:', await response.text());
+            navigate('/');
+          } else {
+            const user = await response.json();
+            console.log('prenom: ', user.prenom);
+            localStorage.setItem('prenom', user.prenom);
+            setPrenom(user.prenom);
+            setIsLoading(false);
           }
         } catch (error) {
           console.error('Error:', error);
@@ -29,13 +41,18 @@ const MainMenuPage =  () => {
       }
     };
 
+   // setPrenom(localStorage.getItem('prenom'));
     fetchProtectedRoute();
   }, [navigate]);
   
+  if (isLoading) {
+    return <div>Loading...</div>;
+}
+
   return (
     <div className="container-fluid bg-white vh-100 d-flex justify-content-center align-items-center">
       <div className="container-md text-center">
-        <h1 className="fs-4 mb-4">Bonjour username</h1>
+        <h1 className="fs-4 mb-4">Bonjour {prenom}</h1>
         <div className="mb-2">
           <button onClick={() => navigate("/activities")} className="btn btn-primary btn-block">Voir mes activités</button>
         </div>
