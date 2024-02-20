@@ -21,11 +21,11 @@ function InscriptionPage() {
   });
 
   const handleChange = (e) => {
-
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
     setForm({
       ...form,
-      [e.target.name]: e.target.value,
+      [e.target.name]: value,
     });
   };
 
@@ -38,6 +38,7 @@ function InscriptionPage() {
       toast.error('Format d\'email invalide', { autoClose: 3000, pauseOnHover: false });
       return;
     }
+   
 
     const confirmPassword = form.confirmerMotDePasse;
     const password = form.motDePasse;
@@ -45,6 +46,8 @@ function InscriptionPage() {
     const hasNumber = /\d/.test(password);
     const hasMinLength = password.length >= 8;
   
+
+    
     if (!hasUpperCase || !hasNumber || !hasMinLength) {
       toast.error('Le mot de passe doit comporter au moins 8 caractères, dont une lettre majuscule et un chiffre.');
       return;
@@ -55,8 +58,12 @@ function InscriptionPage() {
     toast.error('Les mots de passe ne correspondent pas.',  { autoClose: 3000, pauseOnHover: false });
     return;
   }
+  
+  
   delete form.confirmerMotDePasse;
 
+
+  
   const emailResponse = await fetch('http://localhost:8080/verifyEmail', {
     method: 'POST',
     headers: {
@@ -82,13 +89,16 @@ function InscriptionPage() {
     });
 
     if (response.ok) {
-      const data = await response.json();
-      console.log('data: ', data);
-      localStorage.setItem('prenom', data.user.prenom);
+
+      //const data = await response.json();
+      //console.log('data: ', data);
+      //localStorage.setItem('prenom', data.user.prenom);
 
       toast.success('Votre utilisateur a été créé avec succès!',  { autoClose: 3000, pauseOnHover: false  });
       setTimeout(() => {
-        navigate('/');  // Navigate to /menu after a delay
+        navigate('/');
+        alert('PLEASE CONFIRM YOUR EMAIL VERIFICATION BEFORE LOGGING IN FOR THE FIRST TIME');
+          // Navigate to /menu after a delay
       }, 4000);
       // Handle successful form submission here
     } else {
@@ -97,10 +107,7 @@ function InscriptionPage() {
     }
   };
 
-
-
-
-
+  
   return (
     <div><ToastContainer />
     <div style={{ backgroundColor: 'white', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
