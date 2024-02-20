@@ -17,13 +17,13 @@ ReactDOM.createRoot(root).render(
   <React.StrictMode>
     <Router>
       <Routes>
-        <Route path="/activities" element={<ActivitiesPage />} />
+        <Route path="/" element={<App />} />
         <Route path="/login" element={<ConnectionPage />} />
         <Route path="/register" element={<InscriptionPage />} />
         <Route path="/menu" element={<MainMenuPage />} />
+        <Route path="/activities" element={<ActivitiesPage />} />
         <Route path="/modify" element={<ModifcationPage />} />
         <Route path="/activity/:id" element={<SelectedActivity />} />
-        <Route path="/" element={<App />} />
       </Routes>
     </Router>
   </React.StrictMode>

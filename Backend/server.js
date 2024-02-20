@@ -6,22 +6,16 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const {
-    connect
-} = require("./database/database");
+const { connect } = require("./database/database");
 const ngrok = require("ngrok");
-const {
-    client
-} = require("./database/database");
+const { client } = require("./database/database");
 const util = require("util");
 const nodemailer = require("nodemailer");
-
 const jwtVerify = util.promisify(jwt.verify);
-
+const authMiddleware = require("./routes/route.auth");
 /*
 TO RUN SERVER DO NPM START AND ON ANOTHER TERMINAL DO NPX NGROK HTTP 8080
 */
-
 app.use(cors());
 app.use(morgan("common"));
 app.use(bodyParser.json());
@@ -192,7 +186,7 @@ app.post("/login", async (req, res) => {
     });
 });
 
-app.patch("/updateUser", async (req, res) => {
+app.patch("/updateUser", authMiddleware, async (req, res) => {
     const updatedUser = req.body;
     console.log("updatedUser: ", updatedUser);
 
@@ -234,7 +228,7 @@ app.patch("/updateUser", async (req, res) => {
     }
 });
 
-app.get("/protectedRoute", async (req, res) => {
+app.get("/protectedRoute", authMiddleware, async (req, res) => {
     //console.log('req: ', req);
     const authHeader = req.headers["authorization"];
     //console.log('authHeader: ', authHeader);
