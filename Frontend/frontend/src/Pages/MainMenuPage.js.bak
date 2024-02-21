@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { BoxArrowInLeft, PersonGear, PersonWalking } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 
-const MainMenuPage =  () => {
+const MainMenuPage = () => {
   const navigate = useNavigate();
   const [prenom, setPrenom] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    
     const fetchProtectedRoute = async () => {
       const token = localStorage.getItem('token');
 
@@ -23,16 +22,19 @@ const MainMenuPage =  () => {
             }
           });
 
-          console.log('prenom: ', response);
-          if (response.status === 401){
+          if (response.status === 401) {
             navigate('/');
           } else if (!response.ok) {
             console.error('Error:', await response.text());
             navigate('/');
           } else {
             const user = await response.json();
+<<<<<<< HEAD
+            localStorage.setItem('prenom', user.prenom);
+=======
             console.log('prenom: ', user.prenom);
             //localStorage.setItem('prenom', user.prenom);
+>>>>>>> 6a37087eb5c36b5aafa8b454a8146412d0601cc6
             setPrenom(user.prenom);
             setIsLoading(false);
           }
@@ -42,20 +44,23 @@ const MainMenuPage =  () => {
       }
     };
 
-   // setPrenom(localStorage.getItem('prenom'));
     fetchProtectedRoute();
   }, [navigate]);
-  
-function SeDeconnecter(){
+
+<<<<<<< HEAD
+=======
+  function SeDeconnecter(){
     //Remove the token
     localStorage.removeItem('token');
 
     //Navigate to the main page
     navigate("/");
   }
+  
+>>>>>>> 6a37087eb5c36b5aafa8b454a8146412d0601cc6
   if (isLoading) {
     return <div>Loading...</div>;
-}
+  }
 
   return (
     <div className="container-fluid bg-white vh-100 d-flex justify-content-center align-items-center">
@@ -71,7 +76,8 @@ function SeDeconnecter(){
           >
             <span style={{ marginRight: '5px' }}>Voir mes activités</span>
             <PersonWalking size={24} />
-          </button>        </div>
+          </button>
+        </div>
         <div className="mb-2 position-relative" style={{ maxWidth: '300px', margin: '0 auto' }}>
           <button
             onClick={() => navigate("/modify")}
@@ -82,10 +88,12 @@ function SeDeconnecter(){
           >
             <span style={{ marginRight: '5px' }}>Modifier Mon Profil</span>
             <PersonGear size={24} />
-          </button>        </div>
+          </button>
+        </div>
+<<<<<<< HEAD
         <div className="position-relative" style={{ maxWidth: '300px', margin: '0 auto' }}>
           <button
-            onClick={() => SeDeconnecter()}
+            onClick={() => navigate("/")}
             className="btn btn-primary btn-block"
             style={{ position: 'relative', padding: '10px 20px', transition: 'transform 0.3s' }}
             onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
@@ -93,7 +101,12 @@ function SeDeconnecter(){
           >
             <span style={{ marginRight: '5px' }}>Se Déconnecter</span>
             <BoxArrowInLeft size={24} />
-          </button>        </div>
+          </button>
+=======
+        <div>
+          <button onClick={() => SeDeconnecter()} className="btn btn-primary btn-block">Se déconnecter</button>
+>>>>>>> 6a37087eb5c36b5aafa8b454a8146412d0601cc6
+        </div>
       </div>
     </div>
   );
