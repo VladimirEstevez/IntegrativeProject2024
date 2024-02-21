@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { BoxArrowInRight, XLg } from 'react-bootstrap-icons';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
@@ -28,9 +29,9 @@ function ConnectionPage() {
       const data = await response.json();
       console.log('Token: ', data.accessToken);
       localStorage.setItem('token', data.accessToken);
-      
 
-      toast.success('Connexion réussie!',  { autoClose: 3000 , pauseOnHover: false });
+
+      toast.success('Connexion réussie!', { autoClose: 3000, pauseOnHover: false });
       setTimeout(() => {
         navigate('/menu');  // Navigate to /menu after a delay
       }, 4000);
@@ -58,8 +59,31 @@ function ConnectionPage() {
               <input type="password" className="form-control" id="password" onChange={e => setForm({ ...form, motDePasse: e.target.value })} name="password" />
             </div>
             <div className="d-flex justify-content-between">
-              <button type="button" onClick={() => navigate("/")} className="btn btn-primary">Annuler</button>
-              <button type="submit" className="btn btn-primary">Se Connecter</button>
+              <button type="button" onClick={() => navigate("/")} className="btn btn-primary"
+                style={{
+                  borderRadius: '10px',
+                  position: 'relative',
+                  padding: '10px 20px',
+                  transition: 'transform 0.3s',
+                  marginRight: '10px' // Add margin to the right side
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}>
+                  <span style={{ marginRight: '5px' }}>Annuler</span>
+                  <XLg size={24} />
+                </button>
+
+              <button type="submit" className="btn btn-primary" style={{
+                borderRadius: '10px',
+                position: 'relative',
+                padding: '10px 20px',
+                transition: 'transform 0.3s'
+              }}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}>
+                  <span style={{ marginRight: '5px' }}>Se Connecter</span>
+                  <BoxArrowInRight size={24} />
+                </button>
             </div>
           </form>
         </div>

@@ -2,6 +2,7 @@
 import React, {useState} from 'react';
 import { toast,ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FilePerson, XLg } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 
 function InscriptionPage() {
@@ -148,12 +149,43 @@ function InscriptionPage() {
             <label htmlFor="interet2" style={{ marginBottom: '5px' }}><input  onChange={handleChange} type="checkbox" id="interet2" name="interet2" /> Intérêt 2</label>
           </div>
         </div >
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-
-        <button type="button" onClick= {()=>navigate("/")} style={{ backgroundColor: 'blue', color: 'white', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>Annuler</button>
-        <button type="submit" style={{ backgroundColor: 'blue', color: 'white', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer',  marginLeft: '10px'  }}>S'inscrire</button>
-
-      </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+  <button 
+    type="button" 
+    onClick={() => navigate("/")} 
+    style={{ 
+      backgroundColor: 'blue', 
+      color: 'white', 
+      padding: '10px 20px', 
+      borderRadius: '5px', 
+      border: 'none', 
+      cursor: 'pointer',
+      transition: 'transform 0.3s', // Add transition
+    }}
+    onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }} // Add onMouseEnter
+    onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}>
+      <span style={{ marginRight: '5px' }}>Annuler</span>
+        <XLg size={24} />
+    </button>
+  
+  <button 
+    type="submit" 
+    style={{ 
+      backgroundColor: 'blue', 
+      color: 'white', 
+      padding: '10px 20px', 
+      borderRadius: '5px', 
+      border: 'none', 
+      cursor: 'pointer',  
+      marginLeft: '10px', 
+      transition: 'transform 0.3s', // Add transition
+    }}
+    onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }} // Add onMouseEnter
+    onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}>
+      <span style={{ marginRight: '5px' }}>S'inscrire</span>
+        <FilePerson size={24} />
+    </button>
+    </div>
       </form>
     </div></div>
   );
