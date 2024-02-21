@@ -31,7 +31,7 @@ const MainMenuPage =  () => {
           } else {
             const user = await response.json();
             console.log('prenom: ', user.prenom);
-            localStorage.setItem('prenom', user.prenom);
+            //localStorage.setItem('prenom', user.prenom);
             setPrenom(user.prenom);
             setIsLoading(false);
           }
@@ -44,6 +44,14 @@ const MainMenuPage =  () => {
    // setPrenom(localStorage.getItem('prenom'));
     fetchProtectedRoute();
   }, [navigate]);
+
+  function SeDeconnecter(){
+    //Remove the token
+    localStorage.removeItem('token');
+
+    //Navigate to the main page
+    navigate("/");
+  }
   
   if (isLoading) {
     return <div>Loading...</div>;
@@ -60,7 +68,7 @@ const MainMenuPage =  () => {
           <button onClick={() => navigate("/modify")} className="btn btn-primary btn-block">Modifier mon profil</button>
         </div>
         <div>
-          <button onClick={() => navigate("/")} className="btn btn-primary btn-block">Se déconnecter</button>
+          <button onClick={() => SeDeconnecter()} className="btn btn-primary btn-block">Se déconnecter</button>
         </div>
       </div>
     </div>
