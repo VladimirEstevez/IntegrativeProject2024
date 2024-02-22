@@ -4,12 +4,48 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {  BoxArrowInRight, BoxArrowUpRight, FilePerson } from 'react-bootstrap-icons';
 
 
-import React from 'react';
+import {React, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function App() {
   const navigate = useNavigate();
- 
+  useEffect(() => {
+    const fetchProtectedRoute = async () => {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        navigate('/');
+      } else {
+        try {
+          const response = await fetch('http://localhost:8080/protectedRoute', {
+            method: 'GET',
+            headers: {
+              authorization: 'Bearer ' + token,
+            },
+          });
+
+          console.log('response: ', response);
+          if (response.status === 401) {
+            navigate('/');
+          } else {
+            const user = await response.json();
+            console.log('user: ', user);
+            navigate('/menu');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      }
+    };
+
+    fetchProtectedRoute();
+  }, [navigate]);
+
+
+
+
+
+
   return (
     <div className="container-fluid bg-white p-5 d-flex flex-column justify-content-center align-items-center" style={{ height: '100vh' }}>
       <h1>Valcourt2030</h1>
