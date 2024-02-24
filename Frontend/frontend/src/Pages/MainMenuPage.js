@@ -16,7 +16,7 @@ const MainMenuPage =  () => {
         navigate('/');
       } else {
         try {
-          const response = await fetch('http://localhost:8080/protectedRoute', {
+          const response = await fetch('http://localhost:8080/user/protectedRoute', {
             method: 'GET',
             headers: {
               'authorization': 'Bearer ' + token,

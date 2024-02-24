@@ -27,7 +27,7 @@ const ModificationPage = () => {
 
     try {
       // Send updatedUser to server to update the user in the database
-      const response = await fetch('http://localhost:8080/updateUser', {
+      const response = await fetch('http://localhost:8080/user/updateUser', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ const ModificationPage = () => {
         navigate('/');
       } else {
         try {
-          const response = await fetch('http://localhost:8080/protectedRoute', {
+          const response = await fetch('http://localhost:8080/user/protectedRoute', {
             method: 'GET',
             headers: {
               authorization: 'Bearer ' + token,

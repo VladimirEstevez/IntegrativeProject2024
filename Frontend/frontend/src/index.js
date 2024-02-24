@@ -23,7 +23,7 @@ ReactDOM.createRoot(root).render(
         <Route path="/menu" element={<MainMenuPage />} />
         <Route path="/activities" element={<ActivitiesPage />} />
         <Route path="/modify" element={<ModifcationPage />} />
-        <Route path="/activity/:id" element={<SelectedActivity />} />
+        <Route path="/activities/:id" element={<SelectedActivity />} />
       </Routes>
     </Router>
   </React.StrictMode>
