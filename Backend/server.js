@@ -32,7 +32,6 @@ app.use("/register", registerRouter);
 app.use("/activities", authMiddleware, activitiesRouter);
 app.use("/user", userRouter);
 
-// Start sever
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
     connect();

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BoxArrowInRight, XLg, BoxArrowUpRight } from 'react-bootstrap-icons';
 import { toast, ToastContainer } from 'react-toastify';
@@ -42,6 +42,38 @@ function ConnectionPage() {
       // Handle error here
     }
   };
+
+  useEffect(() => {
+    const fetchProtectedRoute = async () => {
+      const token = localStorage.getItem('token');
+
+      if (token) {
+        try {
+          const response = await fetch('http://localhost:8080/protectedRoute', {
+            method: 'GET',
+            headers: {
+              authorization: 'Bearer ' + token,
+            },
+          });
+
+          console.log('response: ', response);
+          if (response.status === 401) {
+            localStorage.deleteItem('token');
+            navigate('/');
+          } else {
+            const user = await response.json();
+            console.log('user: ', user);
+            navigate('/menu');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      }
+    };
+    
+    fetchProtectedRoute();
+  }, [navigate]);
+  
 
   return (
     <div>
