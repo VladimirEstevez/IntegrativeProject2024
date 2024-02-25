@@ -65,7 +65,7 @@ function InscriptionPage() {
 
 
   
-  const emailResponse = await fetch('http://localhost:8080/verifyEmail', {
+  const emailResponse = await fetch('http://localhost:8080/register/verifyEmail', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ function InscriptionPage() {
 
 
 
-    const response = await fetch('http://localhost:8080/subscribe', {
+    const response = await fetch('http://localhost:8080/register/subscribe', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BoxArrowInRight, XLg } from 'react-bootstrap-icons';
+import { BoxArrowInRight, XLg, BoxArrowUpRight } from 'react-bootstrap-icons';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +17,7 @@ function ConnectionPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch('http://localhost:8080/login', {
+    const response = await fetch('http://localhost:8080/user/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -109,12 +109,22 @@ function ConnectionPage() {
                 borderRadius: '10px',
                 position: 'relative',
                 padding: '10px 20px',
-                transition: 'transform 0.3s'
+                transition: 'transform 0.3s',
+                marginRight: '10px' // Add margin to the right side
               }}
                 onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
                 onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}>
                   <span style={{ marginRight: '5px' }}>Se Connecter</span>
                   <BoxArrowInRight size={24} />
+                </button>
+
+
+                <button onClick={() => navigate("/login")}  className="btn btn-primary" style={{ borderRadius: '10px', 
+                  position: 'relative', padding: '10px 20px', transition: 'transform 0.3s' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}>
+                    <span style={{ marginRight: '5px' }}>Mot de passe oublié?</span>
+                  <BoxArrowUpRight size={24} />
                 </button>
             </div>
           </form>
