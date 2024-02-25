@@ -33,7 +33,23 @@ app.post("/", async (req, res) => {
     console.log("Webhook received:");
     console.log(req.body);
 
-    await ActivitiesCollection.insertOne(req.body);
+    if (req.body.post && req.body.post.post_type === "tribe_events") {
+        
+        const tags = Object.values(req.body.taxonomies.post_tag || {}).map(tag => tag.name);
+
+        const eventData = {
+            post_content: req.body.post.post_content,
+            post_title: req.body.post.post_title,
+            post_excerpt: req.body.post.post_excerpt,
+            StartDate: req.body.post_meta._EventStartDate[0],
+            EndDate: req.body.post_meta._EventEndDate[0],
+            post_thumbnail: req.body.post_thumbnail,
+            event_url: req.body.post_meta._EventURL[0],
+            tags: tags,
+        };
+
+        await ActivitiesCollection.insertOne(eventData);
+    }
 
     res.status(200).send(req.body);
 });
@@ -248,6 +264,18 @@ app.get("/protectedRoute", authMiddleware, async (req, res) => {
     } catch (err) {
         console.log("err: ", err);
         return res.sendStatus(403);
+    }
+});
+
+
+app.get("/activities", async (req, res) => {
+    try {
+        const activities = await ActivitiesCollection.find().toArray();
+        console.log('activities: ', activities);
+        res.json(activities);  // send a JSON response
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching activities' });  // send a JSON error message
     }
 });
 

@@ -108,14 +108,11 @@ function InscriptionPage() {
     }
   };
 
-
   useEffect(() => {
     const fetchProtectedRoute = async () => {
       const token = localStorage.getItem('token');
 
-      if (!token) {
-        navigate('/');
-      } else {
+      if (token) {
         try {
           const response = await fetch('http://localhost:8080/protectedRoute', {
             method: 'GET',
@@ -126,6 +123,7 @@ function InscriptionPage() {
 
           console.log('response: ', response);
           if (response.status === 401) {
+            localStorage.deleteItem('token');
             navigate('/');
           } else {
             const user = await response.json();
@@ -137,7 +135,7 @@ function InscriptionPage() {
         }
       }
     };
-
+    
     fetchProtectedRoute();
   }, [navigate]);
   
