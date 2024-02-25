@@ -9,22 +9,15 @@ const ActivitiesPage = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
   
-  
-
-
-  
   useEffect(() => {
   
     const fetchProtectedRoute = async () => {
-      
-      
-
-
+    
       if (!token) {
         navigate('/');
       } else {
         try {
-          const response = await fetch('http://localhost:8080/protectedRoute', {
+          const response = await fetch('http://localhost:8080/user/protectedRoute', {
             method: 'GET',
             headers: {
               authorization: 'Bearer ' + token,
@@ -48,6 +41,7 @@ const ActivitiesPage = () => {
     try {
       const response = await fetch('http://localhost:8080/activities');
       const data = await response.json();
+      console.log('data: ', data);
       setActivities(data);
     } catch (error) {
       console.error('Error:', error);
@@ -56,18 +50,7 @@ const ActivitiesPage = () => {
 
   fetchActivities();
   }, []);
-
-
-
-
-
-
   return (
-
-
-
-
-
     <div className="container-fluid bg-white d-flex flex-column align-items-center justify-content-center" style={{ height: '100vh' }}>
     <h1>Vos activités</h1>
     <div className="d-flex justify-content-center">

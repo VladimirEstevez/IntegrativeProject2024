@@ -10,14 +10,14 @@ const db = client.db("integrativeProjectDB");
 const UsersCollection = db.collection("Users");
 const ActivitiesCollection = db.collection("Activities");
 
-router.post("/", async (req, res) => {
-  console.log("Webhook received:");
-  console.log(req.body);
+// router.post("/", async (req, res) => {
+//   console.log("Webhook received:");
+//   console.log(req.body);
 
-  await ActivitiesCollection.insertOne(req.body);
+//   await ActivitiesCollection.insertOne(req.body);
 
-  res.status(200).send(req.body);
-});
+//   res.status(200).send(req.body);
+// });
 
 router.post("/subscribe", async (req, res) => {
   console.log("Subscription received:");

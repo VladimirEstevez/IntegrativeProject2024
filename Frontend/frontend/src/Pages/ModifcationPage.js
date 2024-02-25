@@ -24,6 +24,7 @@ const ModificationPage = () => {
     if (festivals) updatedUser.festivals = festivals;
 
     const token = localStorage.getItem('token');
+    
 
     try {
       // Send updatedUser to server to update the user in the database
@@ -41,6 +42,7 @@ const ModificationPage = () => {
       }
 
       const data = await response.json();
+      console.log('WRONG TOKEN : ', data);
       localStorage.setItem('token', data.accessToken);
 
       console.log('Success:', data);

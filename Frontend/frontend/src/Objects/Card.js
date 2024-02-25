@@ -5,7 +5,7 @@ const Card = ({ activity }) => {
     const navigate = useNavigate();
   
     const goToActivity = () => {
-      navigate(`/activity/${activity._id}`, { state: { activity } });
+      navigate(`/activities/${activity._id}`, { state: { activity } });
     };
 
     return (
