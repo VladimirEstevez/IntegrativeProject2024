@@ -65,7 +65,8 @@ router.post("/login", async (req, res) => {
         sports: user.sports,
         festivals: user.festivals,
     });
-
+    
+    console.log('RIGHT TOKEN: ', accessToken);
     res.status(200).send({
         message: "Login successful",
         accessToken: accessToken,
@@ -98,6 +99,7 @@ router.patch("/updateUser", authMiddleware, async (req, res) => {
         });
 
         if (result.modifiedCount === 1) {
+            updatedUser.courriel = user.courriel;
             const newAccessToken = GenerateToken(updatedUser);
             res.status(200).send({
                 message: "User updated successfully",

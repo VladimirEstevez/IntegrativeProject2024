@@ -8,7 +8,7 @@ import ConnectionPage from './Pages/ConnectionPage';
 import InscriptionPage from './Pages/InscriptionPage';
 import MainMenuPage from './Pages/MainMenuPage';
 import ModifcationPage from './Pages/ModifcationPage';
-import SelectedActivity from './Pages/SelectedActivity';
+import SelectedActivity from './Objects/Activity';
 import ReactDOM from 'react-dom/client';
 
 const root = document.getElementById('root');
