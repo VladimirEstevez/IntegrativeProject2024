@@ -48,7 +48,8 @@ function App() {
 
   return (
     <div className="container-fluid bg-white p-5 d-flex flex-column justify-content-center align-items-center" style={{ height: '100vh' }}>
-      <h1>Valcourt2030</h1>
+     
+      <img src="https://valfamille.com/site2022/wp-content/uploads/logo-bleu-marge.jpg" alt="" width={'500px'} height={'200px'} />
       <button onClick={() => navigate("/register")} className="btn btn-primary m-2"
       style={{ borderRadius: '10px', 
       position: 'relative', padding: '10px 20px', transition: 'transform 0.3s' }}
