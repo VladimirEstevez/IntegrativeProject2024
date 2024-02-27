@@ -78,9 +78,6 @@ function InscriptionPage() {
     toast.error(data.message, { autoClose: 3000, pauseOnHover: false });
     return;
   }
-
-
-
     const response = await fetch('http://localhost:8080/register/subscribe', {
       method: 'POST',
       headers: {
@@ -90,11 +87,6 @@ function InscriptionPage() {
     });
 
     if (response.ok) {
-
-      //const data = await response.json();
-      //console.log('data: ', data);
-      //localStorage.setItem('prenom', data.user.prenom);
-
       toast.success('Votre utilisateur a été créé avec succès!',  { autoClose: 3000, pauseOnHover: false  });
       setTimeout(() => {
         navigate('/');
@@ -107,7 +99,7 @@ function InscriptionPage() {
       // Handle error here
     }
   };
-
+  
   useEffect(() => {
     const fetchProtectedRoute = async () => {
       const token = localStorage.getItem('token');
