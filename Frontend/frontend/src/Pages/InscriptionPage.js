@@ -159,16 +159,16 @@ function InscriptionPage() {
         <div style={{ marginBottom: '20px', width: '100%', maxWidth: '400px' }}>
           <label htmlFor="municipalite" style={{ marginBottom: '5px' }}>Municipalité:</label>
           <select id="municipalite" name="municipalite"  onChange={handleChange} style={{ borderRadius: '5px', padding: '5px', width: '100%' }}>
-            <option value="ville1">Ville 1</option>
-            <option value="ville2">Ville 2</option>
-            <option value="ville3">Ville 3</option>
+            <option value="ville1"> Valcourt </option>
+            <option value="ville2">Racine</option>
+            <option value="ville3">Bonsecours </option>
           </select>
         </div>
         <div style={{ marginBottom: '20px', width: '100%', maxWidth: '400px' }}>
           <label style={{ marginBottom: '5px' }}>Intérêts:</label>
           <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
-            <label htmlFor="interet1" style={{ marginBottom: '5px' }}><input  onChange={handleChange} type="checkbox" id="interet1" name="interet1" /> Intérêt 1</label>
-            <label htmlFor="interet2" style={{ marginBottom: '5px' }}><input  onChange={handleChange} type="checkbox" id="interet2" name="interet2" /> Intérêt 2</label>
+            <label htmlFor="interet1" style={{ marginBottom: '5px' }}><input  onChange={handleChange} type="checkbox" id="interet1" name="interet1" /> Familiale</label>
+            <label htmlFor="interet2" style={{ marginBottom: '5px' }}><input  onChange={handleChange} type="checkbox" id="interet2" name="interet2" /> Plein air</label>
           </div>
         </div >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>

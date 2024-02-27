@@ -95,7 +95,9 @@ const ModificationPage = () => {
     <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
       <div className="container bg-white rounded p-4 max-width-md mt-5">
         <ToastContainer />
+        {/* ROW */}
         <h1 className="mb-4">Modifier</h1>
+        {/* ROW */}
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="prenom" className="form-label">
