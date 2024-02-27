@@ -1,5 +1,5 @@
 // InscriptionPage.js
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import { toast,ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FilePerson, XLg } from 'react-bootstrap-icons';
@@ -78,9 +78,6 @@ function InscriptionPage() {
     toast.error(data.message, { autoClose: 3000, pauseOnHover: false });
     return;
   }
-
-
-
     const response = await fetch('http://localhost:8080/register/subscribe', {
       method: 'POST',
       headers: {
@@ -90,11 +87,6 @@ function InscriptionPage() {
     });
 
     if (response.ok) {
-
-      //const data = await response.json();
-      //console.log('data: ', data);
-      //localStorage.setItem('prenom', data.user.prenom);
-
       toast.success('Votre utilisateur a été créé avec succès!',  { autoClose: 3000, pauseOnHover: false  });
       setTimeout(() => {
         navigate('/');
@@ -108,36 +100,6 @@ function InscriptionPage() {
     }
   };
 
-  useEffect(() => {
-    const fetchProtectedRoute = async () => {
-      const token = localStorage.getItem('token');
-
-      if (token) {
-        try {
-          const response = await fetch('http://localhost:8080/protectedRoute', {
-            method: 'GET',
-            headers: {
-              authorization: 'Bearer ' + token,
-            },
-          });
-
-          console.log('response: ', response);
-          if (response.status === 401) {
-            localStorage.deleteItem('token');
-            navigate('/');
-          } else {
-            const user = await response.json();
-            console.log('user: ', user);
-            navigate('/menu');
-          }
-        } catch (error) {
-          console.error('Error:', error);
-        }
-      }
-    };
-    
-    fetchProtectedRoute();
-  }, [navigate]);
   
   return (
     <div><ToastContainer />
