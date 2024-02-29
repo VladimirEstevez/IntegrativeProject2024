@@ -1,5 +1,5 @@
 // InscriptionPage.js
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import { toast,ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FilePerson, XLg } from 'react-bootstrap-icons';
@@ -8,6 +8,38 @@ import { useNavigate } from 'react-router-dom';
 function InscriptionPage() {
 
   const navigate = useNavigate();
+  
+  useEffect(() => {
+    const fetchProtectedRoute = async () => {
+      const token = localStorage.getItem('token');
+
+      if (token) {
+        try {
+          const response = await fetch('http://localhost:8080/user/protectedRoute', {
+            method: 'GET',
+            headers: {
+              authorization: 'Bearer ' + token,
+            },
+          });
+
+          console.log('response: ', response);
+          if (response.status === 401) {
+            localStorage.deleteItem('token');
+            navigate('/');
+          } else {
+            const user = await response.json();
+            console.log('user: ', user);
+            navigate('/menu');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      }
+    };
+    
+    fetchProtectedRoute();
+  }, [navigate]);
+
 
   const [form, setForm] = useState({
     prenom: '',
@@ -125,36 +157,7 @@ function InscriptionPage() {
     }
   };
   
-  // useEffect(() => {
-  //   const fetchProtectedRoute = async () => {
-  //     const token = localStorage.getItem('token');
-
-  //     if (token) {
-  //       try {
-  //         const response = await fetch('http://localhost:8080/protectedRoute', {
-  //           method: 'GET',
-  //           headers: {
-  //             authorization: 'Bearer ' + token,
-  //           },
-  //         });
-
-  //         console.log('response: ', response);
-  //         if (response.status === 401) {
-  //           localStorage.deleteItem('token');
-  //           navigate('/');
-  //         } else {
-  //           const user = await response.json();
-  //           console.log('user: ', user);
-  //           navigate('/menu');
-  //         }
-  //       } catch (error) {
-  //         console.error('Error:', error);
-  //       }
-  //     }
-  //   };
-    
-  //   fetchProtectedRoute();
-  // }, [navigate]);
+ 
   
   return (
     <div><ToastContainer />
