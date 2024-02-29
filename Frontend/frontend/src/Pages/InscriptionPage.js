@@ -1,5 +1,5 @@
 // InscriptionPage.js
-import React, {useEffect, useState} from 'react';
+import React, { useState} from 'react';
 import { toast,ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FilePerson, XLg } from 'react-bootstrap-icons';
@@ -20,6 +20,31 @@ function InscriptionPage() {
     interet2: false,
     // Add other form fields here
   });
+
+  const interests = [
+    "Arts",
+    "Cuisine",
+    "Concertation et partenariats",
+    "Développement local",
+    "Éducation",
+    "Environnement",
+    "Entrepreneuriat",
+    "Formation",
+    "Implication citoyenne",
+    "Interculturel",
+    "Intergénérationnel",
+    "Musique",
+    "Rencontre sociale",
+    "Sports et plein air"
+  ];
+  
+  function renderInterests() {
+    return interests.map((interest, index) => (
+      <label htmlFor={`interest${index}`} style={{ marginBottom: '5px' }} key={index}>
+        <input onChange={handleChange} type="checkbox" id={`interest${index}`} name={`interest${index}`} /> {interest}
+      </label>
+    ));
+  }
 
   const handleChange = (e) => {
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -100,36 +125,36 @@ function InscriptionPage() {
     }
   };
   
-  useEffect(() => {
-    const fetchProtectedRoute = async () => {
-      const token = localStorage.getItem('token');
+  // useEffect(() => {
+  //   const fetchProtectedRoute = async () => {
+  //     const token = localStorage.getItem('token');
 
-      if (token) {
-        try {
-          const response = await fetch('http://localhost:8080/protectedRoute', {
-            method: 'GET',
-            headers: {
-              authorization: 'Bearer ' + token,
-            },
-          });
+  //     if (token) {
+  //       try {
+  //         const response = await fetch('http://localhost:8080/protectedRoute', {
+  //           method: 'GET',
+  //           headers: {
+  //             authorization: 'Bearer ' + token,
+  //           },
+  //         });
 
-          console.log('response: ', response);
-          if (response.status === 401) {
-            localStorage.deleteItem('token');
-            navigate('/');
-          } else {
-            const user = await response.json();
-            console.log('user: ', user);
-            navigate('/menu');
-          }
-        } catch (error) {
-          console.error('Error:', error);
-        }
-      }
-    };
+  //         console.log('response: ', response);
+  //         if (response.status === 401) {
+  //           localStorage.deleteItem('token');
+  //           navigate('/');
+  //         } else {
+  //           const user = await response.json();
+  //           console.log('user: ', user);
+  //           navigate('/menu');
+  //         }
+  //       } catch (error) {
+  //         console.error('Error:', error);
+  //       }
+  //     }
+  //   };
     
-    fetchProtectedRoute();
-  }, [navigate]);
+  //   fetchProtectedRoute();
+  // }, [navigate]);
   
   return (
     <div><ToastContainer />
@@ -165,12 +190,11 @@ function InscriptionPage() {
           </select>
         </div>
         <div style={{ marginBottom: '20px', width: '100%', maxWidth: '400px' }}>
-          <label style={{ marginBottom: '5px' }}>Intérêts:</label>
-          <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
-            <label htmlFor="interet1" style={{ marginBottom: '5px' }}><input  onChange={handleChange} type="checkbox" id="interet1" name="interet1" /> Familiale</label>
-            <label htmlFor="interet2" style={{ marginBottom: '5px' }}><input  onChange={handleChange} type="checkbox" id="interet2" name="interet2" /> Plein air</label>
-          </div>
-        </div >
+    <label style={{ marginBottom: '5px' }}>Intérêts:</label>
+    <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
+      {renderInterests()}
+    </div>
+  </div>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
   <button 
     type="button" 

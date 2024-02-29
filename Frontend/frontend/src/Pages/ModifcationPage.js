@@ -140,6 +140,7 @@ const ModificationPage = () => {
           </div>
           <div className="d-flex justify-content-between">
             <button type="button" className="btn btn-primary"
+            onClick={() => navigate("/menu")}
             style={{ position: 'relative', padding: '10px 20px', transition: 'transform 0.3s' }}
             onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
             onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}>

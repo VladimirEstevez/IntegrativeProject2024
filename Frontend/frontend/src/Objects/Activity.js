@@ -14,7 +14,7 @@ const Activity = () => {
 
   return (
     <div className="activity p-5">
-      <img src={activity.post_thumbnail} alt="Event" className="activity-img" />
+      <img src={activity.post_thumbnail} alt="Event" className="activity-img my-3" />
       <h2>{activity.post_title}</h2>
       <p>{activity.post_content}</p>
       <p>{activity.post_excerpt}</p>
