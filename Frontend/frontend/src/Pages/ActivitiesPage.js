@@ -10,6 +10,18 @@ const ActivitiesPage = () => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
+
+    const fetchActivities = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/activities");
+        const data = await response.json();
+        console.log("data: ", data);
+        setActivities(data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
     const fetchProtectedRoute = async () => {
       if (!token) {
         navigate("/");
@@ -28,6 +40,8 @@ const ActivitiesPage = () => {
           console.log("response: ", response);
           if (response.status === 401) {
             navigate("/");
+          } else{
+
           }
         } catch (error) {
           console.error("Error:", error);
@@ -35,23 +49,11 @@ const ActivitiesPage = () => {
       }
     };
 
+    // Call the functions sequentially
     fetchProtectedRoute();
+    fetchActivities();
   }, [navigate, token]);
 
-  useEffect(() => {
-    const fetchActivities = async () => {
-      try {
-        const response = await fetch("http://localhost:8080/activities");
-        const data = await response.json();
-        console.log("data: ", data);
-        setActivities(data);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-
-    fetchActivities();
-  }, []);
   return (
     <div
       className="container-fluid bg-white d-flex flex-column align-items-center justify-content-center"

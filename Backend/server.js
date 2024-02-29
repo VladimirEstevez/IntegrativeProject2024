@@ -50,25 +50,14 @@ app.post("/", async (req, res) => {
 
 //Database setup
 const db = client.db("integrativeProjectDB");
-const UsersCollection = db.collection("Users");
 const ActivitiesCollection = db.collection("Activities")
 
 // Routes setup
 app.use("/register", registerRouter);
-//app.use("/activities", authMiddleware, activitiesRouter);
-
-app.get("/activities", async (req, res) => {
-    try {
-        const activities = await ActivitiesCollection.find().toArray();
-        console.log('activities: ', activities);
-        res.json(activities);  // send a JSON response
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error fetching activities' });  // send a JSON error message
-    }
-});
+app.use("/activities", activitiesRouter);
 app.use("/user", userRouter);
 
+//Start the server
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
     connect();
