@@ -4,6 +4,9 @@ import { toast,ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FilePerson, XLg } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../css/inscription.css';
+
 
 function InscriptionPage() {
 
@@ -140,84 +143,64 @@ function InscriptionPage() {
   }, [navigate]);
   
   return (
-    <div><ToastContainer />
-    <div style={{ backgroundColor: 'white', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-      <h1 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '20px' }}>Inscription</h1>
-      <form onSubmit={handleSubmit} style={{ width: '50%', padding: '20px', border: '1px solid #ccc', borderRadius: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <div style={{ marginBottom: '20px', width: '100%', maxWidth: '400px' }}>
-          <label htmlFor="courriel" style={{ marginBottom: '5px' }}>Courriel:</label>
-          <input type="email" id="courriel" name="courriel"  onChange={handleChange} style={{ borderRadius: '5px', padding: '5px', width: '100%' }} />
+    <div className="container">
+    <ToastContainer />
+    <div className="form-container">
+      <h1 className="form-title">Inscription</h1>
+      <form onSubmit={handleSubmit} className="form">
+        <div className="form-input">
+          <label htmlFor="courriel" className="form-label">Courriel:</label>
+          <input type="email" id="courriel" name="courriel"  onChange={handleChange} className="input-field" />
         </div>
-        <div style={{ marginBottom: '20px', width: '100%', maxWidth: '400px' }}>
-          <label htmlFor="prenom" style={{ marginBottom: '5px' }}>Prénom:</label>
-          <input type="text" id="prenom" name="prenom"  onChange={handleChange} style={{ borderRadius: '5px', padding: '5px', width: '100%' }} />
+        <div className="form-input">
+          <label htmlFor="prenom" className="form-label">Prénom:</label>
+          <input type="text" id="prenom" name="prenom"  onChange={handleChange} className="input-field" />
         </div>
-        <div style={{ marginBottom: '20px', width: '100%', maxWidth: '400px' }}>
-          <label htmlFor="nom" style={{ marginBottom: '5px' }}>Nom de famille:</label>
-          <input type="text" id="nom" name="nom"  onChange={handleChange} style={{ borderRadius: '5px', padding: '5px', width: '100%' }} />
+        <div className="form-input">
+          <label htmlFor="nom" className="form-label">Nom de famille:</label>
+          <input type="text" id="nom" name="nom"  onChange={handleChange} className="input-field" />
         </div>
-        <div style={{ marginBottom: '20px', width: '100%', maxWidth: '400px' }}>
-          <label htmlFor="motDePasse" style={{ marginBottom: '5px' }}>Mot de passe:</label>
-          <input type="password" id="motDePasse"  onChange={handleChange} name="motDePasse" style={{ borderRadius: '5px', padding: '5px', width: '100%' }} />
+        <div className="form-input">
+          <label htmlFor="motDePasse" className="form-label">Mot de passe:</label>
+          <input type="password" id="motDePasse"  onChange={handleChange} name="motDePasse" className="input-field" />
         </div>
-        <div style={{ marginBottom: '20px', width: '100%', maxWidth: '400px' }}>
-          <label htmlFor="confirmerMotDePasse" style={{ marginBottom: '5px' }}>Confirmer le mot de passe:</label>
-          <input type="password" id="confirmerMotDePasse" onChange={handleChange} name="confirmerMotDePasse" style={{ borderRadius: '5px', padding: '5px', width: '100%' }} />
+        <div className="form-input">
+          <label htmlFor="confirmerMotDePasse" className="form-label">Confirmer le mot de passe:</label>
+          <input type="password" id="confirmerMotDePasse" onChange={handleChange} name="confirmerMotDePasse" className="input-field" />
         </div>
-        <div style={{ marginBottom: '20px', width: '100%', maxWidth: '400px' }}>
-          <label htmlFor="municipalite" style={{ marginBottom: '5px' }}>Municipalité:</label>
-          <select id="municipalite" name="municipalite"  onChange={handleChange} style={{ borderRadius: '5px', padding: '5px', width: '100%' }}>
+        <div className="form-input">
+          <label htmlFor="municipalite" className="form-label">Municipalité:</label>
+          <select id="municipalite" name="municipalite"  onChange={handleChange} className="input-field">
             <option value="ville1"> Valcourt </option>
             <option value="ville2">Racine</option>
             <option value="ville3">Bonsecours </option>
           </select>
         </div>
-        <div style={{ marginBottom: '20px', width: '100%', maxWidth: '400px' }}>
-          <label style={{ marginBottom: '5px' }}>Intérêts:</label>
-          <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
-            <label htmlFor="interet1" style={{ marginBottom: '5px' }}><input  onChange={handleChange} type="checkbox" id="interet1" name="interet1" /> Familiale</label>
-            <label htmlFor="interet2" style={{ marginBottom: '5px' }}><input  onChange={handleChange} type="checkbox" id="interet2" name="interet2" /> Plein air</label>
+        <div className="form-input">
+          <label className="form-label">Intérêts:</label>
+          <div className="interests">
+            <label htmlFor="interet1" className="interest"><input  onChange={handleChange} type="checkbox" id="interet1" name="interet1" /> Familiale</label>
+            <label htmlFor="interet2" className="interest"><input  onChange={handleChange} type="checkbox" id="interet2" name="interet2" /> Plein air</label>
           </div>
         </div >
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-  <button 
-    type="button" 
-    onClick={() => navigate("/")} 
-    style={{ 
-      backgroundColor: 'blue', 
-      color: 'white', 
-      padding: '10px 20px', 
-      borderRadius: '5px', 
-      border: 'none', 
-      cursor: 'pointer',
-      transition: 'transform 0.3s', // Add transition
-    }}
-    onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }} // Add onMouseEnter
-    onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}>
-      <span style={{ marginRight: '5px' }}>Annuler</span>
-        <XLg size={24} />
-    </button>
-  
-  <button 
-    type="submit" 
-    style={{ 
-      backgroundColor: 'blue', 
-      color: 'white', 
-      padding: '10px 20px', 
-      borderRadius: '5px', 
-      border: 'none', 
-      cursor: 'pointer',  
-      marginLeft: '10px', 
-      transition: 'transform 0.3s', // Add transition
-    }}
-    onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }} // Add onMouseEnter
-    onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}>
-      <span style={{ marginRight: '5px' }}>S'inscrire</span>
-        <FilePerson size={24} />
-    </button>
-    </div>
+        <div className="button-container">
+         
+          <button 
+  onClick={() => navigate("/")}  
+  className="btn cancel-button btn-light  m-2 btn-custom btn-hover-effect">
+            <span className="button-text">Annuler</span>
+            <XLg size={24} />
+          </button> 
+          <button type="submit" 
+  onClick={() => navigate("/login")}  
+  className="btn btn-light  m-2 btn-custom submit-button btn-hover-effect">
+            <span className="button-text">S'inscrire</span>
+            <FilePerson size={24} />
+          </button>
+        </div>
       </form>
-    </div></div>
+    </div>
+</div>
   );
 }
 

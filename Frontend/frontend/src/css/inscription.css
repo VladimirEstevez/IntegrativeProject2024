@@ -1,0 +1,48 @@
+.container {
+    background-color: white;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .form {
+    width: 100%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .form-input {
+    margin-bottom: 20px;
+    width: 100%;
+    
+  }
+  
+  .form-input input,
+  .form-input select {
+    border-radius: 5px;
+    padding: 5px;
+    width: 100%;
+  }
+  
+  .btn-hover-effect {
+    transition: transform 0.3s;
+  }
+  
+  .btn-hover-effect:hover {
+    transform: scale(1.1);
+  }
+  .btn-custom {
+    border-radius: 10px !important;
+    position: relative !important;
+    padding: 10px 20px !important;
+    transition: transform 0.3s !important;
+    background-color: #0098d9 !important;
+    color: white !important;
+    border-width: 3px !important;
+  }
