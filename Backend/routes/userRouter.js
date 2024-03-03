@@ -62,8 +62,7 @@ router.post("/login", async (req, res) => {
         courriel: user.courriel,
         nom: user.nom,
         municipalite: user.municipalite,
-        sports: user.sports,
-        festivals: user.festivals,
+        tags: user.tags,
     });
     
     console.log('RIGHT TOKEN: ', accessToken);
