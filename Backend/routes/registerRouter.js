@@ -49,7 +49,7 @@ router.post("/subscribe", async (req, res) => {
           from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
           to: user.courriel,
           subject: "Verify your account",
-          text: `Click the link to verify your account: http://localhost:8080/confirm?token=${token}`,
+          text: `Click the link to verify your account: http://localhost:8080/register/confirm?token=${token}`,
       },
       function (error, info) {
           if (error) {

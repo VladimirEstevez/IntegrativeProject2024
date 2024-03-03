@@ -1,5 +1,5 @@
 // InscriptionPage.js
-import React, {useEffect, useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import { toast,ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FilePerson, XLg } from 'react-bootstrap-icons';
@@ -8,6 +8,38 @@ import { useNavigate } from 'react-router-dom';
 function InscriptionPage() {
 
   const navigate = useNavigate();
+  
+  useEffect(() => {
+    const fetchProtectedRoute = async () => {
+      const token = localStorage.getItem('token');
+
+      if (token) {
+        try {
+          const response = await fetch('http://localhost:8080/user/protectedRoute', {
+            method: 'GET',
+            headers: {
+              authorization: 'Bearer ' + token,
+            },
+          });
+
+          console.log('response: ', response);
+          if (response.status === 401) {
+            localStorage.deleteItem('token');
+            navigate('/');
+          } else {
+            const user = await response.json();
+            console.log('user: ', user);
+            navigate('/menu');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      }
+    };
+    
+    fetchProtectedRoute();
+  }, [navigate]);
+
 
   const [form, setForm] = useState({
     prenom: '',
@@ -20,6 +52,31 @@ function InscriptionPage() {
     interet2: false,
     // Add other form fields here
   });
+
+  const interests = [
+    "Arts",
+    "Cuisine",
+    "Concertation et partenariats",
+    "Développement local",
+    "Éducation",
+    "Environnement",
+    "Entrepreneuriat",
+    "Formation",
+    "Implication citoyenne",
+    "Interculturel",
+    "Intergénérationnel",
+    "Musique",
+    "Rencontre sociale",
+    "Sports et plein air"
+  ];
+  
+  function renderInterests() {
+    return interests.map((interest, index) => (
+      <label htmlFor={`interest${index}`} style={{ marginBottom: '5px' }} key={index}>
+        <input onChange={handleChange} type="checkbox" id={`interest${index}`} name={`interest${index}`} /> {interest}
+      </label>
+    ));
+  }
 
   const handleChange = (e) => {
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -78,9 +135,6 @@ function InscriptionPage() {
     toast.error(data.message, { autoClose: 3000, pauseOnHover: false });
     return;
   }
-
-
-
     const response = await fetch('http://localhost:8080/register/subscribe', {
       method: 'POST',
       headers: {
@@ -90,11 +144,6 @@ function InscriptionPage() {
     });
 
     if (response.ok) {
-
-      //const data = await response.json();
-      //console.log('data: ', data);
-      //localStorage.setItem('prenom', data.user.prenom);
-
       toast.success('Votre utilisateur a été créé avec succès!',  { autoClose: 3000, pauseOnHover: false  });
       setTimeout(() => {
         navigate('/');
@@ -107,37 +156,8 @@ function InscriptionPage() {
       // Handle error here
     }
   };
-
-  useEffect(() => {
-    const fetchProtectedRoute = async () => {
-      const token = localStorage.getItem('token');
-
-      if (token) {
-        try {
-          const response = await fetch('http://localhost:8080/protectedRoute', {
-            method: 'GET',
-            headers: {
-              authorization: 'Bearer ' + token,
-            },
-          });
-
-          console.log('response: ', response);
-          if (response.status === 401) {
-            localStorage.deleteItem('token');
-            navigate('/');
-          } else {
-            const user = await response.json();
-            console.log('user: ', user);
-            navigate('/menu');
-          }
-        } catch (error) {
-          console.error('Error:', error);
-        }
-      }
-    };
-    
-    fetchProtectedRoute();
-  }, [navigate]);
+  
+ 
   
   return (
     <div><ToastContainer />
@@ -167,18 +187,17 @@ function InscriptionPage() {
         <div style={{ marginBottom: '20px', width: '100%', maxWidth: '400px' }}>
           <label htmlFor="municipalite" style={{ marginBottom: '5px' }}>Municipalité:</label>
           <select id="municipalite" name="municipalite"  onChange={handleChange} style={{ borderRadius: '5px', padding: '5px', width: '100%' }}>
-            <option value="ville1">Ville 1</option>
-            <option value="ville2">Ville 2</option>
-            <option value="ville3">Ville 3</option>
+            <option value="ville1"> Valcourt </option>
+            <option value="ville2">Racine</option>
+            <option value="ville3">Bonsecours </option>
           </select>
         </div>
         <div style={{ marginBottom: '20px', width: '100%', maxWidth: '400px' }}>
-          <label style={{ marginBottom: '5px' }}>Intérêts:</label>
-          <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
-            <label htmlFor="interet1" style={{ marginBottom: '5px' }}><input  onChange={handleChange} type="checkbox" id="interet1" name="interet1" /> Intérêt 1</label>
-            <label htmlFor="interet2" style={{ marginBottom: '5px' }}><input  onChange={handleChange} type="checkbox" id="interet2" name="interet2" /> Intérêt 2</label>
-          </div>
-        </div >
+    <label style={{ marginBottom: '5px' }}>Intérêts:</label>
+    <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
+      {renderInterests()}
+    </div>
+  </div>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
   <button 
     type="button" 

@@ -9,6 +9,7 @@ import InscriptionPage from './Pages/InscriptionPage';
 import MainMenuPage from './Pages/MainMenuPage';
 import ModifcationPage from './Pages/ModifcationPage';
 import SelectedActivity from './Objects/Activity';
+import PasswordPage from './Pages/PasswordPage';
 import ReactDOM from 'react-dom/client';
 
 const root = document.getElementById('root');
@@ -24,6 +25,7 @@ ReactDOM.createRoot(root).render(
         <Route path="/activities" element={<ActivitiesPage />} />
         <Route path="/modify" element={<ModifcationPage />} />
         <Route path="/activities/:id" element={<SelectedActivity />} />
+        <Route path="/forgotPassword" element={<PasswordPage />} />
       </Routes>
     </Router>
   </React.StrictMode>
