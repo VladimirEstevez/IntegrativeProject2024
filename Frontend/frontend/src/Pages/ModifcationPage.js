@@ -7,8 +7,76 @@ const ModificationPage = () => {
   const [prenom, setPrenom] = useState('');
   const [nom, setNom] = useState('');
   const [municipalite, setMunicipalite] = useState('');
-  const [sports, setSports] = useState(false);
-  const [festivals, setFestivals] = useState(false);
+  const [tags, setTags] = useState([]);
+
+
+
+  const interests = [
+    "Arts",
+    "Cuisine",
+    "Concertation et partenariats",
+    "Développement local",
+    "Éducation",
+    "Environnement",
+    "Entrepreneuriat",
+    "Formation",
+    "Implication citoyenne",
+    "Interculturel",
+    "Intergénérationnel",
+    "Musique",
+    "Rencontre sociale",
+    "Sports et plein air",
+  ];
+
+  const municipalites = [
+    "Valcourt",
+    "Canton de Valcourt",
+    "Bonsecours",
+    "Lawrenceville",
+    "Maricourt",
+    "Racine",
+    "Sainte-Anne-de-la-Rochelle",
+    "MRC du Val-Saint-François",
+    "Estrie",
+    "Province de Québec",
+    "Canada",
+    "Autre",
+  ];
+
+  function renderMunicipalites() {
+    return municipalites.map((municipalite, index) => (
+      <option key={index} value={municipalite}>
+        {municipalite}
+      </option>
+    ));
+  }
+
+  function renderInterests() {
+    return interests.map((interest, index) => (
+      <label
+        htmlFor={`interest${index}`}
+        style={{ marginBottom: "5px" }}
+        key={index}
+      >
+        <input
+          onChange={(e) => handleInterestChange(e, interest)}
+          type="checkbox"
+          id={`interest${index}`}
+          name={`${interest}`}
+          checked={tags.includes(interest)}
+        />{" "}
+        {interest}
+      </label>
+    ));
+  }
+
+  const handleInterestChange = (e, interest) => {
+    if (e.target.checked) {
+      setTags(prevTags => [...prevTags, interest]);
+    } else {
+      setTags(prevTags => prevTags.filter(tag => tag !== interest));
+    }
+  };
 
   const navigate = useNavigate();
 
@@ -20,11 +88,12 @@ const ModificationPage = () => {
     if (prenom.trim()) updatedUser.prenom = prenom;
     if (nom.trim()) updatedUser.nom = nom;
     if (municipalite) updatedUser.municipalite = municipalite;
-    if (sports) updatedUser.sports = sports;
-    if (festivals) updatedUser.festivals = festivals;
+    if (tags.length > 0) updatedUser.tags = tags;
 
     const token = localStorage.getItem('token');
-    
+
+
+
 
     try {
       // Send updatedUser to server to update the user in the database
@@ -79,8 +148,8 @@ const ModificationPage = () => {
             setPrenom(user.prenom);
             setNom(user.nom);
             setMunicipalite(user.municipalite);
-            setSports(user.sports);
-            setFestivals(user.festivals);
+            setTags(user.tags);
+          
           }
         } catch (error) {
           console.error('Error:', error);
@@ -111,47 +180,54 @@ const ModificationPage = () => {
             </label>
             <input type="text" id="nom" className="form-control" value={nom} onChange={(e) => setNom(e.target.value)} />
           </div>
-          <div className="mb-3">
-            <label htmlFor="municipalite" className="form-label">
-              Municipalité
+
+          <div className="mb-3"          >
+            <label htmlFor="municipalite" style={{ marginBottom: "5px" }}>
+              Municipalité:
             </label>
             <select
+            value={municipalite}
               id="municipalite"
+              name="municipalite"
               className="form-select"
-              value={municipalite}
               onChange={(e) => setMunicipalite(e.target.value)}
             >
-              <option value="Valcourt">Valcourt</option>
-              <option value="Richmond">Richmond</option>
-              <option value="Windsor">Windsor</option>
+              {renderMunicipalites()}
             </select>
           </div>
-          <div className="mb-3 form-check">
-            <input type="checkbox" id="Sports" className="form-check-input" checked={sports} onChange={(e) => setSports(e.target.checked)} />
-            <label htmlFor="Sports" className="form-check-label">
-              Sports
-            </label>
+
+
+          <div
+            style={{ marginBottom: "20px", width: "100%", maxWidth: "400px" }}
+          >
+            <label style={{ marginBottom: "5px" }}>Intérêts:</label>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                marginLeft: "10px",
+              }}
+            >
+              {renderInterests()}
+            </div>
           </div>
-          <div className="mb-3 form-check">
-            <input type="checkbox" id="Festivals" className="form-check-input" checked={festivals} onChange={(e) => setFestivals(e.target.checked)} />
-            <label htmlFor="Festivals" className="form-check-label">
-              Festivals
-            </label>
-          </div>
+
+
           <div className="d-flex justify-content-between">
             <button type="button" className="btn btn-primary"
-            style={{ position: 'relative', padding: '10px 20px', transition: 'transform 0.3s' }}
-            onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}>
+              onClick={() => navigate("/menu")}
+              style={{ position: 'relative', padding: '10px 20px', transition: 'transform 0.3s' }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}>
               <span style={{ marginRight: '5px' }}>Annuler</span>
-                  <XLg size={24} />
+              <XLg size={24} />
             </button>
-            <button type="submit" className="btn btn-primary" 
-            style={{ position: 'relative', padding: '10px 20px', transition: 'transform 0.3s' }}
-            onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}>
+            <button type="submit" className="btn btn-primary"
+              style={{ position: 'relative', padding: '10px 20px', transition: 'transform 0.3s' }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}>
               <span style={{ marginRight: '5px' }}>Modifier Mon Profil</span>
-                <PersonGear size={24} />
+              <PersonGear size={24} />
             </button>
           </div>
         </form>
