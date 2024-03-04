@@ -75,7 +75,7 @@ function renderFilterMenu() {
 
 // Filter activities
 const filteredActivities = activities.filter(activity =>
-  selectedFilters.every(filter => activity.tags.includes(filter))
+  selectedFilters.length === 0 || selectedFilters.some(filter => activity.tags.includes(filter))
 );
 
 
