@@ -47,25 +47,26 @@ router.post("/subscribe", async (req, res) => {
         },
     });
 
-    await transporter.sendMail({
-            from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
-            to: user.courriel,
-            subject: "Verify your account",
-            text: `Click the link to verify your account: http://localhost:8080/register/confirm?token=${token}`,
-        },
-        function (error, info) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log("Email sent: " + info.response);
-            }
-        }
-    );
-    res.status(200).send({
-        message: "User created successfully",
-    });
+
+  await transporter.sendMail({
+          from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
+          to: user.courriel,
+          subject: "Verify your account",
+          text: `Click the link to verify your account: http://localhost:8080/register/confirm?token=${token}`,
+      },
+      function (error, info) {
+          if (error) {
+              console.log(error);
+          } else {
+              console.log("Email sent: " + info.response);
+          }
+      }
+  );
+  res.status(200).send({
+      message: "User created successfully",
+  });
 });
-//ROUTE TO CONFIRM EMAIL WHEN USER REGISTERS TO THE FIRST TIME
+// USER REGISTERS TO THE FIRST TIME
 //AN EMAIL GETS SENT AND HE HAS TO CLICK ON A LINK BEFORE BEING ABLE TO SIGN IN FOR THE FIRST TIME
 router.get("/confirm", async (req, res) => {
     const token = req.query.token;
