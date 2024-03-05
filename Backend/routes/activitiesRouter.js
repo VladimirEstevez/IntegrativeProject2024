@@ -34,11 +34,12 @@ router.post("/register-activity", async (req, res) => {
     }
 
     jwt.verify(token, process.env.SECRET_TOKEN, async (err, decoded) => {
+        
         if (err) {
             return res.status(500).send({ message: "Failed to authenticate token" });
         }
 
-        const user = await UsersCollection.findOne({ email: decoded.email });
+        const user = await UsersCollection.findOne({ courriel: decoded.courriel });
         console.log('user: ', user);
 
         if (!user) {
