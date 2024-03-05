@@ -1,5 +1,5 @@
-import React, { useState, useNavigate } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState  } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const Activity = () => {
@@ -65,6 +65,7 @@ return (
       <p><small className="text-muted">End Date: {formatDate(activity.EndDate)}</small></p>
       <a href={activity.event_url} onClick={handleEventUrlClick} className="btn btn-primary my-3">Event URL</a>
       <p><small className="text-muted">Tags: {activity.tags.join(', ')}</small></p>
+      <button onClick={() => goBack()} className="btn btn-secondary my-3">Go Back</button>
     </div>
   );
 };

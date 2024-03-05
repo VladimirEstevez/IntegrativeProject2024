@@ -144,9 +144,7 @@ const ActivitiesPage = () => {
       <div className="row justify-content-center" >
         <h1 className="mb-4" >Vos activités</h1>
       </div>
-      <div className="row justify-content-center">
-      <div className="col">{renderFilterMenu()}</div>
-      </div>
+      
      <div className="row justify-content-center mb-4" >
         <div className="col-12">{renderFilterMenu()}</div>
       </div>
@@ -178,6 +176,7 @@ const ActivitiesPage = () => {
           <BoxArrowInLeft size={24} />
         </button>
       </div>
+    </div>
   );
 };
 
