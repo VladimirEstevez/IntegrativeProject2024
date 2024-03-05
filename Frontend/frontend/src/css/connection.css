@@ -11,8 +11,9 @@
     background-color: #0098d9; /* Set button background color */
   }
   
-  .btn:hover {
-    background-color: #0098d9; /* Ensure button background color stays the same on hover */
+  .btn:hover,
+  .btn:focus {
+    background-color: #0098d9; /* Ensure button background color stays the same on hover and focus */
   }
   
   .btn-primary {
