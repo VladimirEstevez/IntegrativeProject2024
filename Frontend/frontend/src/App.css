@@ -14,7 +14,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #000444;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -35,4 +35,21 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.btn-hover-effect {
+  transition: transform 0.3s;
+}
+
+.btn-hover-effect:hover {
+  transform: scale(1.1);
+}
+.btn-custom {
+  border-radius: 10px !important;
+  position: relative !important;
+  padding: 10px 20px !important;
+  transition: transform 0.3s !important;
+  background-color: #0098d9 !important;
+  color: white !important;
+  border-width: 3px !important;
 }

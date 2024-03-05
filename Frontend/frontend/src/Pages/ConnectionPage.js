@@ -4,7 +4,7 @@ import { BoxArrowInRight, XLg, BoxArrowUpRight } from 'react-bootstrap-icons';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-
+import '../css/connection.css';
 
 function ConnectionPage() {
   const [form, setForm] = useState({
@@ -78,7 +78,7 @@ function ConnectionPage() {
   return (
     <div>
       <ToastContainer />
-      <div className="container-fluid d-flex justify-content-center align-items-center" style={{ height: '100vh', backgroundColor: 'white' }}>
+      <div className="container-fluid d-flex justify-content-center align-items-center">
         <div className="text-center">
           <h1>Connexion</h1>
           <form onSubmit={handleSubmit}>
@@ -91,41 +91,20 @@ function ConnectionPage() {
               <input type="password" className="form-control" id="password" onChange={e => setForm({ ...form, motDePasse: e.target.value })} name="password" />
             </div>
             <div className="d-flex justify-content-between">
-              <button type="button" onClick={() => navigate("/")} className="btn btn-primary"
-                style={{
-                  borderRadius: '10px',
-                  position: 'relative',
-                  padding: '10px 20px',
-                  transition: 'transform 0.3s',
-                  marginRight: '10px' // Add margin to the right side
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}>
-                  <span style={{ marginRight: '5px' }}>Annuler</span>
-                  <XLg size={24} />
-                </button>
+              <button type="button" onClick={() => navigate("/")} className="btn btn-primary">
+                <span>Annuler</span>
+                <XLg size={24} />
+              </button>
 
-              <button type="submit" className="btn btn-primary" style={{
-                borderRadius: '10px',
-                position: 'relative',
-                padding: '10px 20px',
-                transition: 'transform 0.3s',
-                marginRight: '10px' // Add margin to the right side
-              }}
-                onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}>
-                  <span style={{ marginRight: '5px' }}>Se Connecter</span>
-                  <BoxArrowInRight size={24} />
-                </button>
+              <button type="submit" className="btn btn-primary">
+                <span>Se Connecter</span>
+                <BoxArrowInRight size={24} />
+              </button>
 
-
-                <button onClick={() => navigate("/login")}  className="btn btn-primary" style={{ borderRadius: '10px', 
-                  position: 'relative', padding: '10px 20px', transition: 'transform 0.3s' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}>
-                    <span style={{ marginRight: '5px' }}>Mot de passe oublié?</span>
-                  <BoxArrowUpRight size={24} />
-                </button>
+              <button onClick={() => navigate("/login")} className="btn btn-primary">
+                <span>Mot de passe oublié?</span>
+                <BoxArrowUpRight size={24} />
+              </button>
             </div>
           </form>
         </div>

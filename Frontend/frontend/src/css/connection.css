@@ -1,0 +1,30 @@
+.container-fluid {
+    height: 100vh;
+    background-color: white;
+  }
+  
+  .btn {
+    border-radius: 10px;
+    position: relative;
+    padding: 10px 20px;
+    transition: transform 0.3s;
+    background-color: #0098d9; /* Set button background color */
+  }
+  
+  .btn:hover,
+  .btn:focus {
+    background-color: #0098d9; /* Ensure button background color stays the same on hover and focus */
+  }
+  
+  .btn-primary {
+    margin-right: 10px;
+  }
+  
+  .btn-primary:hover {
+    transform: scale(1.1);
+  }
+  
+  .btn-primary span {
+    margin-right: 5px;
+  }
+  
