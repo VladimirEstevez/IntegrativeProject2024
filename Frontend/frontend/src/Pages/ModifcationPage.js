@@ -11,37 +11,24 @@ const ModificationPage = () => {
 
 
 
-  const interests = [
-    "Arts",
-    "Cuisine",
-    "Concertation et partenariats",
-    "Développement local",
-    "Éducation",
-    "Environnement",
-    "Entrepreneuriat",
-    "Formation",
-    "Implication citoyenne",
-    "Interculturel",
-    "Intergénérationnel",
-    "Musique",
-    "Rencontre sociale",
-    "Sports et plein air",
-  ];
+  const [interests, setInterests] = useState([]);
 
-  const municipalites = [
-    "Valcourt",
-    "Canton de Valcourt",
-    "Bonsecours",
-    "Lawrenceville",
-    "Maricourt",
-    "Racine",
-    "Sainte-Anne-de-la-Rochelle",
-    "MRC du Val-Saint-François",
-    "Estrie",
-    "Province de Québec",
-    "Canada",
-    "Autre",
-  ];
+  const [municipalites, setMunicipalites] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/data");
+        const data = await response.json();
+        setInterests(data.interests);
+        setMunicipalites(data.municipalities);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchData();
+  }, []);
 
   function renderMunicipalites() {
     return municipalites.map((municipalite, index) => (
