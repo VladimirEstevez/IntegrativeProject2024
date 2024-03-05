@@ -66,6 +66,7 @@ return (
       <a href={activity.event_url} onClick={handleEventUrlClick} className="btn btn-primary my-3">Event URL</a>
       <p><small className="text-muted">Tags: {activity.tags.join(', ')}</small></p>
       <button onClick={() => goBack()} className="btn btn-secondary my-3">Go Back</button>
+      <button onClick={registerActivity} className="register-button btn btn-primary">Register to the activity</button>
     </div>
   );
 };
