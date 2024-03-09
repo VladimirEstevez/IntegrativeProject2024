@@ -1,9 +1,9 @@
-// InscriptionPage.js
 import React, { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FilePerson, XLg } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
+import '../css/inscription.css'; // Import the CSS file
 
 function InscriptionPage() {
   const navigate = useNavigate();
@@ -52,37 +52,25 @@ function InscriptionPage() {
     municipalite: "",
   });
 
-  const interests = [
-    "Arts",
-    "Cuisine",
-    "Concertation et partenariats",
-    "Développement local",
-    "Éducation",
-    "Environnement",
-    "Entrepreneuriat",
-    "Formation",
-    "Implication citoyenne",
-    "Interculturel",
-    "Intergénérationnel",
-    "Musique",
-    "Rencontre sociale",
-    "Sports et plein air",
-  ];
+  const [interests, setInterests] = useState([]);
 
-  const municipalites = [
-    "Valcourt",
-    "Canton de Valcourt",
-    "Bonsecours",
-    "Lawrenceville",
-    "Maricourt",
-    "Racine",
-    "Sainte-Anne-de-la-Rochelle",
-    "MRC du Val-Saint-François",
-    "Estrie",
-    "Province de Québec",
-    "Canada",
-    "Autre",
-  ];
+  const [municipalites, setMunicipalites] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/data");
+        const data = await response.json();
+        setInterests(data.interests);
+        setMunicipalites(data.municipalities);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchData();
+  }, []);
+
 
   function renderMunicipalites() {
     return municipalites.map((municipalite, index) => (
@@ -211,190 +199,82 @@ function InscriptionPage() {
   };
 
   return (
-    <div>
+    <div className="container">
       <ToastContainer />
-      <div
-        style={{
-          backgroundColor: "white",
-          minHeight: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-        }}
-      >
-        <h1
-          style={{
-            fontSize: "2rem",
-            textAlign: "center",
-            marginBottom: "20px",
-          }}
-        >
-          Inscription
-        </h1>
-        <form
-          onSubmit={handleSubmit}
-          style={{
-            width: "50%",
-            padding: "20px",
-            border: "1px solid #ccc",
-            borderRadius: "10px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{ marginBottom: "20px", width: "100%", maxWidth: "400px" }}
+      <h1>Inscription</h1>
+      <form className="form-container" onSubmit={handleSubmit}>
+        <div className="form-input">
+          <label htmlFor="courriel">Courriel:</label>
+          <input
+            type="email"
+            id="courriel"
+            name="courriel"
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-input">
+          <label htmlFor="prenom">Prénom:</label>
+          <input
+            type="text"
+            id="prenom"
+            name="prenom"
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-input">
+          <label htmlFor="nom">Nom de famille:</label>
+          <input
+            type="text"
+            id="nom"
+            name="nom"
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-input">
+          <label htmlFor="motDePasse">Mot de passe:</label>
+          <input
+            type="password"
+            id="motDePasse"
+            name="motDePasse"
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-input">
+          <label htmlFor="confirmerMotDePasse">Confirmer le mot de passe:</label>
+          <input
+            type="password"
+            id="confirmerMotDePasse"
+            name="confirmerMotDePasse"
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-input">
+          <label htmlFor="municipalite">Municipalité:</label>
+          <select
+            id="municipalite"
+            name="municipalite"
+            onChange={handleChange}
           >
-            <label htmlFor="courriel" style={{ marginBottom: "5px" }}>
-              Courriel:
-            </label>
-            <input
-              type="email"
-              id="courriel"
-              name="courriel"
-              onChange={handleChange}
-              style={{ borderRadius: "5px", padding: "5px", width: "100%" }}
-            />
+            {renderMunicipalites()}
+          </select>
+        </div>
+        <div className="form-input interests-container">
+          <label>Intérêts:</label>
+          <div>
+            {renderInterests()}
           </div>
-          <div
-            style={{ marginBottom: "20px", width: "100%", maxWidth: "400px" }}
-          >
-            <label htmlFor="prenom" style={{ marginBottom: "5px" }}>
-              Prénom:
-            </label>
-            <input
-              type="text"
-              id="prenom"
-              name="prenom"
-              onChange={handleChange}
-              style={{ borderRadius: "5px", padding: "5px", width: "100%" }}
-            />
-          </div>
-          <div
-            style={{ marginBottom: "20px", width: "100%", maxWidth: "400px" }}
-          >
-            <label htmlFor="nom" style={{ marginBottom: "5px" }}>
-              Nom de famille:
-            </label>
-            <input
-              type="text"
-              id="nom"
-              name="nom"
-              onChange={handleChange}
-              style={{ borderRadius: "5px", padding: "5px", width: "100%" }}
-            />
-          </div>
-          <div
-            style={{ marginBottom: "20px", width: "100%", maxWidth: "400px" }}
-          >
-            <label htmlFor="motDePasse" style={{ marginBottom: "5px" }}>
-              Mot de passe:
-            </label>
-            <input
-              type="password"
-              id="motDePasse"
-              onChange={handleChange}
-              name="motDePasse"
-              style={{ borderRadius: "5px", padding: "5px", width: "100%" }}
-            />
-          </div>
-          <div
-            style={{ marginBottom: "20px", width: "100%", maxWidth: "400px" }}
-          >
-            <label
-              htmlFor="confirmerMotDePasse"
-              style={{ marginBottom: "5px" }}
-            >
-              Confirmer le mot de passe:
-            </label>
-            <input
-              type="password"
-              id="confirmerMotDePasse"
-              onChange={handleChange}
-              name="confirmerMotDePasse"
-              style={{ borderRadius: "5px", padding: "5px", width: "100%" }}
-            />
-          </div>
-          <div
-            style={{ marginBottom: "20px", width: "100%", maxWidth: "400px" }}
-          >
-            <label htmlFor="municipalite" style={{ marginBottom: "5px" }}>
-              Municipalité:
-            </label>
-            <select
-              id="municipalite"
-              name="municipalite"
-              onChange={handleChange}
-              style={{ borderRadius: "5px", padding: "5px", width: "100%" }}
-            >
-              {renderMunicipalites()}
-            </select>
-          </div>
-          <div
-            style={{ marginBottom: "20px", width: "100%", maxWidth: "400px" }}
-          >
-            <label style={{ marginBottom: "5px" }}>Intérêts:</label>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                marginLeft: "10px",
-              }}
-            >
-              {renderInterests()}
-            </div>
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <button
-              type="button"
-              onClick={() => navigate("/")}
-              style={{
-                backgroundColor: "blue",
-                color: "white",
-                padding: "10px 20px",
-                borderRadius: "5px",
-                border: "none",
-                cursor: "pointer",
-                transition: "transform 0.3s", // Add transition
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.1)";
-              }} // Add onMouseEnter
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "scale(1)";
-              }}
-            >
-              <span style={{ marginRight: "5px" }}>Annuler</span>
-              <XLg size={24} />
-            </button>
-
-            <button
-              type="submit"
-              style={{
-                backgroundColor: "blue",
-                color: "white",
-                padding: "10px 20px",
-                borderRadius: "5px",
-                border: "none",
-                cursor: "pointer",
-                marginLeft: "10px",
-                transition: "transform 0.3s", // Add transition
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.1)";
-              }} // Add onMouseEnter
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "scale(1)";
-              }}
-            >
-              <span style={{ marginRight: "5px" }}>S'inscrire</span>
-              <FilePerson size={24} />
-            </button>
-          </div>
-        </form>
-      </div>
+        </div>
+        <div className="d-flex justify-content-between">
+          <button type="button" className="btn btn-primary" onClick={() => navigate("/")}>
+            <span>Annuler</span>
+            <XLg size={24} />
+          </button>
+          <button type="submit" className="btn btn-primary">
+            <span>S'inscrire</span>
+            <FilePerson size={24} />
+          </button>
+        </div>
+      </form>
     </div>
   );
 }

@@ -11,6 +11,7 @@ const authMiddleware = require("./auth.js");
 const registerRouter = require("./routes/registerRouter.js");
 const activitiesRouter = require("./routes/activitiesRouter.js");
 const userRouter = require("./routes/userRouter.js");
+const { ObjectId } = require('mongodb'); 
 
 //TO RUN SERVER DO NPM START AND ON ANOTHER TERMINAL DO NPX NGROK HTTP 8080
 
@@ -51,7 +52,15 @@ app.post("/", async (req, res) => {
 //Database setup
 const db = client.db("integrativeProjectDB");
 const ActivitiesCollection = db.collection("Activities")
-
+const DataCollection = db.collection("Data")
+app.get("/data", async (req, res) => {
+    const interests = await DataCollection.findOne({ _id: new ObjectId("65e52fd998321b99c36da1dc") });
+    console.log('interests: ', interests);
+    const municipalities = await DataCollection.findOne({ _id: new ObjectId("65e52fec98321b99c36da1dd") });
+    console.log(' municipalities: ',  municipalities);
+  
+    res.json({ interests: interests.Interests, municipalities: municipalities.Municipalities });
+  });
 // Routes setup
 app.use("/register", registerRouter);
 app.use("/activities", activitiesRouter);

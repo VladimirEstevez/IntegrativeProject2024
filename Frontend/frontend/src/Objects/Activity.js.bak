@@ -1,12 +1,22 @@
-import React, { useState  } from 'react';
+<<<<<<< HEAD
+import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
+
+=======
+import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+>>>>>>> b38485c56a7ee51b360bdfc908e688abe9b525be
 
 const Activity = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const activity = location.state.activity;
- const [isLoading, setIsLoading] = useState(false);
+<<<<<<< HEAD
+  //console.log('activity: ', activity);
+=======
+  const [isLoading, setIsLoading] = useState(false);
+>>>>>>> b38485c56a7ee51b360bdfc908e688abe9b525be
 
   const formatDate = (startDateString) => {
     const startDate = new Date(startDateString);
@@ -15,7 +25,8 @@ const Activity = () => {
     return `${formattedDate} ${formattedTime}`;
   }
 
- const goBack = () => {
+<<<<<<< HEAD
+  const goBack = () => {
    navigate('/activities'); // replace '/activities' with the path to your activities menu
   }
 
@@ -38,7 +49,21 @@ const Activity = () => {
       alert('Registration failed');
     }
   }
- const handleEventUrlClick = (event) => {
+
+  return (
+    <div className="activity p-5">
+      <img src={activity.post_thumbnail} alt="Event" className="activity-img my-3" />
+      <h2>{activity.post_title}</h2>
+      <p>{activity.post_content}</p>
+      <p>{activity.post_excerpt}</p>
+      <p>Start Date: {formatDate(activity.StartDate)}</p>
+      <p>End Date: {formatDate(activity.EndDate)}</p>
+      <p>Site Web: <a href={activity.event_url}> {activity.post_title} </a> </p>
+      <p>Tags: {activity.tags.join(', ')}</p>
+      <button onClick={registerActivity} className="register-button btn btn-primary">Register to the activity</button>
+      <button onClick={goBack} className="btn btn-primary ms-3">Go back to Activity menu</button>
+=======
+  const handleEventUrlClick = (event) => {
     setIsLoading(true);
     setTimeout(() => {
       window.open(activity.event_url, '_blank');
@@ -46,6 +71,7 @@ const Activity = () => {
     }, 1000); // open the new window after 1 second
     event.preventDefault(); // prevent the default action
   }
+
   if (isLoading) {
     return (
       <div className="text-center" style={{background: 'linear-gradient(to bottom, #007bff, #ffffff)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', width: '100vw'}}>
@@ -54,8 +80,8 @@ const Activity = () => {
       </div>
     );
   }
-  
-return (
+
+  return (
     <div className="activity p-5 shadow-sm bg-white rounded text-center" style={{background: 'linear-gradient(to bottom, #007bff, #ffffff)', maxWidth: '100%', margin: 'auto', color: '#333', height: '100vh', width: '100vw'}}>
       <img src={activity.post_thumbnail} alt="Event" className="activity-img my-3 img-fluid rounded mx-auto d-block" style={{maxWidth: '50%'}} />
       <h2 className="my-3">{activity.post_title}</h2>
@@ -65,8 +91,7 @@ return (
       <p><small className="text-muted">End Date: {formatDate(activity.EndDate)}</small></p>
       <a href={activity.event_url} onClick={handleEventUrlClick} className="btn btn-primary my-3">Event URL</a>
       <p><small className="text-muted">Tags: {activity.tags.join(', ')}</small></p>
-      <button onClick={() => goBack()} className="btn btn-secondary my-3">Go Back</button>
-      <button onClick={registerActivity} className="register-button btn btn-primary">Register to the activity</button>
+>>>>>>> b38485c56a7ee51b360bdfc908e688abe9b525be
     </div>
   );
 };
