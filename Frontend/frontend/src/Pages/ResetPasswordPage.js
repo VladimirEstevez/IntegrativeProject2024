@@ -23,7 +23,7 @@ function ResetPasswordPage() {
 
     // Validate password and confirmPassword
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      alert("Les mots de passe ne correspondent pas!");
       return;
     }
 
@@ -43,14 +43,16 @@ function ResetPasswordPage() {
         //Display success message
         setIsResetSuccessfull(true);
       } else {
+        // Display success message to user
         return(
           toast.error("Le mot de passe est déjà modifié.")
         )
       }
     } catch (error) {
-      // Handle network or other errors (optional)
-      console.error("Error:", error);
       // Display error message to user
+      return(
+        toast.error(error.response.data.message || "Une erreur s'est produite lors de la réinitialisation du mot de passe.")
+      )
     }
   };
 
