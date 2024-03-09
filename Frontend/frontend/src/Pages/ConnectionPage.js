@@ -101,7 +101,7 @@ function ConnectionPage() {
                 <BoxArrowInRight size={24} />
               </button>
 
-              <button onClick={() => navigate("/login")} className="btn btn-primary">
+              <button onClick={() => navigate("/forgotPassword")} className="btn btn-primary">
                 <span>Mot de passe oublié?</span>
                 <BoxArrowUpRight size={24} />
               </button>
