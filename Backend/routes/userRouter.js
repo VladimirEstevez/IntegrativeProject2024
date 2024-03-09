@@ -14,7 +14,7 @@ const UsersCollection = db.collection("Users");
 
 function GenerateToken(username) {
   //return jwt.sign(username, process.env.SECRET_TOKEN);
-  return jwt.sign({ username }, process.env.SECRET_TOKEN, {
+  return jwt.sign( username , process.env.SECRET_TOKEN, {
     expiresIn: "1d",
   });
 }
@@ -159,10 +159,9 @@ router.post("/verifyEmail", async (req, res) => {
 
 router.post("/requestPasswordReset", async (req, res) => {
   const userCourriel = req.body.courriel;
-  const user = await UsersCollection.findOne({ courriel: userCourriel });
 
   // Generate a unique token and associate it with the user's account
-  const token = GenerateToken(userCourriel);
+  const token = GenerateToken({userCourriel});
   await UsersCollection.updateOne(
     {courriel: userCourriel },
     { $set: {resetPasswordToken: token } }
