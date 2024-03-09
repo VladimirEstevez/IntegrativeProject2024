@@ -40,6 +40,7 @@ app.post("/", async (req, res) => {
             EndDate: req.body.post_meta._EventEndDate[0],
             post_thumbnail: req.body.post_thumbnail,
             event_url: req.body.post_meta._EventURL[0],
+            post_url: req.body.post_permalink,
             tags: tags,
         };
 
