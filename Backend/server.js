@@ -13,6 +13,8 @@ const activitiesRouter = require("./routes/activitiesRouter.js");
 const userRouter = require("./routes/userRouter.js");
 const { ObjectId } = require('mongodb'); 
 const nodemailer = require("nodemailer");
+const cron = require('node-cron');
+const reminderTask = require('./routes/reminderRouter.js');
 
 //TO RUN SERVER DO NPM START AND ON ANOTHER TERMINAL DO NPX NGROK HTTP 8080
 
@@ -24,6 +26,8 @@ app.use(bodyParser.json());
 app.get("/", function (req, res) {
     res.send("Hello World");
 });
+
+cron.schedule('* * * * * *', reminderTask);
 
 app.post("/", async (req, res) => {
     console.log("Webhook received:");
@@ -37,8 +41,8 @@ app.post("/", async (req, res) => {
             post_content: req.body.post.post_content,
             post_title: req.body.post.post_title,
             post_excerpt: req.body.post.post_excerpt,
-            StartDate: req.body.post_meta._EventStartDate[0],
-            EndDate: req.body.post_meta._EventEndDate[0],
+            StartDate: new Date(req.body.post_meta._EventStartDate[0]),
+            EndDate: new Date(req.body.post_meta._EventEndDate[0]),
             post_thumbnail: req.body.post_thumbnail,
             event_url: req.body.post_meta._EventURL[0],
             post_url: req.body.post_permalink,
