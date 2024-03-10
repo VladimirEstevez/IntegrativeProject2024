@@ -80,4 +80,25 @@ router.post("/register-activity", async (req, res) => {
     });
 });
 
+router.get("/register-activity/:email/:activityId/:formUrl", async (req, res) => {
+    const email = req.params.email;
+    const activityId = req.params.activityId;
+    const formUrl = decodeURIComponent(req.params.formUrl);
+
+    const user = await UsersCollection.findOne({ courriel: email });
+
+    if (!user) {
+        return res.status(404).send({ message: "No user found" });
+    }
+
+    await ActivitiesCollection.updateOne(
+        { _id: new ObjectId(activityId) },
+        { $addToSet: { registeredUsers: email } }
+    );
+
+    // Redirect to the form URL
+    res.redirect(formUrl);
+});
+
+
 module.exports = router;
