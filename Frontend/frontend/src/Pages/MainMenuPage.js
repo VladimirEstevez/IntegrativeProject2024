@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BoxArrowInLeft, PersonGear, PersonWalking } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
+import '../css/MainMenuPage.css'; // import the CSS file
 
 const MainMenuPage =  () => {
   const navigate = useNavigate();
@@ -57,46 +58,28 @@ function SeDeconnecter(){
     return <div>Loading...</div>;
 }
 
-  return (
-    <div className="container-fluid bg-white vh-100 d-flex justify-content-center align-items-center">
-      <div className="container-md text-center">
-        <h1 className="fs-4 mb-4">Bonjour {prenom}</h1>
-        <div className="mb-2 position-relative" style={{ maxWidth: '300px', margin: '0 auto' }}>
-          <button
-            onClick={() => navigate("/activities")}
-            className="btn btn-primary btn-block"
-            style={{ position: 'relative', padding: '10px 20px', transition: 'transform 0.3s' }}
-            onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
-          >
-            <span style={{ marginRight: '5px' }}>Voir mes activités</span>
-            <PersonWalking size={24} />
-          </button>        </div>
-        <div className="mb-2 position-relative" style={{ maxWidth: '300px', margin: '0 auto' }}>
-          <button
-            onClick={() => navigate("/modify")}
-            className="btn btn-primary btn-block"
-            style={{ position: 'relative', padding: '10px 20px', transition: 'transform 0.3s' }}
-            onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
-          >
-            <span style={{ marginRight: '5px' }}>Modifier Mon Profil</span>
-            <PersonGear size={24} />
-          </button>        </div>
-        <div className="position-relative" style={{ maxWidth: '300px', margin: '0 auto' }}>
-          <button
-            onClick={() => SeDeconnecter()}
-            className="btn btn-primary btn-block"
-            style={{ position: 'relative', padding: '10px 20px', transition: 'transform 0.3s' }}
-            onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
-          >
-            <span style={{ marginRight: '5px' }}>Se Déconnecter</span>
-            <BoxArrowInLeft size={24} />
-          </button>        </div>
-      </div>
+return (
+  <div className="container">
+    <div className="button-container">
+      <button onClick={() => navigate("/activities")} className="btn btn-light  m-2 btn-custom btn-hover-effect">
+        <span>Voir mes activités</span>
+        <PersonWalking size={24} />
+      </button>
     </div>
-  );
+    <div className="button-container">
+      <button onClick={() => navigate("/modify")} className="btn btn-light  m-2 btn-custom btn-hover-effect">
+        <span>Modifier Mon Profil</span>
+        <PersonGear size={24} />
+      </button>
+    </div>
+    <div className="button-container">
+      <button onClick={() => SeDeconnecter()} className="btn btn-light  m-2 btn-custom btn-hover-effect">
+        <span>Se Déconnecter</span>
+        <BoxArrowInLeft size={24} />
+      </button>
+    </div>
+  </div>
+);
 };
 
 export default MainMenuPage;

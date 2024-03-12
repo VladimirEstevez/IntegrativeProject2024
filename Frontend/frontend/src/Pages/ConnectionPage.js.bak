@@ -96,12 +96,16 @@ function ConnectionPage() {
                 <XLg size={24} />
               </button>
 
-               <button type="submit" className="btn btn-light  m-2 btn-custom btn-hover-effect">
+              <button type="submit" className="btn btn-light  m-2 btn-custom btn-hover-effect">
                 <span>Se Connecter</span>
                 <BoxArrowInRight size={24} />
               </button>
 
-              <button onClick={() => navigate("/forgotPassword")} className="btn btn-light  m-2 btn-custom btn-hover-effect">
+<<<<<<< HEAD
+              <button onClick={() => navigate("/login")} className="btn btn-light  m-2 btn-custom btn-hover-effect">
+=======
+              <button onClick={() => navigate("/forgotPassword")} className="btn btn-primary">
+>>>>>>> f863021b430649baaa2251f1e7ff3d7d6b008e9a
                 <span>Mot de passe oublié?</span>
                 <BoxArrowUpRight size={24} />
               </button>

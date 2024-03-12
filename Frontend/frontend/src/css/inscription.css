@@ -1,18 +1,23 @@
 .container {
     background-color: white;
-    min-height: 100vh;
+    height: 100vh;
+    max-width: 576px;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* Aligns the form to the top */
     flex-direction: column;
+    
   }
   
   .form-container {
-    width: 50%;
+    
     padding: 20px;
+    width: 100vw; /* Set width to 100% of the viewport width */
+    max-width: 100%; /* Ensure the width doesn't exceed 100% */
     border: 1px solid #ccc;
     border-radius: 10px;
     display: flex;
+    margin: auto; /* Centers the form vertically when its height is less than the viewport's height */
     flex-direction: column; /* Ensure elements stack vertically */
     align-items: center;
   }
