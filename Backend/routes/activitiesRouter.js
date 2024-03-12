@@ -34,11 +34,12 @@ router.post("/register-activity", async (req, res) => {
     }
 
     jwt.verify(token, process.env.SECRET_TOKEN, async (err, decoded) => {
+        
         if (err) {
             return res.status(500).send({ message: "Failed to authenticate token" });
         }
 
-        const user = await UsersCollection.findOne({ email: decoded.email });
+        const user = await UsersCollection.findOne({ courriel: decoded.courriel });
         console.log('user: ', user);
 
         if (!user) {
@@ -78,5 +79,26 @@ router.post("/register-activity", async (req, res) => {
         res.status(200).send({ message: "Activity registration successful" });
     });
 });
+
+router.get("/register-activity/:email/:activityId/:formUrl", async (req, res) => {
+    const email = req.params.email;
+    const activityId = req.params.activityId;
+    const formUrl = decodeURIComponent(req.params.formUrl);
+
+    const user = await UsersCollection.findOne({ courriel: email });
+
+    if (!user) {
+        return res.status(404).send({ message: "No user found" });
+    }
+
+    await ActivitiesCollection.updateOne(
+        { _id: new ObjectId(activityId) },
+        { $addToSet: { registeredUsers: email } }
+    );
+
+    // Redirect to the form URL
+    res.redirect(formUrl);
+});
+
 
 module.exports = router;

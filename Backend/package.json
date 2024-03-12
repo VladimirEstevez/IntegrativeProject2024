@@ -21,6 +21,7 @@
         "mongodb-connection-string-url": "^3.0.0",
         "morgan": "^1.10.0",
         "ngrok": "^5.0.0-beta.2",
+        "node-cron": "^3.0.3",
         "nodemailer": "^6.9.9",
         "nodemon": "^2.0.22",
         "react-toastify": "^10.0.4"
