@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 
+
 function PasswordPage() {
   const [form, setForm] = useState({
     courriel: ''
@@ -24,18 +25,18 @@ function PasswordPage() {
     }
 
     const emailResponse = await fetch('http://localhost:8080/register/verifyEmail', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ courriel: form.courriel }),
-  });
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ courriel: form.courriel }),
+    });
 
-  if (!emailResponse.ok) {
-    const data = await emailResponse.json();
-    toast.error(data.message, { autoClose: 3000, pauseOnHover: false });
-    return;
-  }
+    if (!emailResponse.ok) {
+      const data = await emailResponse.json();
+      toast.error(data.message, { autoClose: 3000, pauseOnHover: false });
+      return;
+    }
 
     const response = await fetch('http://localhost:8080/user/forgotPassword', {
       method: 'POST',
@@ -75,26 +76,14 @@ function PasswordPage() {
               <input type="email" className="form-control" id="email" onChange={e => setForm({ ...form, courriel: e.target.value })} name="email" />
             </div>
             <div className="d-flex justify-content-between">
-              <button type="button" onClick={() => navigate("/")} className="btn btn-primary"
-                style={{
-                  borderRadius: '10px',
-                  position: 'relative',
-                  padding: '10px 20px',
-                  transition: 'transform 0.3s',
-                  marginRight: '10px' // Add margin to the right side
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}>
-                  <span style={{ marginRight: '5px' }}>Annuler</span>
-                  <XLg size={24} />
-                </button>
-                <button type="submit"  className="btn btn-primary" style={{ borderRadius: '10px', 
-                  position: 'relative', padding: '10px 20px', transition: 'transform 0.3s' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}>
-                    <span style={{ marginRight: '5px' }}>Confirmer</span>
-                  <BoxArrowUpRight size={24} />
-                </button>
+              <button type="button" onClick={() => navigate("/")} className="btn btn-primary btn-margin-right">
+                <span>Annuler</span>
+                <XLg size={24} />
+              </button>
+              <button type="submit" className="btn btn-primary">
+                <span>Confirmer</span>
+                <BoxArrowUpRight size={24} />
+              </button>
             </div>
           </form>
         </div>

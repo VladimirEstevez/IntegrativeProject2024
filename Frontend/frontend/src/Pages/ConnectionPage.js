@@ -91,17 +91,17 @@ function ConnectionPage() {
               <input type="password" className="form-control" id="password" onChange={e => setForm({ ...form, motDePasse: e.target.value })} name="password" />
             </div>
             <div className="d-flex justify-content-between">
-              <button type="button" onClick={() => navigate("/")} className="btn btn-primary">
+              <button type="button" onClick={() => navigate("/")} className="btn btn-light  m-2 btn-custom btn-hover-effect">
                 <span>Annuler</span>
                 <XLg size={24} />
               </button>
 
-              <button type="submit" className="btn btn-primary">
+              <button type="submit" className="btn btn-light  m-2 btn-custom btn-hover-effect">
                 <span>Se Connecter</span>
                 <BoxArrowInRight size={24} />
               </button>
 
-              <button onClick={() => navigate("/login")} className="btn btn-primary">
+              <button onClick={() => navigate("/login")} className="btn btn-light  m-2 btn-custom btn-hover-effect">
                 <span>Mot de passe oublié?</span>
                 <BoxArrowUpRight size={24} />
               </button>

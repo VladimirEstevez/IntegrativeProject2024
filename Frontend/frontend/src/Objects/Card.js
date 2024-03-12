@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../css/Card.css';
 
 const Card = ({ activity }) => {
     const navigate = useNavigate();
@@ -20,10 +21,10 @@ const Card = ({ activity }) => {
     };
 
     return (
-        <div className="card shadow-sm">
+        <div className="card">
             <img src={activity.post_thumbnail} alt="Event" className="card-img-top" />
             <div className="card-body">
-                <h5 className="card-title text-primary">{activity.post_title}</h5>
+                <h5 className="card-title">{activity.post_title}</h5>
                 <p className="card-text">{activity.post_excerpt}</p>
                 <p className="card-text"><small className="text-muted">Début: {formatDate(activity.StartDate)}</small></p>
                 <p className="card-text"><small className="text-muted">Fin: {formatDate(activity.EndDate)}</small></p>
@@ -31,7 +32,7 @@ const Card = ({ activity }) => {
                 <div className='d-flex justify-content-center'>
                     <button 
                         onClick={goToActivity} 
-                        className="btn btn-primary" 
+                        className="btn btn-light  m-2 btn-custom btn-hover-effect" 
                     >
                         GO TO ACTIVITY
                     </button>

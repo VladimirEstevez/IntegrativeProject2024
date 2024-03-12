@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BoxArrowInLeft } from "react-bootstrap-icons";
 
+
 const ActivitiesPage = () => {
   const [activities, setActivities] = useState([]);
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ const ActivitiesPage = () => {
     return (
       <div ref={dropdownRef}>
         <button
-          className="btn btn-primary"
+          className="btn btn-light  m-2 btn-custom btn-hover-effect"
           onClick={() => setDropdownOpen(!dropdownOpen)}
         >
           Filter
@@ -140,43 +141,26 @@ const ActivitiesPage = () => {
   }, [navigate, token]);
 
   return (
-     <div className="container mt-5" >
-      <div className="row justify-content-center" >
-        <h1 className="mb-4" >Vos activités</h1>
-      </div>
-      
-     <div className="row justify-content-center mb-4" >
-        <div className="col-12">{renderFilterMenu()}</div>
-      </div>
-      <div className="row" >
-        {filteredActivities.map(activity => (
-          <div className="col-md-4 mb-4" key={activity._id}>
+     <div className="container">
+    <div className="row justify-content-center mb-4">
+      <div className="col-12">{renderFilterMenu()}</div>
+    </div>
+    <div className="row card-deck"> {/* Use card-deck here */}
+      {filteredActivities.map(activity => (
+        <div className="col-md-4 mb-4 " key={activity._id}>
+          <div className="card h-100">
             <Card activity={activity} />
           </div>
-        ))}
-      </div>
-     <div className="row justify-content-center">
-        <button
-          onClick={() => navigate("/")}
-          className="btn btn-primary mt-4"
-          style={{
-            borderRadius: "10px",
-            position: "relative",
-            padding: "10px 20px",
-            transition: "transform 0.3s",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "scale(1.1)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "scale(1)";
-          }}
-        >
-          <span style={{ marginRight: "5px" }}>Se Déconnecter</span>
-          <BoxArrowInLeft size={24} />
-        </button>
-      </div>
+        </div>
+      ))}
     </div>
+    <div className="button-container">
+      <button onClick={() => navigate("/")} className="btn btn-light  m-2 btn-custom btn-hover-effect">
+        <span>Retour</span>
+        <BoxArrowInLeft size={24} />
+      </button>
+    </div>
+  </div>
   );
 };
 

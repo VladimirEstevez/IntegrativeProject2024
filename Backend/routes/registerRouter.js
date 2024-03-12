@@ -48,20 +48,22 @@ router.post("/subscribe", async (req, res) => {
     });
 
 
-  await transporter.sendMail({
-          from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
-          to: user.courriel,
-          subject: "Verify your account",
-          text: `Click the link to verify your account: http://localhost:8080/register/confirm?token=${token}`,
-      },
-      function (error, info) {
-          if (error) {
-              console.log(error);
-          } else {
-              console.log("Email sent: " + info.response);
-          }
-      }
-  );
+    await transporter.sendMail({
+        from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
+        to: user.courriel,
+        subject: "Verify your account",
+        html: `
+            <h1>Welcome to Valcour2030</h1>
+            <p>Merci de vous être inscrit(e) avec nous ! Veuillez cliquer sur le bouton ci-dessous pour vérifier votre compte :</p>
+            <a href="http://localhost:8080/register/confirm?token=${token}" style="background-color: #0098d9; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">Verify Account</a>
+        `,
+    }, function(error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log("Email sent: " + info.response);
+        }
+    });
   res.status(200).send({
       message: "User created successfully",
   });
@@ -85,9 +87,21 @@ router.get("/confirm", async (req, res) => {
         });
 
         if (result.modifiedCount === 1) {
-            res.send("Votre compte a été vérifié!");
+            res.send(`<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 80vh; font-family: 'Arial', sans-serif;">
+            <h1 style="font-size: 5vw;"></h1>
+            <img src="https://valfamille.com/site2022/wp-content/uploads/logo-bleu-marge.jpg" alt="Valcourt 2030" style="max-width: 60%; max-height: 50vh; margin-bottom: 20px;">
+            <div style="text-align: center;">
+                <h1 style="font-size: 5vw;">Votre compte a été vérifié!</h1>
+                <p style="font-size: 3vw;">Votre compte a été vérifié avec succès. Vous pouvez maintenant vous connecter à votre compte.</p>
+            </div>
+        </div>`);
         } else {
-            res.status(400).send("Error verifying account");
+            res.status(400).send(`<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 80vh; font-family: 'Arial', sans-serif;">
+            <h1 style="font-size: 5vw;"></h1>
+            <img src="https://valfamille.com/site2022/wp-content/uploads/logo-bleu-marge.jpg" alt="Valcourt 2030" style="max-width: 60%; max-height: 50vh; margin-bottom: 20px;">
+            <h1 style="font-size: 3vw;">Erreur de vérification du compte</h1>
+            <p style="font-size: 1vw;">Une erreur s'est produite lors de la vérification du compte. Veuillez réessayer plus tard.</p>
+        </div>`);
         }
     } catch (err) {
         console.error(err);

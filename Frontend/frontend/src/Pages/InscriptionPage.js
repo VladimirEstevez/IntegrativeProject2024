@@ -201,8 +201,9 @@ function InscriptionPage() {
   return (
     <div className="container">
       <ToastContainer />
-      <h1>Inscription</h1>
+      
       <form className="form-container" onSubmit={handleSubmit}>
+      <h1>Inscription</h1>
         <div className="form-input">
           <label htmlFor="courriel">Courriel:</label>
           <input
@@ -265,11 +266,11 @@ function InscriptionPage() {
           </div>
         </div>
         <div className="d-flex justify-content-between">
-          <button type="button" className="btn btn-primary" onClick={() => navigate("/")}>
+          <button type="button" className="btn btn-light  m-2 btn-custom btn-hover-effect" onClick={() => navigate("/")}>
             <span>Annuler</span>
             <XLg size={24} />
           </button>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-light  m-2 btn-custom btn-hover-effect">
             <span>S'inscrire</span>
             <FilePerson size={24} />
           </button>
