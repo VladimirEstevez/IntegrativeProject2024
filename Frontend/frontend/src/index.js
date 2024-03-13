@@ -13,7 +13,7 @@ import PasswordPage from './Pages/ForgotPasswordPage';
 import ReactDOM from 'react-dom/client';
 import ResetPasswordPage from './Pages/ResetPasswordPage';
 import PasswordModificationPage from './Pages/PasswordModificationPage';
-import MyActivitiesPage from './Pages/MyActivitiesPage';
+import MyActivitiesPage from './Pages/MyActivities';
 
 const root = document.getElementById('root');
 
