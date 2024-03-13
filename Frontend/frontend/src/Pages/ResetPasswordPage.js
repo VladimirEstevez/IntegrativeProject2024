@@ -51,7 +51,7 @@ function ResetPasswordPage() {
     } catch (error) {
       // Display error message to user
       return(
-        toast.error(error.response.data.message || "Une erreur s'est produite lors de la réinitialisation du mot de passe.")
+        toast.error("Une erreur s'est produite lors de la réinitialisation du mot de passe.")
       )
     }
   };
@@ -84,7 +84,7 @@ function ResetPasswordPage() {
         }}
       >
         <ToastContainer />
-        <h1 className="m-4">Réinitialiser le mot de passe</h1>
+        <h1 className="m-4">Réinitialisation du mot de passe</h1>
         <form onSubmit={handleSubmit} style={{ textAlign: "left" }}>
           <input
             type="password"

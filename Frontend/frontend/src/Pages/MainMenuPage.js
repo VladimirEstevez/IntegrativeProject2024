@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BoxArrowInLeft, PersonGear, PersonWalking } from 'react-bootstrap-icons';
+import { BookmarkHeart, BoxArrowInLeft, PersonGear, PersonWalking } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 
 const MainMenuPage =  () => {
@@ -63,13 +63,24 @@ function SeDeconnecter(){
         <h1 className="fs-4 mb-4">Bonjour {prenom}</h1>
         <div className="mb-2 position-relative" style={{ maxWidth: '300px', margin: '0 auto' }}>
           <button
-            onClick={() => navigate("/activities")}
+            onClick={() => navigate("/myActivities")}
             className="btn btn-primary btn-block"
             style={{ position: 'relative', padding: '10px 20px', transition: 'transform 0.3s' }}
             onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
             onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
           >
             <span style={{ marginRight: '5px' }}>Voir mes activités</span>
+            <BookmarkHeart size={24} />
+          </button>        </div>
+        <div className="mb-2 position-relative" style={{ maxWidth: '300px', margin: '0 auto' }}>
+          <button
+            onClick={() => navigate("/activities")}
+            className="btn btn-primary btn-block"
+            style={{ position: 'relative', padding: '10px 20px', transition: 'transform 0.3s' }}
+            onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
+          >
+            <span style={{ marginRight: '5px' }}>Voir les activités</span>
             <PersonWalking size={24} />
           </button>        </div>
         <div className="mb-2 position-relative" style={{ maxWidth: '300px', margin: '0 auto' }}>

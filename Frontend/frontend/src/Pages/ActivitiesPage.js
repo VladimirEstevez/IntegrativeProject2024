@@ -29,28 +29,33 @@ const ActivitiesPage = () => {
   const [selectedFilters, setSelectedFilters] = useState([]);
   // State variable for dropdown open/close state
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+  // Add a state variable for the selected date
+  const [selectedDate, setSelectedDate] = useState(null);
+  // State variable for dropdown open/close state
+  const [dateDropdownOpen, setDateDropdownOpen] = useState(false);
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setDropdownOpen(false);
+        setDateDropdownOpen(false);
       }
     };
-
+    
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
+  
   const dropdownRef = useRef(null);
-
+  
   // Render dropdown menu with checkboxes
   function renderFilterMenu() {
     return (
       <div ref={dropdownRef}>
         <button
-          className="btn btn-primary"
+          className="btn btn-primary m-2"
           onClick={() => setDropdownOpen(!dropdownOpen)}
         >
           Filter
@@ -76,11 +81,35 @@ const ActivitiesPage = () => {
     );
   }
 
-  // Filter activities
+  //Render date dropdown button
+  function renderDateFilterMenu() {
+    return (
+      <div ref={dropdownRef}>
+        <button className="btn btn-primary m-2" onClick={() => setDateDropdownOpen(!dateDropdownOpen)}>
+          Filter by Date
+        </button>
+        {dateDropdownOpen && (
+          <div
+            className="position-absolute bg-white border rounded p-2"
+            style={{ zIndex: 1000 }}
+          >
+            <input
+              type="date"
+              value={selectedDate || ''}
+              onChange={(e) => setSelectedDate(e.target.value)}
+            />
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // Filter activities with tags and date
   const filteredActivities = activities.filter(
     (activity) =>
-      selectedFilters.length === 0 ||
-      selectedFilters.some((filter) => activity.tags.includes(filter))
+      (selectedFilters.length === 0 ||
+      selectedFilters.some((filter) => activity.tags.includes(filter))) && 
+      (!selectedDate || selectedDate.trim() === '' || new Date(activity.StartDate).toISOString().substring(0, 10) === selectedDate)
   );
 
   // Handle checkbox change
@@ -93,8 +122,6 @@ const ActivitiesPage = () => {
       );
     }
   };
-
-
 
   useEffect(() => {
     const fetchActivities = async () => {
@@ -140,22 +167,23 @@ const ActivitiesPage = () => {
   }, [navigate, token]);
 
   return (
-     <div className="container mt-5" >
-      <div className="row justify-content-center" >
-        <h1 className="mb-4" >Vos activités</h1>
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <h1 className="mb-4">Vos activités</h1>
       </div>
-      
-     <div className="row justify-content-center mb-4" >
-        <div className="col-12">{renderFilterMenu()}</div>
+
+      <div className="d-flex justify-content-center mb-4">
+        <div>{renderFilterMenu()}</div>
+        <div>{renderDateFilterMenu()}</div>
       </div>
-      <div className="row" >
-        {filteredActivities.map(activity => (
+      <div className="row">
+        {filteredActivities.map((activity) => (
           <div className="col-md-4 mb-4" key={activity._id}>
             <Card activity={activity} />
           </div>
         ))}
       </div>
-     <div className="row justify-content-center">
+      <div className="row justify-content-center">
         <button
           onClick={() => navigate("/")}
           className="btn btn-primary mt-4"
