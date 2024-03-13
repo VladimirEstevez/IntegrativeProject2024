@@ -207,7 +207,7 @@ router.post("/resetPassword", async (req, res) => {
 
   if (!user) {
     // If the token is not associated with a user, send an error message
-    res.status(400).send("Invalid token");
+    res.status(400).send("Impossible de traiter votre demande. Veuillez réessayer");
   } else{
     // If the token is valid, hash the new password and update it in the database
     const saltRounds = 10;
@@ -217,7 +217,81 @@ router.post("/resetPassword", async (req, res) => {
       { $set: {motDePasse: hashedPassword, resetPasswordToken: null } }
     )
     
-    res.status(200).send("Password reset successful");
+    res.status(200).send("Réinitialisation du mot de passe réussie");
+  }
+});
+
+router.get("/requestPasswordModification", authMiddleware, async (req, res) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    return res.status(401).send('Authorization header is missing');
+  }
+
+  const token = authHeader.split(' ')[1];
+  const decodedToken = jwt.verify(token, process.env.SECRET_TOKEN);
+  const userCourriel = decodedToken.courriel;
+
+  // Generate a unique token and associate it with the user's account
+  const newToken = GenerateToken({userCourriel});
+  console.log('newToken: ', newToken);
+  await UsersCollection.updateOne(
+    {courriel: userCourriel },
+    { $set: {modifyPasswordToken: newToken } }
+  )
+
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "integrativeprojectgroupthree@gmail.com",
+      pass: process.env.EMAIL_PASSWORD,
+    },
+  });
+
+  await transporter.sendMail(
+    {
+      from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
+      to: userCourriel,
+      subject: "Modify password",
+      text: `Click the link to modify your password: http://localhost:8080/user/passwordModification?token=${newToken}`,
+    },
+    function (error, info) {
+      if (error) {
+        res.status(400).send("Nous n'avons pas pu vous envoyer le courriel de modification du mot de passe.");
+      } else {
+        res.status(200).send("Vérifiez votre courriel pour modifier votre mot de passe");
+      }
+    }
+  );
+});
+
+// This route handles the initial GET request made when the user clicks the link in the email
+router.get("/passwordModification", async (req, res) => {
+  const { token } = req.query;
+
+  // Redirect to the reset password page in the React app
+  res.redirect(`http://localhost:3000/passwordModification?token=${token}`);
+});
+
+// This route handles the POST request made by your React app to reset the password
+router.post("/passwordModification", async (req, res) => {
+  const { token, password } = req.body;
+  console.log('token: ', token);
+  const user = await UsersCollection.findOne({ modifyPasswordToken: token });
+
+  if (!user) {
+    // If the token is not associated with a user, send an error message
+    res.status(400).send("Impossible de traiter votre demande. Veuillez réessayer");
+  } else{
+    // If the token is valid, hash the new password and update it in the database
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    await UsersCollection.findOneAndUpdate(
+      {modifyPasswordToken: token},
+      { $set: {motDePasse: hashedPassword, modifyPasswordToken: null } }
+    )
+    
+    res.status(200).send("Modification du mot de passe réussie");
   }
 });
 

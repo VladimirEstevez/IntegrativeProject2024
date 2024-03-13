@@ -100,5 +100,8 @@ router.get("/register-activity/:email/:activityId/:formUrl", async (req, res) =>
     res.redirect(formUrl);
 });
 
+router.get("/my-activities", async (req, res) => {
+
+});
 
 module.exports = router;

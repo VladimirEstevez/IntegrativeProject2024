@@ -69,8 +69,8 @@ function ForgotPasswordPage() {
         navigate("/login"); // Navigate to /login after a delay
       }, 4000);
     } else {
-      const data = await response.json();
-      toast.error(data.message, { autoClose: 3000, pauseOnHover: false });
+      const message = await response.text();
+      toast.error(message, { autoClose: 3000, pauseOnHover: false });
     }
   };
 

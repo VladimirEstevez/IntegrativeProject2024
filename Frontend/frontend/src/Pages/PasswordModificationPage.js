@@ -1,11 +1,10 @@
-// ResetPassword.js
 import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 
-function ResetPasswordPage() {
+function PasswordModificationPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [isResetSuccessful, setIsResetSuccessfull] = useState(false);
+  const [isPasswordChangeSuccessfull, setIsPasswordChangeSuccessfull] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,7 +30,7 @@ function ResetPasswordPage() {
     const token = params.get("token");
     // Send data to backend route for password reset
     try {
-      const response = await fetch("http://localhost:8080/user/resetPassword", {
+      const response = await fetch("http://localhost:8080/user/passwordModification", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,24 +40,22 @@ function ResetPasswordPage() {
 
       if (response.ok) {
         //Display success message
-        setIsResetSuccessfull(true);
+        setIsPasswordChangeSuccessfull(true);
       } else {
         // Display success message to user
-        return(
-          toast.error("Le mot de passe est déjà modifié.")
-        )
+        toast.error("Le mot de passe est déjà modifié.")
       }
     } catch (error) {
       // Display error message to user
-      return(
-        toast.error("Une erreur s'est produite lors de la réinitialisation du mot de passe.")
-      )
+      return toast.error(
+        "Une erreur s'est produite lors de la réinitialisation du mot de passe."
+      );
     }
   };
 
-  if (isResetSuccessful) {
+  if (isPasswordChangeSuccessfull) {
     // If the password reset was successful, display a success message
-    return(
+    return (
       <div
         style={{
           display: "flex",
@@ -68,9 +65,9 @@ function ResetPasswordPage() {
           height: "100vh", // This assumes that the div takes up the full viewport height
         }}
       >
-        <h3>Réinitialisation du mot de passe réussie</h3>
+        <h3>Modification du mot de passe réussie</h3>
       </div>
-    )
+    );
   } else {
     // If the password reset hasn't happened yet, display the form
     return (
@@ -84,7 +81,7 @@ function ResetPasswordPage() {
         }}
       >
         <ToastContainer />
-        <h1 className="m-4">Réinitialisation du mot de passe</h1>
+        <h1 className="m-4">Modification du mot de passe</h1>
         <form onSubmit={handleSubmit} style={{ textAlign: "left" }}>
           <input
             type="password"
@@ -132,4 +129,4 @@ function ResetPasswordPage() {
   }
 }
 
-export default ResetPasswordPage;
+export default PasswordModificationPage;
