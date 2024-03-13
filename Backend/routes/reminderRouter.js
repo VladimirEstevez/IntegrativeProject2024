@@ -34,9 +34,9 @@ async function sendEmails() {
 
     const currentDate = new Date();
     const threeDaysFromNow = new Date(Date.UTC(currentDate.getUTCFullYear(), currentDate.getUTCMonth(), currentDate.getUTCDate() + 3, 0, 0, 0));
-    console.log('threeDaysFromNow: ', threeDaysFromNow);
+    //console.log('threeDaysFromNow: ', threeDaysFromNow);
     const fourDaysFromNow = new Date(Date.UTC(currentDate.getUTCFullYear(), currentDate.getUTCMonth(), currentDate.getUTCDate() + 4, 0, 0, 0));
-    console.log('fourDaysFromNow : ', fourDaysFromNow );
+    //console.log('fourDaysFromNow : ', fourDaysFromNow );
     
     const activities = await ActivitiesCollection.find({
         StartDate: {
