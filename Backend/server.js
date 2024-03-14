@@ -28,7 +28,7 @@ app.get("/", function (req, res) {
     res.send("Hello World");
 });
 
-cron.schedule('0 0 * * *', reminderTask);
+cron.schedule('* * * * * *', reminderTask);
 
 app.post("/", async (req, res) => {
     console.log("Webhook received:");

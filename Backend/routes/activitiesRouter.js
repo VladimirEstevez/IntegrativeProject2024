@@ -12,6 +12,7 @@ const { ObjectId } = require('mongodb');
 const db = client.db("integrativeProjectDB");
 const UsersCollection = db.collection("Users");
 const ActivitiesCollection = db.collection("Activities");
+const { formatUTCDate } = require('../dateUtils/formatDate.js')
 
 router.get("/", async (req, res) => {
     try {
@@ -64,8 +65,8 @@ router.post("/register-activity", async (req, res) => {
             subject: "Activity Registration",
             html: `
             <p>You have registered to the activity: ${activity.post_title}.</p>
-            <p>Start Date: ${activity.StartDate}, End Date: ${activity.EndDate}.</p>
-            <p>More details at: <a href="${activity.event_url}">${activity.event_url}</a></p>
+            <p>Start Date: ${formatUTCDate(activity.StartDate)}, End Date: ${formatUTCDate(activity.EndDate)}.</p>
+            <p>More details at: <a href="${activity.post_url}">${activity.post_title}</a></p>
             <img src="${activity.post_thumbnail}" alt="Activity Image" style="width: 100%; max-width: 600px;">
             `,
         }, function (error, info) {
