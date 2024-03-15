@@ -41,7 +41,7 @@ setTimeout(() => window.open(activity.event_url, '_blank'), 3000);
  const handleEventUrlClick = (event) => {
     setIsLoading(true);
     setTimeout(() => {
-      window.open(activity.event_url, '_blank');
+      window.open(activity.post_url, '_blank');
       setIsLoading(false);
     }, 1000); // open the new window after 1 second
     event.preventDefault(); // prevent the default action
