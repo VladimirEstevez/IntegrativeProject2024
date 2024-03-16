@@ -9,22 +9,25 @@ const ActivitiesPage = () => {
   const [activities, setActivities] = useState([]);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  const interests = [
-    "Arts",
-    "Cuisine",
-    "Concertation et partenariats",
-    "Développement local",
-    "Éducation",
-    "Environnement",
-    "Entrepreneuriat",
-    "Formation",
-    "Implication citoyenne",
-    "Interculturel",
-    "Intergénérationnel",
-    "Musique",
-    "Rencontre sociale",
-    "Sports et plein air",
-  ];
+
+  const [interests, setInterests] = useState([]);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/data");
+        const data = await response.json();
+        setInterests(data.interests);
+        
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchData();
+  }, []);
+
 
   // State variable for selected filters
   const [selectedFilters, setSelectedFilters] = useState([]);
@@ -102,7 +105,7 @@ const ActivitiesPage = () => {
       try {
         const response = await fetch("http://localhost:8080/activities");
         const data = await response.json();
-        console.log("data: ", data);
+        //console.log("data: ", data);
         setActivities(data);
       } catch (error) {
         console.error("Error:", error);
@@ -124,7 +127,7 @@ const ActivitiesPage = () => {
             }
           );
 
-          console.log("response: ", response);
+         // console.log("response: ", response);
           if (response.status === 401) {
             navigate("/");
           } else {

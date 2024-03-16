@@ -21,9 +21,9 @@ function GenerateToken(username) {
 
 router.post("/login", async (req, res) => {
   const { courriel, motDePasse } = req.body;
-  console.log("req.body: ", req.body);
-  console.log("motDePasse: ", motDePasse);
-  console.log("courriel: ", courriel);
+  //console.log("req.body: ", req.body);
+  //console.log("motDePasse: ", motDePasse);
+  //console.log("courriel: ", courriel);
 
   const user = await UsersCollection.findOne({
     courriel,
@@ -70,7 +70,7 @@ router.post("/login", async (req, res) => {
 
 router.patch("/updateUser", authMiddleware, async (req, res) => {
   const updatedUser = req.body;
-  console.log("updatedUser: ", updatedUser);
+  //console.log("updatedUser: ", updatedUser);
 
   const authHeader = req.headers.authorization;
   //console.log('authHeader: ', authHeader);
@@ -82,10 +82,10 @@ router.patch("/updateUser", authMiddleware, async (req, res) => {
   }
   try {
     // Use the promisified jwt.verify function with async/await
-    const user = await jwtVerify(token, process.env.SECRET_TOKEN);
-    console.log("user: ", user);
+   //const user = await jwtVerify(token, process.env.SECRET_TOKEN);
+    //console.log("user: ", user);
 
-    console.log("user.email: ", user.courriel);
+    //console.log("user.email: ", user.courriel);
     // Use the email from the JWT payload to update the user
     const result = await UsersCollection.updateOne(
       {
@@ -119,18 +119,18 @@ router.get("/protectedRoute", authMiddleware, async (req, res) => {
   const authHeader = req.headers["authorization"];
   //console.log('authHeader: ', authHeader);
   const token = authHeader && authHeader.split(" ")[1];
-  console.log("token: ", token);
+ // console.log("token: ", token);
 
   if (!token) {
     return res.sendStatus(401);
   }
 
   try {
-    const user = await jwtVerify(token, process.env.SECRET_TOKEN);
-    console.log("user: ", user);
-    req.user = user;
+    // const user = await jwtVerify(token, process.env.SECRET_TOKEN);
+    // //console.log("user: ", user);
+    // req.user = user;
     console.log("You have accessed a protected route");
-    res.send(user);
+    res.send(req.user);
   } catch (err) {
     console.log("err: ", err);
     return res.sendStatus(403);
