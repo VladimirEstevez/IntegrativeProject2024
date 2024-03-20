@@ -276,7 +276,6 @@ router.get("/passwordModification", async (req, res) => {
 // This route handles the POST request made by your React app to reset the password
 router.post("/passwordModification", async (req, res) => {
   const { token, password } = req.body;
-  console.log('token: ', token);
   const user = await UsersCollection.findOne({ modifyPasswordToken: token });
 
   if (!user) {
@@ -290,7 +289,7 @@ router.post("/passwordModification", async (req, res) => {
       {modifyPasswordToken: token},
       { $set: {motDePasse: hashedPassword, modifyPasswordToken: null } }
     )
-    
+
     res.status(200).send("Modification du mot de passe réussie");
   }
 });
