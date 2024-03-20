@@ -25,6 +25,10 @@ const ActivitiesPage = () => {
     "Sports et plein air",
   ];
 
+  //Create separate refs for each dropdown
+  const filterDropdownRef = useRef(null);
+  const dateDropdownRef = useRef(null);
+  
   // State variable for selected filters
   const [selectedFilters, setSelectedFilters] = useState([]);
   // State variable for dropdown open/close state
@@ -36,8 +40,10 @@ const ActivitiesPage = () => {
   
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (filterDropdownRef.current && !filterDropdownRef.current.contains(event.target)) {
         setDropdownOpen(false);
+      }
+      if (dateDropdownRef.current && !dateDropdownRef.current.contains(event.target)) {
         setDateDropdownOpen(false);
       }
     };
@@ -48,12 +54,11 @@ const ActivitiesPage = () => {
     };
   }, []);
   
-  const dropdownRef = useRef(null);
   
   // Render dropdown menu with checkboxes
   function renderFilterMenu() {
     return (
-      <div ref={dropdownRef}>
+      <div ref={filterDropdownRef}>
         <button
           className="btn btn-primary m-2"
           onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -84,7 +89,7 @@ const ActivitiesPage = () => {
   //Render date dropdown button
   function renderDateFilterMenu() {
     return (
-      <div ref={dropdownRef}>
+      <div ref={dateDropdownRef}>
         <button className="btn btn-primary m-2" onClick={() => setDateDropdownOpen(!dateDropdownOpen)}>
           Filter by Date
         </button>

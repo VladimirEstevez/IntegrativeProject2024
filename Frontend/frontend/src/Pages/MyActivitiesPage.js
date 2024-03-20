@@ -25,6 +25,10 @@ const MyActivitiesPage = () => {
     "Sports et plein air",
   ];
 
+  //Create separate refs for each dropdown
+  const filterDropdownRef = useRef(null);
+  const dateDropdownRef = useRef(null);
+
   // State variable for selected filters
   const [selectedFilters, setSelectedFilters] = useState([]);
   // State variable for dropdown open/close state
@@ -33,27 +37,27 @@ const MyActivitiesPage = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   // State variable for dropdown open/close state
   const [dateDropdownOpen, setDateDropdownOpen] = useState(false);
-  
+
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (filterDropdownRef.current && !filterDropdownRef.current.contains(event.target)) {
         setDropdownOpen(false);
+      }
+      if (dateDropdownRef.current && !dateDropdownRef.current.contains(event.target)) {
         setDateDropdownOpen(false);
       }
     };
-    
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  
-  const dropdownRef = useRef(null);
-  
+
   // Render dropdown menu with checkboxes
   function renderFilterMenu() {
     return (
-      <div ref={dropdownRef}>
+      <div ref={filterDropdownRef}>
         <button
           className="btn btn-primary m-2"
           onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -84,8 +88,11 @@ const MyActivitiesPage = () => {
   //Render date dropdown button
   function renderDateFilterMenu() {
     return (
-      <div ref={dropdownRef}>
-        <button className="btn btn-primary m-2" onClick={() => setDateDropdownOpen(!dateDropdownOpen)}>
+      <div ref={dateDropdownRef}>
+        <button
+          className="btn btn-primary m-2"
+          onClick={() => setDateDropdownOpen(!dateDropdownOpen)}
+        >
           Filter by Date
         </button>
         {dateDropdownOpen && (
@@ -95,7 +102,7 @@ const MyActivitiesPage = () => {
           >
             <input
               type="date"
-              value={selectedDate || ''}
+              value={selectedDate || ""}
               onChange={(e) => setSelectedDate(e.target.value)}
             />
           </div>
@@ -105,12 +112,17 @@ const MyActivitiesPage = () => {
   }
 
   // Filter activities with tags and date
-  const filteredActivities = activities.filter(
-    (activity) =>
-      (selectedFilters.length === 0 ||
-      selectedFilters.some((filter) => activity.tags.includes(filter))) && 
-      (!selectedDate || selectedDate.trim() === '' || new Date(activity.StartDate).toISOString().substring(0, 10) === selectedDate)
-  );
+  const filteredActivities = Array.isArray(activities)
+    ? activities.filter(
+        (activity) =>
+          (selectedFilters.length === 0 ||
+            selectedFilters.some((filter) => activity.tags.includes(filter))) &&
+          (!selectedDate ||
+            selectedDate.trim() === "" ||
+            new Date(activity.StartDate).toISOString().substring(0, 10) ===
+              selectedDate)
+      )
+    : [];
 
   // Handle checkbox change
   const handleFilterChange = (e, interest) => {
@@ -126,10 +138,25 @@ const MyActivitiesPage = () => {
   useEffect(() => {
     const fetchActivities = async () => {
       try {
-        const response = await fetch("http://localhost:8080/activities");
+        const response = await fetch(
+          "http://localhost:8080/activities/my-activities",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const data = await response.json();
         console.log("data: ", data);
+
+        if (Array.isArray(data) && data.length > 0) {
+          console.log("There are activities in data");
+        } else {
+          console.log("There are no activities in data");
+        }
+        //console.log("before setActivities: ", activities);
         setActivities(data);
+        //console.log("after setActivities: ", activities);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -150,7 +177,6 @@ const MyActivitiesPage = () => {
             }
           );
 
-          console.log("response: ", response);
           if (response.status === 401) {
             navigate("/");
           } else {
@@ -169,7 +195,7 @@ const MyActivitiesPage = () => {
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
-        <h1 className="mb-4">Vos activités</h1>
+        <h1 className="mb-4">Mes activités</h1>
       </div>
 
       <div className="d-flex justify-content-center mb-4">
@@ -177,11 +203,15 @@ const MyActivitiesPage = () => {
         <div>{renderDateFilterMenu()}</div>
       </div>
       <div className="row">
-        {filteredActivities.map((activity) => (
-          <div className="col-md-4 mb-4" key={activity._id}>
-            <Card activity={activity} />
-          </div>
-        ))}
+        {filteredActivities.length > 0 ? (
+          filteredActivities.map((activity) => (
+            <div className="col-md-4 mb-4" key={activity._id}>
+              <Card activity={activity} />
+            </div>
+          ))
+        ) : (
+          <p>Aucune activité trouvée.</p>
+        )}
       </div>
       <div className="row justify-content-center">
         <button
