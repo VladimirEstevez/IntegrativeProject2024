@@ -1,15 +1,21 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Card = ({ activity }) => {
     const navigate = useNavigate();
+    const location = useLocation();
+    console.log('location: ', location);
 
     useEffect(() => { 
         console.log(activity);
     }, [activity]);
 
     const goToActivity = () => {
-        navigate(`/activities/${activity._id}`, { state: { activity } });
+        if (location.pathname.startsWith("/myActivities")){
+            navigate(`/myActivities/${activity._id}`, { state: { activity } });
+        } else {
+            navigate(`/activities/${activity._id}`, { state: { activity } });
+        }
     };
 
     const formatDate = (startDateString) => {
