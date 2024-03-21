@@ -17,6 +17,7 @@
         "dotenv": "^16.4.1",
         "express": "^4.18.2",
         "jsonwebtoken": "^9.0.2",
+        "moment": "^2.30.1",
         "mongodb": "^5.0.1",
         "mongodb-connection-string-url": "^3.0.0",
         "morgan": "^1.10.0",
