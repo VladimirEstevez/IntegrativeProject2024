@@ -8,6 +8,7 @@ const MainMenuPage =  () => {
   const navigate = useNavigate();
   const [prenom, setPrenom] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isNavbarOpen, setIsNavbarOpen] = useState(false);
 
   useEffect(() => {
     
@@ -47,43 +48,13 @@ const MainMenuPage =  () => {
    // setPrenom(localStorage.getItem('prenom'));
     fetchProtectedRoute();
   }, [navigate]);
-  
-function SeDeconnecter(){
-    //Remove the token
-    localStorage.removeItem('token');
 
-    //Navigate to the main page
-    navigate("/");
-  }
-  if (isLoading) {
-    return <div>Loading...</div>;
+if (isLoading) {
+  return <div>Loading...</div>;
 }
 
 return (
   <div className="container-fluid vh-100">
-    <Navbar style={{ backgroundColor: 'transparent' }} expand="lg" className="position-absolute top-0 end-0">
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="ml-auto">
-          <Nav.Link onClick={() => navigate("/myActivities")}>
-            <span style={{ marginRight: '5px' }}>Voir mes activités</span>
-            <BookmarkHeart size={24} />
-          </Nav.Link>
-          <Nav.Link onClick={() => navigate("/activities")}>
-            <span style={{ marginRight: '5px' }}>Voir les activités</span>
-            <PersonWalking size={24} />
-          </Nav.Link>
-          <Nav.Link onClick={() => navigate("/modify")}>
-            <span style={{ marginRight: '5px' }}>Modifier Mon Profil</span>
-            <PersonGear size={24} />
-          </Nav.Link>
-          <Nav.Link onClick={() => SeDeconnecter()}>
-            <span style={{ marginRight: '5px' }}>Se Déconnecter</span>
-            <BoxArrowInLeft size={24} />
-          </Nav.Link>
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
     <div className="d-flex justify-content-center align-items-start pt-5 m-5">
       <div className="container-md text-center">
         <h1 className="fs-4 mb-4">Bonjour {prenom}</h1>
