@@ -1,0 +1,34 @@
+/* ActivitiesPage.css */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh; /* This will take the full viewport height */
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px; /* This will add space between the button and the bottom of the screen */
+  }
+  
+  .button {
+    border-radius: 10px;
+    position: relative;
+    padding: 10px 20px;
+    background-color: #0098d9;
+    transition: transform 0.3s;
+  }
+  
+  .button:hover {
+    transform: scale(1.1);
+  }
+  
+  .button:active {
+    transform: scale(1);
+  }
+  
+  .button span {
+    margin-right: 5px;
+  }

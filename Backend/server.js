@@ -15,6 +15,7 @@ const { ObjectId } = require('mongodb');
 const nodemailer = require("nodemailer");
 const cron = require('node-cron');
 const reminderTask = require('./routes/reminderRouter.js');
+const moment = require('moment');
 
 //TO RUN SERVER DO NPM START AND ON ANOTHER TERMINAL DO NPX NGROK HTTP 8080
 
@@ -32,6 +33,12 @@ cron.schedule('* * * * * *', reminderTask);
 app.post("/", async (req, res) => {
     console.log("Webhook received:");
     console.log(req.body);
+    
+    function adjustDate(dateString) {
+        var date = new Date(dateString);
+        var userTimezoneOffset = date.getTimezoneOffset() * 60000;
+        return new Date(date.getTime() - userTimezoneOffset);
+    }
 
     if (req.body.post && req.body.post.post_type === "tribe_events") {
 
@@ -41,13 +48,16 @@ app.post("/", async (req, res) => {
             post_content: req.body.post.post_content,
             post_title: req.body.post.post_title,
             post_excerpt: req.body.post.post_excerpt,
-            StartDate: new Date(req.body.post_meta._EventStartDate[0]),
-            EndDate: new Date(req.body.post_meta._EventEndDate[0]),
+            StartDate: adjustDate(req.body.post_meta._EventStartDate[0]),
+            EndDate: adjustDate(req.body.post_meta._EventEndDate[0]),
             post_thumbnail: req.body.post_thumbnail,
             event_url: req.body.post_meta._EventURL[0],
             post_url: req.body.post_permalink,
             tags: tags,
         };
+
+        const formattedStartDate = moment(eventData.StartDate).format('YYYY-MM-DD hh:mm A');
+const formattedEndDate = moment(eventData.EndDate).format('YYYY-MM-DD hh:mm A');
 
         const insertResult = await ActivitiesCollection.insertOne(eventData);
         const activityId = insertResult.insertedId;
@@ -82,7 +92,7 @@ for (const user of users) {
             subject: `New Activity: ${eventData.post_title}`,
             html: `
                 <p>A new activity has been added that might interest you. The activity has the following tag(s) that match your interests: ${matchingTags.join(', ')}.</p>
-                <p>${eventData.post_title} - ${eventData.StartDate} to ${eventData.EndDate}</p>
+                <p>${eventData.post_title} - ${formattedStartDate} to ${formattedEndDate}</p>
                 <p>${postContentWithBreaks}</p>
                 <img src="${eventData.post_thumbnail}" alt="Activity Image" style="width: 100%; max-width: 600px;">
                 <p>Click on this <a href="${eventData.post_url}">URL</a> to go to the event.</p>

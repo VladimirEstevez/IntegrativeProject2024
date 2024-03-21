@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { BoxArrowInLeft, PersonGear, PersonWalking } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
+<<<<<<< HEAD
+import '../css/MainMenuPage.css'; // import the CSS file
+=======
+import { Navbar, Nav } from 'react-bootstrap';
+>>>>>>> feature/Munir
 
-const MainMenuPage = () => {
+const MainMenuPage =  () => {
   const navigate = useNavigate();
   const [prenom, setPrenom] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    
     const fetchProtectedRoute = async () => {
       const token = localStorage.getItem('token');
 
@@ -15,26 +21,23 @@ const MainMenuPage = () => {
         navigate('/');
       } else {
         try {
-          const response = await fetch('http://localhost:8080/protectedRoute', {
+          const response = await fetch('http://localhost:8080/user/protectedRoute', {
             method: 'GET',
             headers: {
               'authorization': 'Bearer ' + token,
             }
           });
 
-          if (response.status === 401) {
+          console.log('prenom: ', response);
+          if (response.status === 401){
             navigate('/');
           } else if (!response.ok) {
             console.error('Error:', await response.text());
             navigate('/');
           } else {
             const user = await response.json();
-<<<<<<< HEAD
-            localStorage.setItem('prenom', user.prenom);
-=======
             console.log('prenom: ', user.prenom);
             //localStorage.setItem('prenom', user.prenom);
->>>>>>> 6a37087eb5c36b5aafa8b454a8146412d0601cc6
             setPrenom(user.prenom);
             setIsLoading(false);
           }
@@ -44,25 +47,23 @@ const MainMenuPage = () => {
       }
     };
 
+   // setPrenom(localStorage.getItem('prenom'));
     fetchProtectedRoute();
   }, [navigate]);
-
-<<<<<<< HEAD
-=======
-  function SeDeconnecter(){
+  
+function SeDeconnecter(){
     //Remove the token
     localStorage.removeItem('token');
 
     //Navigate to the main page
     navigate("/");
   }
-  
->>>>>>> 6a37087eb5c36b5aafa8b454a8146412d0601cc6
   if (isLoading) {
     return <div>Loading...</div>;
-  }
+}
 
-  return (
+<<<<<<< HEAD
+return (
     <div className="container-fluid bg-white vh-100 d-flex justify-content-center align-items-center">
       <div className="container-md text-center">
         <h1 className="fs-4 mb-4">Bonjour {prenom}</h1>
@@ -76,8 +77,7 @@ const MainMenuPage = () => {
           >
             <span style={{ marginRight: '5px' }}>Voir mes activités</span>
             <PersonWalking size={24} />
-          </button>
-        </div>
+          </button>        </div>
         <div className="mb-2 position-relative" style={{ maxWidth: '300px', margin: '0 auto' }}>
           <button
             onClick={() => navigate("/modify")}
@@ -88,12 +88,10 @@ const MainMenuPage = () => {
           >
             <span style={{ marginRight: '5px' }}>Modifier Mon Profil</span>
             <PersonGear size={24} />
-          </button>
-        </div>
-<<<<<<< HEAD
+          </button>        </div>
         <div className="position-relative" style={{ maxWidth: '300px', margin: '0 auto' }}>
           <button
-            onClick={() => navigate("/")}
+            onClick={() => SeDeconnecter()}
             className="btn btn-primary btn-block"
             style={{ position: 'relative', padding: '10px 20px', transition: 'transform 0.3s' }}
             onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
@@ -101,12 +99,38 @@ const MainMenuPage = () => {
           >
             <span style={{ marginRight: '5px' }}>Se Déconnecter</span>
             <BoxArrowInLeft size={24} />
-          </button>
+          </button>        </div>
 =======
-        <div>
-          <button onClick={() => SeDeconnecter()} className="btn btn-primary btn-block">Se déconnecter</button>
->>>>>>> 6a37087eb5c36b5aafa8b454a8146412d0601cc6
+  return (
+    <div className="container-fluid vh-100">
+      <Navbar style={{ backgroundColor: 'transparent' }} expand="lg" className="position-absolute top-0 end-0">
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ml-auto">
+            <Nav.Link onClick={() => navigate("/myActivities")}>
+              <span style={{ marginRight: '5px' }}>Voir mes activités</span>
+              <BookmarkHeart size={24} />
+            </Nav.Link>
+            <Nav.Link onClick={() => navigate("/activities")}>
+              <span style={{ marginRight: '5px' }}>Voir les activités</span>
+              <PersonWalking size={24} />
+            </Nav.Link>
+            <Nav.Link onClick={() => navigate("/modify")}>
+              <span style={{ marginRight: '5px' }}>Modifier Mon Profil</span>
+              <PersonGear size={24} />
+            </Nav.Link>
+            <Nav.Link onClick={() => SeDeconnecter()}>
+              <span style={{ marginRight: '5px' }}>Se Déconnecter</span>
+              <BoxArrowInLeft size={24} />
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+      <div className="d-flex justify-content-center align-items-start pt-5 m-5">
+        <div className="container-md text-center">
+          <h1 className="fs-4 mb-4">Bonjour {prenom}</h1>
         </div>
+>>>>>>> feature/Munir
       </div>
     </div>
   );

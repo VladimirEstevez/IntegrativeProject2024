@@ -25,15 +25,19 @@ ReactDOM.createRoot(root).render(
         <Route path="/" element={<App />} />
         <Route path="/login" element={<ConnectionPage />} />
         <Route path="/register" element={<InscriptionPage />} />
+       
+        
         <Route path="/menu" element={<MainMenuPage />} />
         <Route path="/activities" element={<ActivitiesPage />} />
         <Route path="/modify" element={<ModifcationPage />} />
         <Route path="/activities/:id" element={<SelectedActivity />} />
         <Route path="/myActivities/:id" element={<SelectedMyActivity />} />
         <Route path="/forgotPassword" element={<PasswordPage />} />
+        <Route path="/myActivities" element={<MyActivitiesPage />} />
+        
+       
         <Route path="/resetPassword" element={<ResetPasswordPage />} />
         <Route path="/passwordModification" element={<PasswordModificationPage />} />
-        <Route path="/myActivities" element={<MyActivitiesPage />} />
       </Routes>
     </Router>
   </React.StrictMode>

@@ -4,100 +4,150 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BoxArrowInLeft } from "react-bootstrap-icons";
 
+
 const ActivitiesPage = () => {
   const [activities, setActivities] = useState([]);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
- 
-  const interests = [
-    "Arts",
-    "Cuisine",
-    "Concertation et partenariats",
-    "Développement local",
-    "Éducation",
-    "Environnement",
-    "Entrepreneuriat",
-    "Formation",
-    "Implication citoyenne",
-    "Interculturel",
-    "Intergénérationnel",
-    "Musique",
-    "Rencontre sociale",
-    "Sports et plein air",
-  ];
 
+  const [interests, setInterests] = useState([]);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/data");
+        const data = await response.json();
+        setInterests(data.interests);
+        
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
   
+    fetchData();
+  }, []);
 
+
+  //Create separate refs for each dropdown
+  const filterDropdownRef = useRef(null);
+  const dateDropdownRef = useRef(null);
+  
   // State variable for selected filters
-const [selectedFilters, setSelectedFilters] = useState([]);
-// State variable for dropdown open/close state
-const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [selectedFilters, setSelectedFilters] = useState([]);
+  // State variable for dropdown open/close state
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-useEffect(() => {
-  const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setDropdownOpen(false);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (filterDropdownRef.current && !filterDropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+<<<<<<< HEAD
+=======
+      }
+      if (dateDropdownRef.current && !dateDropdownRef.current.contains(event.target)) {
+        setDateDropdownOpen(false);
+>>>>>>> feature/Munir
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+<<<<<<< HEAD
+
+  const dropdownRef = useRef(null);
+
+=======
+  
+  
+>>>>>>> feature/Munir
+  // Render dropdown menu with checkboxes
+  function renderFilterMenu() {
+    return (
+      <div ref={filterDropdownRef}>
+        <button
+          className="btn btn-light  m-2 btn-custom btn-hover-effect"
+          onClick={() => setDropdownOpen(!dropdownOpen)}
+        >
+          Filter
+        </button>
+        {dropdownOpen && (
+          <div
+            className="position-absolute bg-white border rounded p-2"
+            style={{ zIndex: 1000 }}
+          >
+            {interests.map((interest, index) => (
+              <label key={index} style={{ display: "block", padding: "5px" }}>
+                <input
+                  type="checkbox"
+                  onChange={(e) => handleFilterChange(e, interest)}
+                  checked={selectedFilters.includes(interest)}
+                />{" "}
+                {interest}
+              </label>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+<<<<<<< HEAD
+  // Filter activities
+=======
+  //Render date dropdown button
+  function renderDateFilterMenu() {
+    return (
+      <div ref={dateDropdownRef}>
+        <button className="btn btn-primary m-2" onClick={() => setDateDropdownOpen(!dateDropdownOpen)}>
+          Filter by Date
+        </button>
+        {dateDropdownOpen && (
+          <div
+            className="position-absolute bg-white border rounded p-2"
+            style={{ zIndex: 1000 }}
+          >
+            <input
+              type="date"
+              value={selectedDate || ''}
+              onChange={(e) => setSelectedDate(e.target.value)}
+            />
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // Filter activities with tags and date
+>>>>>>> feature/Munir
+  const filteredActivities = activities.filter(
+    (activity) =>
+      selectedFilters.length === 0 ||
+      selectedFilters.some((filter) => activity.tags.includes(filter))
+  );
+
+  // Handle checkbox change
+  const handleFilterChange = (e, interest) => {
+    if (e.target.checked) {
+      setSelectedFilters((prevFilters) => [...prevFilters, interest]);
+    } else {
+      setSelectedFilters((prevFilters) =>
+        prevFilters.filter((filter) => filter !== interest)
+      );
     }
   };
-
-  document.addEventListener("mousedown", handleClickOutside);
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
-  };
-}, []);
-
-const dropdownRef = useRef(null);
-
-// Render dropdown menu with checkboxes
-function renderFilterMenu() {
-  return (
-    <div ref={dropdownRef}>
-      <button className="btn btn-primary" onClick={() => setDropdownOpen(!dropdownOpen)}>
-        Filter
-      </button>
-      {dropdownOpen && (
-        <div className="position-absolute bg-white border rounded p-2" style={{ zIndex: 1000 }}>
-          {interests.map((interest, index) => (
-            <label key={index} style={{ display: 'block', padding: '5px' }}>
-              <input
-                type="checkbox"
-                onChange={(e) => handleFilterChange(e, interest)}
-                checked={selectedFilters.includes(interest)}
-              />{" "}
-              {interest}
-            </label>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-// Filter activities
-const filteredActivities = activities.filter(activity =>
-  selectedFilters.every(filter => activity.tags.includes(filter))
-);
-
-
-
-// Handle checkbox change
-const handleFilterChange = (e, interest) => {
-  if (e.target.checked) {
-    setSelectedFilters(prevFilters => [...prevFilters, interest]);
-  } else {
-    setSelectedFilters(prevFilters => prevFilters.filter(filter => filter !== interest));
-  }
-};
 
 
 
   useEffect(() => {
-
     const fetchActivities = async () => {
       try {
         const response = await fetch("http://localhost:8080/activities");
         const data = await response.json();
-        console.log("data: ", data);
+        //console.log("data: ", data);
         setActivities(data);
       } catch (error) {
         console.error("Error:", error);
@@ -119,11 +169,10 @@ const handleFilterChange = (e, interest) => {
             }
           );
 
-          console.log("response: ", response);
+         // console.log("response: ", response);
           if (response.status === 401) {
             navigate("/");
-          } else{
-
+          } else {
           }
         } catch (error) {
           console.error("Error:", error);
@@ -141,9 +190,7 @@ const handleFilterChange = (e, interest) => {
       <div className="row justify-content-center" >
         <h1 className="mb-4" >Vos activités</h1>
       </div>
-      <div className="row justify-content-center">
-      <div className="col">{renderFilterMenu()}</div>
-      </div>
+      
      <div className="row justify-content-center mb-4" >
         <div className="col-12">{renderFilterMenu()}</div>
       </div>
@@ -175,6 +222,7 @@ const handleFilterChange = (e, interest) => {
           <BoxArrowInLeft size={24} />
         </button>
       </div>
+    </div>
   );
 };
 
