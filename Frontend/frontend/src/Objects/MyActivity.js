@@ -1,19 +1,13 @@
 import React, { useState  } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
+import formatUTCDate from './utilDate';
 
 const MyActivity = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const activity = location.state.activity;
  const [isLoading, setIsLoading] = useState(false);
-
-  const formatDate = (startDateString) => {
-    const startDate = new Date(startDateString);
-    const formattedDate = startDate.toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric' });
-    const formattedTime = startDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    return `${formattedDate} ${formattedTime}`;
-  }
 
  const goBack = () => {
    navigate('/myActivities'); // replace '/activities' with the path to your activities menu
@@ -44,9 +38,9 @@ return (
       <h2 className="my-3">{activity.post_title}</h2>
       <p className="text-muted">{activity.post_excerpt}</p>
       <p className="my-3 text-justify" dangerouslySetInnerHTML={{ __html: postContentWithBreaks }}></p>
-      <p><small className="text-muted">Start Date: {formatDate(activity.StartDate)}</small></p>
-      <p><small className="text-muted">End Date: {formatDate(activity.EndDate)}</small></p>
-      <a href={activity.event_url} onClick={handleEventUrlClick} className="btn btn-primary my-3">Event URL Register to the activity 1 TO MERGE  </a>
+      <p><small className="text-muted">Start Date: {formatUTCDate(activity.StartDate)}</small></p>
+      <p><small className="text-muted">End Date: {formatUTCDate(activity.EndDate)}</small></p>
+      <span>Evenement sur le site Valcourt2030: </span><a href={activity.post_url} onClick={handleEventUrlClick} className=" my-3">   {activity.post_title}  </a>
       <p><small className="text-muted">Tags: {activity.tags.join(', ')}</small></p>
       <button onClick={() => goBack()} className="btn btn-secondary my-3">Go Back</button>
     </div>

@@ -7,7 +7,6 @@ const Activity = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const activity = location.state.activity;
-  
  const [isLoading, setIsLoading] = useState(false);
 
 useEffect(() => {
