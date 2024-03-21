@@ -8,6 +8,7 @@ import '../css/inscription.css'; // Import the CSS file
 function InscriptionPage() {
   const navigate = useNavigate();
 
+
   useEffect(() => {
     const fetchProtectedRoute = async () => {
       const token = localStorage.getItem("token");
@@ -42,7 +43,6 @@ function InscriptionPage() {
     fetchProtectedRoute();
   }, [navigate]);
 
-  const [tags, setTags] = useState([]);
   const [form, setForm] = useState({
     prenom: "",
     nom: "",
@@ -50,19 +50,30 @@ function InscriptionPage() {
     motDePasse: "",
     confirmerMotDePasse: "",
     municipalite: "",
+    interests: [], // Change to an array to store multiple interests
   });
 
   const [interests, setInterests] = useState([]);
-
+  const [tags, setTags] = useState([]);
   const [municipalites, setMunicipalites] = useState([]);
+
+  function renderMunicipalites() {
+    return municipalites.map((municipalite, index) => (
+      <option key={index} value={municipalite}>
+        {municipalite}
+      </option>
+    ));
+  }
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:8080/data");
         const data = await response.json();
-        setInterests(data.interests);
-        setMunicipalites(data.municipalities);
+        console.log('Fetched data:', data); // Log the fetched data
+        setTags(data.interests); // Assume the API returns a tags array
+        setMunicipalites(data.municipalities); // Set the municipalities state with data.municipalities
+        console.log('Tags state after fetch:', tags); // Log the tags state after fetch
       } catch (error) {
         console.error("Error:", error);
       }
@@ -72,53 +83,29 @@ function InscriptionPage() {
   }, []);
 
 
-  function renderMunicipalites() {
-    return municipalites.map((municipalite, index) => (
-      <option key={index} value={municipalite}>
-        {municipalite}
-      </option>
-    ));
-  }
-  function renderInterests() {
-    return interests.map((interest, index) => (
-      <label
-        htmlFor={`interest${index}`}
-        style={{ marginBottom: "5px" }}
-        key={index}
-      >
-        <input
-          onChange={handleChange}
-          type="checkbox"
-          id={`interest${index}`}
-          name={`${interest}`}
-        />{" "}
-        {interest}
-      </label>
-    ));
-  }
+  
 
-  const handleChange = (e) => {
-    if (e.target.type === "checkbox") {
-      if (e.target.checked) {
-        setTags((prevTags) => [...prevTags, e.target.name]);
-      } else {
-        setTags((prevTags) => prevTags.filter((tag) => tag !== e.target.name));
-      }
+  // Handle tags in the handleChange function
+  const handleChange = (event) => {
+    if (event.target.name === 'tags') {
+      const selectedTags = Array.from(event.target.selectedOptions, option => option.value);
+      setForm({
+        ...form,
+        tags: selectedTags,
+      });
     } else {
       setForm({
         ...form,
-        [e.target.name]: e.target.value,
+        [event.target.name]: event.target.value,
       });
     }
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const finalForm = {
-      ...form,
-      tags,
-    };
+    const finalForm = { ...form };
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
     if (!emailRegex.test(form.courriel)) {
@@ -201,9 +188,8 @@ function InscriptionPage() {
   return (
     <div className="container">
       <ToastContainer />
-      
       <form className="form-container" onSubmit={handleSubmit}>
-      <h1>Inscription</h1>
+        <h1>Inscription</h1>
         <div className="form-input">
           <label htmlFor="courriel">Courriel:</label>
           <input
@@ -259,18 +245,39 @@ function InscriptionPage() {
             {renderMunicipalites()}
           </select>
         </div>
-        <div className="form-input interests-container">
-          <label>Intérêts:</label>
-          <div>
-            {renderInterests()}
-          </div>
+        <div className="form-input">
+          <label htmlFor="interests">Intérêts:</label>
+          <select
+            id="tags"
+            name="tags"
+            value={form.tags} // Bind the value to form state
+            onChange={handleChange}
+            className="basic-multi-select"
+            classNamePrefix="select"
+            multiple // Allow multiple selection
+          >
+            {/* Render options for tags */}
+            {console.log('Rendering tags:', tags)} {/* Log the tags state during render */}
+            {tags && tags.map((tag, index) => (
+              <option key={index} value={tag}>
+                {tag}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="d-flex justify-content-between">
-          <button type="button" className="btn btn-light  m-2 btn-custom btn-hover-effect" onClick={() => navigate("/")}>
+          <button
+            type="button"
+            className="btn btn-light m-2 btn-custom btn-hover-effect"
+            onClick={() => navigate("/")}
+          >
             <span>Annuler</span>
             <XLg size={24} />
           </button>
-          <button type="submit" className="btn btn-light  m-2 btn-custom btn-hover-effect">
+          <button
+            type="submit"
+            className="btn btn-light m-2 btn-custom btn-hover-effect"
+          >
             <span>S'inscrire</span>
             <FilePerson size={24} />
           </button>

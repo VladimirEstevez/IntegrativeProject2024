@@ -141,27 +141,29 @@ const ActivitiesPage = () => {
   }, [navigate, token]);
 
   return (
-     <div className="container">
-    <div className="row justify-content-center mb-4">
-      <div className="col-12">{renderFilterMenu()}</div>
+  <div className="container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+    <div className="row justify-content-center mb-4" style={{ position: 'relative', zIndex: 1000 }}>
+      <div className="col-12 mb-3">
+        {renderFilterMenu()}
+      </div>
     </div>
-    <div className="row card-deck"> {/* Use card-deck here */}
+    <div className="row justify-content-center mt-3">
       {filteredActivities.map(activity => (
-        <div className="col-md-4 mb-4 " key={activity._id}>
+        <div className="d-flex justify-content-center col-sm-12 col-md-6 col-lg-4 mb-4" key={activity._id}> {/* Add d-flex and justify-content-center here */}
           <div className="card h-100">
             <Card activity={activity} />
           </div>
         </div>
       ))}
     </div>
-    <div className="button-container">
+    <div className="button-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 'auto' }}>
       <button onClick={() => navigate("/")} className="btn btn-light  m-2 btn-custom btn-hover-effect">
         <span>Retour</span>
         <BoxArrowInLeft size={24} />
       </button>
     </div>
   </div>
-  );
+);
 };
 
 export default ActivitiesPage;

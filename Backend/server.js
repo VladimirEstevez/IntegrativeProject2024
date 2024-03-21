@@ -11,7 +11,7 @@ const authMiddleware = require("./auth.js");
 const registerRouter = require("./routes/registerRouter.js");
 const activitiesRouter = require("./routes/activitiesRouter.js");
 const userRouter = require("./routes/userRouter.js");
-const { ObjectId } = require('mongodb'); 
+const { ObjectId } = require('mongodb');
 const nodemailer = require("nodemailer");
 const cron = require('node-cron');
 const reminderTask = require('./routes/reminderRouter.js');
@@ -51,7 +51,7 @@ app.post("/", async (req, res) => {
 
         const insertResult = await ActivitiesCollection.insertOne(eventData);
         const activityId = insertResult.insertedId;
-          // Get all users from the database
+        // Get all users from the database
         const users = await UsersCollection.find().toArray();
 
         const transporter = nodemailer.createTransport({
@@ -62,42 +62,42 @@ app.post("/", async (req, res) => {
             },
         });
         // Send an email to each user
-for (const user of users) {
-    // Find the matching tags
-    const matchingTags = tags.filter(tag => user.tags.includes(tag));
+        for (const user of users) {
+            // Find the matching tags
+            const matchingTags = tags.filter(tag => user.tags.includes(tag));
 
-    // Check if there are any matching tags
-    if (matchingTags.length > 0) {
+            // Check if there are any matching tags
+            if (matchingTags.length > 0) {
 
-        const postContentWithBreaks = eventData.post_content.replace(/\r\n/g, '<br>');
+                const postContentWithBreaks = eventData.post_content.replace(/\r\n/g, '<br>');
 
-        // Generate a unique URL for each user and each activity
+                // Generate a unique URL for each user and each activity
 
-        const registerUrl = `http://localhost:8080/activities/register-activity/${user.courriel}/${activityId}/${encodeURIComponent(eventData.event_url)}`;
+                const registerUrl = `http://localhost:8080/activities/register-activity/${user.courriel}/${activityId}/${encodeURIComponent(eventData.event_url)}`;
 
-        // Send an email to the user
-        await transporter.sendMail({
-            from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
-            to: user.courriel,
-            subject: `New Activity: ${eventData.post_title}`,
-            html: `
-                <p>A new activity has been added that might interest you. The activity has the following tag(s) that match your interests: ${matchingTags.join(', ')}.</p>
-                <p>${eventData.post_title} - ${eventData.StartDate} to ${eventData.EndDate}</p>
-                <p>${postContentWithBreaks}</p>
-                <img src="${eventData.post_thumbnail}" alt="Activity Image" style="width: 100%; max-width: 600px;">
-                <p>Click on this <a href="${eventData.post_url}">URL</a> to go to the event.</p>
-                <p><a href="${registerUrl}" style="display: inline-block; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; border: 1px solid transparent; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; border-radius: .25rem; color: #fff; background-color: #007bff;">Click on this button to register to the event!</a></p>
+                // Send an email to the user
+                await transporter.sendMail({
+                    from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
+                    to: user.courriel,
+                    subject: `Nouvelle activité : ${eventData.post_title}`,
+                    html: `
+                    <p>Une nouvelle activité a été ajoutée qui pourrait vous intéresser. L'activité a le(s) tag(s) suivant(s) qui correspondent à vos intérêts : ${matchingTags.join(', ')}.</p>
+                    <p>${eventData.post_title} - Du ${new Date(eventData.StartDate).toLocaleString('fr-FR', { dateStyle: 'medium', timeStyle: 'short' })} au ${new Date(eventData.EndDate).toLocaleString('fr-FR', { dateStyle: 'medium', timeStyle: 'short' })}</p>
+                    <p>${postContentWithBreaks}</p>
+                    <img src="${eventData.post_thumbnail}" alt="Image de l'activité" style="width: 100%; max-width: 600px;">
+                    <p>Cliquez sur ce <a href="${eventData.post_url}">lien</a> pour accéder à l'événement.</p>
+                    <p><a href="${registerUrl}" style="display: inline-block; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; border: 1px solid transparent; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; border-radius: .25rem; color: #fff; background-color: #007bff;">Cliquez sur ce bouton pour vous inscrire à l'événement !</a></p>
  
                 `,
-        }, function (error, info) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log("Email sent: " + info.response);
+                }, function (error, info) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log("Email sent: " + info.response);
+                    }
+                });
             }
-        });
-    }
-}
+        }
 
     }
 
@@ -113,10 +113,10 @@ app.get("/data", async (req, res) => {
     const interests = await DataCollection.findOne({ _id: new ObjectId("65e52fd998321b99c36da1dc") });
     console.log('interests: ', interests);
     const municipalities = await DataCollection.findOne({ _id: new ObjectId("65e52fec98321b99c36da1dd") });
-    console.log(' municipalities: ',  municipalities);
-  
+    console.log(' municipalities: ', municipalities);
+
     res.json({ interests: interests.Interests, municipalities: municipalities.Municipalities });
-  });
+});
 // Routes setup
 app.use("/register", registerRouter);
 app.use("/activities", activitiesRouter);

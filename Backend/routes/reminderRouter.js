@@ -57,19 +57,22 @@ for (const activity of activities) {
     
     // Send an email to each registered user
     for (const email of activity.registeredUsers) {
-        let htmlContent = `<h3>${activity.post_title}</h3> <p>Hello, we want to remind you that you registered to the following activity: ${activity.post_title}. It will be taking place in three days!</p>`;
-        
-        htmlContent += `<p>The event starts at: ${formatUTCDate(activity.StartDate)}</p>`;
-htmlContent += `<p>And finishes at: ${formatUTCDate(activity.EndDate)}</p>`;
-htmlContent += `<p>${activity.post_content}</p>`;
+        let htmlContent = `
+        <div style="font-family: Arial, sans-serif; color: #333;">
+          <h3>${activity.post_title}</h3>
+          <p>Bonjour, nous voulons vous rappeler que vous êtes inscrit à l'activité suivante : ${activity.post_title}. Elle aura lieu dans trois jours !</p>
+        </div>`;        
+        htmlContent += `<p>L'événement commence à : ${formatUTCDate(activity.StartDate)}</p>`;
+        htmlContent += `<p>Et se termine à : ${formatUTCDate(activity.EndDate)}</p>`;
+        htmlContent += `<p>${activity.post_content}</p>`;
         htmlContent += `<img src="${activity.post_thumbnail}" alt="Activity Thumbnail" style="width: 100%; max-width: 600px;">`;
-        htmlContent += `<p>Click on this <a href="${activity.event_url}">${activity.post_title}</a> to go to the event post on the Valcourt2030 website and see the details of the event.</p>`;
+        htmlContent += `<p>Cliquez sur ce <button onclick="window.location.href='${activity.event_url}'">${activity.post_title}</button> pour accéder à l'article de l'événement sur le site de Valcourt2030 et voir les détails de l'événement.</p>`;
         
     
         await transporter.sendMail({
             from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
             to: email,
-            subject: `The event ${activity.post_title} you subscribed to will be taking place the ${new Date(activity.StartDate).toLocaleDateString('en-GB')} `,
+            subject: `L'événement ${activity.post_title} auquel vous vous êtes inscrit aura lieu le ${new Date(activity.StartDate).toLocaleDateString('fr-FR')} `,
             html: htmlContent,
         }, function (error, info) {
             if (error) {

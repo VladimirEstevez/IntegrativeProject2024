@@ -63,10 +63,22 @@ router.post("/register-activity", async (req, res) => {
             to: user.courriel,
             subject: "Activity Registration",
             html: `
-            <p>You have registered to the activity: ${activity.post_title}.</p>
-            <p>Start Date: ${activity.StartDate}, End Date: ${activity.EndDate}.</p>
-            <p>More details at: <a href="${activity.event_url}">${activity.event_url}</a></p>
-            <img src="${activity.post_thumbnail}" alt="Activity Image" style="width: 100%; max-width: 600px;">
+                Bienvenue! Vous vous êtes inscrit à l'activité : ${activity.post_title}.<br>
+                Date de début : ${new Date(activity.StartDate).toLocaleString('fr-FR')},<br>
+                Date de fin : ${new Date(activity.EndDate).toLocaleString('fr-FR')}.<br>
+                Tags : ${activity.tags.join(', ')}<br>
+                <p>Pour plus de détails, cliquez sur le bouton ci-dessous :
+                <button id="detailsButton" style="background-color: blue; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Voir les détails</button></p>
+
+                <img src="${activity.post_thumbnail}" alt="Image de l'activité" style="width: 100%; max-width: 600px;">
+                
+                <script>
+                  // Ajout d'un gestionnaire d'événements au clic du bouton
+                  document.getElementById("detailsButton").addEventListener("click", function() {
+                    window.location.href = "${activity.event_url}";
+                  });
+                </script>
+
             `,
         }, function (error, info) {
             if (error) {

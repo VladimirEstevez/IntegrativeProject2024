@@ -65,10 +65,10 @@ return (
       <p className="my-3 text-justify" dangerouslySetInnerHTML={{ __html: postContentWithBreaks }}></p>
       <p><small className="text-muted">Start Date: {formatDate(activity.StartDate)}</small></p>
       <p><small className="text-muted">End Date: {formatDate(activity.EndDate)}</small></p>
-      <a href={activity.event_url} onClick={handleEventUrlClick} className="btn btn-primary my-3">Event URL Register to the activity 1 TO MERGE  </a>
+      <a href={activity.event_url} onClick={handleEventUrlClick} className="btn btn-primary my-3">click to open the form  </a>
       <p><small className="text-muted">Tags: {activity.tags.join(', ')}</small></p>
       <button onClick={() => goBack()} className="btn btn-secondary my-3">Go Back</button>
-      <button onClick={registerActivity} className="register-button btn btn-primary">Event URL - Register to the activity 2 TO MERGE</button>
+      <button onClick={registerActivity} className="register-button btn btn-primary">Click to send email confirmation</button>
     </div>
   );
 };
