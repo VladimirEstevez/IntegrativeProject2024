@@ -3,7 +3,7 @@
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     width: 350px;
-    height: 400px;
+    min-height: 350px; /* Adjust as needed */
     object-fit: cover;
   }
   
@@ -23,7 +23,9 @@
   }
   
   .card-text {
-    margin-bottom: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .text-muted {

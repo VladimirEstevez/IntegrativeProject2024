@@ -44,7 +44,7 @@ function App() {
   return (
     <div className="container-fluid bg-white p-5 d-flex flex-column justify-content-center align-items-center" style={{ height: '100vh' }}>
      
-      <img src="https://valfamille.com/site2022/wp-content/uploads/logo-bleu-marge.jpg" alt="" width={'500px'} height={'200px'} />
+      <img src="https://valfamille.com/site2022/wp-content/uploads/logo-bleu-marge.jpg" alt="" className="logo" />
       <button 
   onClick={() => navigate("/register")}  
   className="btn btn-light  m-2 btn-custom btn-hover-effect"

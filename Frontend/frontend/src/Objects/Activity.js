@@ -1,17 +1,19 @@
-import React, { useEffect, useState  } from 'react';
+import React, { useState  } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
-import formatUTCDate from './utilDate';
-import { toast, ToastContainer } from 'react-toastify';
+
 const Activity = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const activity = location.state.activity;
  const [isLoading, setIsLoading] = useState(false);
 
-useEffect(() => {
-  //console.log('activity: ', activity);
-})
+  const formatDate = (startDateString) => {
+    const startDate = new Date(startDateString);
+    const formattedDate = startDate.toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric' });
+    const formattedTime = startDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return `${formattedDate} ${formattedTime}`;
+  }
 
  const goBack = () => {
    navigate('/activities'); // replace '/activities' with the path to your activities menu
@@ -32,7 +34,7 @@ useEffect(() => {
   
     if (response.ok) {
       toast.success('Registration successful');
-setTimeout(() => window.open(activity.event_url, '_blank'), 3000);
+		setTimeout(() => window.open(activity.event_url, '_blank'), 3000);
     } else {
       toast.error('Registration failed');
     }

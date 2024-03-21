@@ -1,32 +1,19 @@
-<<<<<<< HEAD
-import React from 'react';
+import React, { useEffect, useState  } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
-
-=======
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
->>>>>>> b38485c56a7ee51b360bdfc908e688abe9b525be
-
+import formatUTCDate from './utilDate';
+import { toast, ToastContainer } from 'react-toastify';
 const Activity = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const activity = location.state.activity;
-<<<<<<< HEAD
+ const [isLoading, setIsLoading] = useState(false);
+
+useEffect(() => {
   //console.log('activity: ', activity);
-=======
-  const [isLoading, setIsLoading] = useState(false);
->>>>>>> b38485c56a7ee51b360bdfc908e688abe9b525be
+})
 
-  const formatDate = (startDateString) => {
-    const startDate = new Date(startDateString);
-    const formattedDate = startDate.toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric' });
-    const formattedTime = startDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    return `${formattedDate} ${formattedTime}`;
-  }
-
-<<<<<<< HEAD
-  const goBack = () => {
+ const goBack = () => {
    navigate('/activities'); // replace '/activities' with the path to your activities menu
   }
 
@@ -44,54 +31,56 @@ const Activity = () => {
     });
   
     if (response.ok) {
-      alert('Registration successful');
+      toast.success('Registration successful');
+setTimeout(() => window.open(activity.event_url, '_blank'), 3000);
     } else {
-      alert('Registration failed');
+      toast.error('Registration failed');
     }
   }
-
-  return (
-    <div className="activity p-5">
-      <img src={activity.post_thumbnail} alt="Event" className="activity-img my-3" />
-      <h2>{activity.post_title}</h2>
-      <p>{activity.post_content}</p>
-      <p>{activity.post_excerpt}</p>
-      <p>Start Date: {formatDate(activity.StartDate)}</p>
-      <p>End Date: {formatDate(activity.EndDate)}</p>
-      <p>Site Web: <a href={activity.event_url}> {activity.post_title} </a> </p>
-      <p>Tags: {activity.tags.join(', ')}</p>
-      <button onClick={registerActivity} className="register-button btn btn-primary">Register to the activity</button>
-      <button onClick={goBack} className="btn btn-primary ms-3">Go back to Activity menu</button>
-=======
-  const handleEventUrlClick = (event) => {
+ const handleEventUrlClick = (event) => {
     setIsLoading(true);
     setTimeout(() => {
-      window.open(activity.event_url, '_blank');
+      window.open(activity.post_url, '_blank');
       setIsLoading(false);
     }, 1000); // open the new window after 1 second
     event.preventDefault(); // prevent the default action
   }
-
   if (isLoading) {
     return (
       <div className="text-center" style={{background: 'linear-gradient(to bottom, #007bff, #ffffff)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', width: '100vw'}}>
-        <img src="https://valfamille.com/site2022/wp-content/uploads/logo-bleu-marge.jpg" alt="Loading image not found" style={{width: '240px', height: '100px'}} />
+        <img src="https://valfamille.com/site2022/wp-content/uploads/logo-bleu-marge.jpg" alt="Loading not found" style={{width: '240px', height: '100px'}} />
         <p>Redirection vers le site web...</p>
       </div>
     );
   }
 
-  return (
+  const postContentWithBreaks = activity.post_content.replace(/\r\n/g, '<br>');
+  
+return (
+
+  <div>
+    <ToastContainer />
     <div className="activity p-5 shadow-sm bg-white rounded text-center" style={{background: 'linear-gradient(to bottom, #007bff, #ffffff)', maxWidth: '100%', margin: 'auto', color: '#333', height: '100vh', width: '100vw'}}>
       <img src={activity.post_thumbnail} alt="Event" className="activity-img my-3 img-fluid rounded mx-auto d-block" style={{maxWidth: '50%'}} />
       <h2 className="my-3">{activity.post_title}</h2>
       <p className="text-muted">{activity.post_excerpt}</p>
-      <p className="my-3 text-justify">{activity.post_content}</p>
+      <p className="my-3 text-justify" dangerouslySetInnerHTML={{ __html: postContentWithBreaks }}></p>
+<<<<<<< HEAD
       <p><small className="text-muted">Start Date: {formatDate(activity.StartDate)}</small></p>
       <p><small className="text-muted">End Date: {formatDate(activity.EndDate)}</small></p>
-      <a href={activity.event_url} onClick={handleEventUrlClick} className="btn btn-primary my-3">Event URL</a>
+      <a href={activity.event_url} onClick={handleEventUrlClick} className="btn btn-primary my-3">click to open the form  </a>
       <p><small className="text-muted">Tags: {activity.tags.join(', ')}</small></p>
->>>>>>> b38485c56a7ee51b360bdfc908e688abe9b525be
+      <button onClick={() => goBack()} className="btn btn-secondary my-3">Go Back</button>
+      <button onClick={registerActivity} className="register-button btn btn-primary">Click to send email confirmation</button>
+=======
+      <p><small className="text-muted">Start Date: {formatUTCDate(activity.StartDate)}</small></p>
+      <p><small className="text-muted">End Date: {formatUTCDate(activity.EndDate)}</small></p>
+      <span>Evenement sur le site Valcourt2030: </span><a href={activity.post_url} onClick={handleEventUrlClick} className=" my-3">   {activity.post_title}  </a>
+      <p><small className="text-muted">Tags: {activity.tags.join(', ')}</small></p>
+      <button onClick={() => goBack()} className="btn btn-secondary my-3">Go Back</button>
+      <button onClick={registerActivity} className="register-button btn btn-primary">Register to the activity</button>
+    </div>
+>>>>>>> 11e86806cea79970897a88cf7af3fffae659b544
     </div>
   );
 };

@@ -175,12 +175,19 @@ router.post("/requestPasswordReset", async (req, res) => {
     },
   });
 
-  await transporter.sendMail(
-    {
-      from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
-      to: userCourriel,
-      subject: "Reset password",
-      text: `Click the link to reset your password: http://localhost:8080/user/resetPassword?token=${token}`,
+  await transporter.sendMail({
+    from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
+    to: userCourriel,
+    subject: "Réinitialisation du mot de passe",
+    html: `
+      <p>Cliquez sur le bouton suivant pour réinitialiser votre mot de passe :
+      <a href="http://localhost:8080/user/resetPassword?token=${token}" style="display: inline-block; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; border: 1px solid transparent; padding: .375rem .75rem; font-size: 1rem;
+       line-height: 1.5; border-radius: .25rem; color: #fff; background-color: #007bff; text-decoration: none;">Réinitialiser le mot de passe</a></p>
+      <img src="https://valfamille.com/site2022/wp-content/uploads/logo-bleu-marge.jpg" alt="Valcourt 2030" style="max-width: 60%; max-height: 50vh; margin-bottom: 20px;">
+
+      `
+  
+  
     },
     function (error, info) {
       if (error) {

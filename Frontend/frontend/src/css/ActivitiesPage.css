@@ -4,13 +4,15 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100vh; /* This will take the full viewport height */
+    min-height: 100vh; /* This will take the full viewport height */
+    margin-top: 0; /* Add this line */
+    padding-top: 0; /* Add this line */
   }
   
   .button-container {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px; /* This will add space between the button and the bottom of the screen */
+    margin-bottom: 10px; /* This will add space between the button and the bottom of the screen */
   }
   
   .button {
@@ -31,4 +33,9 @@
   
   .button span {
     margin-right: 5px;
+  }
+
+  .filter-button {
+    z-index: 1000;
+    position: relative;
   }

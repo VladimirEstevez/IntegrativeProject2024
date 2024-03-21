@@ -1,92 +1,78 @@
+/* CSS */
 .container {
-    background-color: white;
-    height: 100vh;
-    max-width: 576px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; /* Aligns the form to the top */
-    flex-direction: column;
-    
-  }
-  
-  .form-container {
-    
-    padding: 20px;
-    width: 100vw; /* Set width to 100% of the viewport width */
-    max-width: 100%; /* Ensure the width doesn't exceed 100% */
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    display: flex;
-    margin: auto; /* Centers the form vertically when its height is less than the viewport's height */
-    flex-direction: column; /* Ensure elements stack vertically */
-    align-items: center;
-  }
-  
-  .form-input {
-    margin-bottom: 20px;
-    width: 100%;
-    max-width: 400px;
-    display: block; /* Ensure each input is stacked vertically */
-  }
-  
-  label {
-    margin-bottom: 5px;
-  }
-  
-  input[type="email"],
-  input[type="text"],
-  input[type="password"],
-  select {
-    border-radius: 5px;
-    padding: 5px;
-    width: 100%;
-  }
-  
-  .interests-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    column-count: 1; /* Adjust the number of columns as needed */
-  }
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20px;
+  height: 100%; /* Set height to 100% to fill the viewport */
+  box-sizing: border-box; /* Include padding in the height calculation */
+}
+
+.form-container {
+  width: 100%;
+  max-width: 400px;
+}
+
+.form-input {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+input[type="email"],
+input[type="text"],
+input[type="password"],
+select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: calc(100% - 20px); /* Adjust width to accommodate padding */
+  box-sizing: border-box; /* Include padding in the width calculation */
+}
+
+.interests-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 /* Add margin-bottom to each label element */
 .interests-container label {
-    display: block;
-  }
-  /* Add margin-bottom to each checkbox input */
-  .interests-container input[type="checkbox"] {
-    margin-bottom: 5px; /* Adjust the value as needed */
-  }
-  
-  .buttons-container {
-    display: flex;
-    justify-content: space-between;
-    margin-right: 30px; /* Adjust the margin as needed */
-  }
+  display: block;
+}
 
-  .btn-primary {
-    margin-right: 10px;
-  }
-  
-  .btn-primary:hover {
-    transform: scale(1.1);
-  }
-  
-  .btn-primary span {
-    margin-right: 5px;
-  }
-  
-  button {
-    background-color: #0098d9;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.3s;
-  }
-  
-  button:hover {
-    transform: scale(1.1);
-  }
-  
+/* Add margin-bottom to each checkbox input */
+.interests-container input[type="checkbox"] {
+  margin-bottom: 5px;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-primary {
+  margin-right: 10px;
+}
+
+.btn-primary:hover {
+  transform: scale(1.1);
+}
+
+.btn-primary span {
+  margin-right: 5px;
+}
+
+button {
+  background-color: #0098d9;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
