@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BoxArrowInLeft, PersonGear, PersonWalking } from 'react-bootstrap-icons';
+import { BookmarkHeart, BoxArrowInLeft, PersonGear, PersonWalking } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import '../css/MainMenuPage.css'; // import the CSS file
 
@@ -71,6 +71,17 @@ return (
             onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
           >
             <span style={{ marginRight: '5px' }}>Voir mes activités</span>
+            <PersonWalking size={24} />
+          </button>        </div>
+          <div className="mb-2 position-relative" style={{ maxWidth: '300px', margin: '0 auto' }}>
+          <button
+            onClick={() => navigate("/activities")}
+            className="btn btn-primary btn-block"
+            style={{ position: 'relative', padding: '10px 20px', transition: 'transform 0.3s' }}
+            onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
+          >
+            <span style={{ marginRight: '5px' }}>Voir les activités</span>
             <PersonWalking size={24} />
           </button>        </div>
         <div className="mb-2 position-relative" style={{ maxWidth: '300px', margin: '0 auto' }}>

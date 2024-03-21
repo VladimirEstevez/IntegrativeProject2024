@@ -102,7 +102,31 @@ router.get("/register-activity/:email/:activityId/:formUrl", async (req, res) =>
 });
 
 router.get("/my-activities", async (req, res) => {
+    // Get the token from the Authorization header
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.status(401).send('No token provided');
+    }
 
+    const token = authHeader.split(' ')[1];
+
+    const decoded = jwt.verify(token, process.env.SECRET_TOKEN);
+    const userEmail = decoded.courriel;
+
+    // Find the activities the user is registered to
+    try {
+        const activities = await ActivitiesCollection.find({
+            registeredUsers: { $in: [userEmail] }
+        }).toArray();
+
+        if (!activities) {
+            return res.status(404).send('No activities found');
+        }
+        res.send(activities);
+    } catch (error) {
+        console.error("Error in find operation: ", error);
+        return res.status(500).send('Server error');
+    }
 });
 
 module.exports = router;

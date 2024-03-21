@@ -5,7 +5,6 @@ import { toast, ToastContainer } from "react-toastify";
 function ResetPasswordPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [isResetSuccessful, setIsResetSuccessfull] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,9 +40,11 @@ function ResetPasswordPage() {
 
       if (response.ok) {
         //Display success message
-        setIsResetSuccessfull(true);
+        toast.success("Réinitialisation du mot de passe réussie.")
+        // Redirect to /menu
+        window.location.href = "/";
       } else {
-        // Display success message to user
+        // Display error message to user
         return(
           toast.error("Le mot de passe est déjà modifié.")
         )
@@ -56,80 +57,63 @@ function ResetPasswordPage() {
     }
   };
 
-  if (isResetSuccessful) {
-    // If the password reset was successful, display a success message
-    return(
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh", // This assumes that the div takes up the full viewport height
-        }}
-      >
-        <h3>Réinitialisation du mot de passe réussie</h3>
-      </div>
-    )
-  } else {
-    // If the password reset hasn't happened yet, display the form
-    return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh", // This assumes that the div takes up the full viewport height
-        }}
-      >
-        <ToastContainer />
-        <h1 className="m-4">Réinitialisation du mot de passe</h1>
-        <form onSubmit={handleSubmit} style={{ textAlign: "left" }}>
-          <input
-            type="password"
-            id="password"
-            placeholder="Nouveau mot de passe"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="form-control my-3"
-          />
-          <input
-            type="password"
-            id="confirmPassword"
-            placeholder="Confirmer le mot de passe"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-            className="form-control my-3"
-          />
-          <div className="d-flex justify-content-center align-items-center my-3">
-            <button
-              type="submit"
-              style={{
-                backgroundColor: "blue",
-                color: "white",
-                padding: "10px 20px",
-                borderRadius: "10px",
-                border: "none",
-                cursor: "pointer",
-                transition: "transform 0.3s", // Add transition
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.1)";
-              }} // Add onMouseEnter
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "scale(1)";
-              }}
-            >
-              Confirmer
-            </button>
-          </div>
-        </form>
-      </div>
-    );
-  }
+  // If the password reset hasn't happened yet, display the form
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh", // This assumes that the div takes up the full viewport height
+      }}
+    >
+      <ToastContainer />
+      <h1 className="m-4">Réinitialisation du mot de passe</h1>
+      <form onSubmit={handleSubmit} style={{ textAlign: "left" }}>
+        <input
+          type="password"
+          id="password"
+          placeholder="Nouveau mot de passe"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          className="form-control my-3"
+        />
+        <input
+          type="password"
+          id="confirmPassword"
+          placeholder="Confirmer le mot de passe"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          required
+          className="form-control my-3"
+        />
+        <div className="d-flex justify-content-center align-items-center my-3">
+          <button
+            type="submit"
+            style={{
+              backgroundColor: "blue",
+              color: "white",
+              padding: "10px 20px",
+              borderRadius: "10px",
+              border: "none",
+              cursor: "pointer",
+              transition: "transform 0.3s", // Add transition
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "scale(1.1)";
+            }} // Add onMouseEnter
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "scale(1)";
+            }}
+          >
+            Confirmer
+          </button>
+        </div>
+      </form>
+    </div>
+  );
 }
 
 export default ResetPasswordPage;
