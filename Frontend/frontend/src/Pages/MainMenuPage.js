@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { BoxArrowInLeft, PersonGear, PersonWalking } from 'react-bootstrap-icons';
+import { BookmarkHeart, BoxArrowInLeft, PersonGear, PersonWalking } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import '../css/MainMenuPage.css'; // import the CSS file
+import { Navbar, Nav } from 'react-bootstrap';
 
 const MainMenuPage =  () => {
   const navigate = useNavigate();
   const [prenom, setPrenom] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isNavbarOpen, setIsNavbarOpen] = useState(false);
 
   useEffect(() => {
     
@@ -46,37 +48,17 @@ const MainMenuPage =  () => {
    // setPrenom(localStorage.getItem('prenom'));
     fetchProtectedRoute();
   }, [navigate]);
-  
-function SeDeconnecter(){
-    //Remove the token
-    localStorage.removeItem('token');
 
-    //Navigate to the main page
-    navigate("/");
-  }
-  if (isLoading) {
-    return <div>Loading...</div>;
+if (isLoading) {
+  return <div>Loading...</div>;
 }
 
 return (
-  <div className="container">
-    <div className="button-container">
-      <button onClick={() => navigate("/activities")} className="btn btn-light  m-2 btn-custom btn-hover-effect">
-        <span>Voir mes activités</span>
-        <PersonWalking size={24} />
-      </button>
-    </div>
-    <div className="button-container">
-      <button onClick={() => navigate("/modify")} className="btn btn-light  m-2 btn-custom btn-hover-effect">
-        <span>Modifier Mon Profil</span>
-        <PersonGear size={24} />
-      </button>
-    </div>
-    <div className="button-container">
-      <button onClick={() => SeDeconnecter()} className="btn btn-light  m-2 btn-custom btn-hover-effect">
-        <span>Se Déconnecter</span>
-        <BoxArrowInLeft size={24} />
-      </button>
+  <div className="container-fluid vh-100">
+    <div className="d-flex justify-content-center align-items-start pt-5 m-5">
+      <div className="container-md text-center">
+        <h1 className="fs-4 mb-4">Bonjour {prenom}</h1>
+      </div>
     </div>
   </div>
 );

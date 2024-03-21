@@ -10,16 +10,18 @@ const cron = require('node-cron');
 const db = client.db("integrativeProjectDB");
 const UsersCollection = db.collection("Users");
 const ActivitiesCollection = db.collection("Activities");
-function formatUTCDate(dateString) {
-    const date = new Date(dateString);
-    let hours = date.getUTCHours();
-    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
-    const strTime = hours + ':' + minutes + ' ' + ampm;
-    return date.getUTCFullYear() + "-" + String(date.getUTCMonth() + 1).padStart(2, '0') + "-" + String(date.getUTCDate()).padStart(2, '0') + " " + strTime;
-}
+const { formatUTCDate } = require('../dateUtils/formatDate.js')
+
+// function formatUTCDate(dateString) {
+//     const date = new Date(dateString);
+//     let hours = date.getUTCHours();
+//     const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+//     const ampm = hours >= 12 ? 'PM' : 'AM';
+//     hours = hours % 12;
+//     hours = hours ? hours : 12; // the hour '0' should be '12'
+//     const strTime = hours + ':' + minutes + ' ' + ampm;
+//     return date.getUTCFullYear() + "-" + String(date.getUTCMonth() + 1).padStart(2, '0') + "-" + String(date.getUTCDate()).padStart(2, '0') + " " + strTime;
+// }
 
 // Define the function that sends the emails
 async function sendEmails() {
@@ -34,9 +36,9 @@ async function sendEmails() {
 
     const currentDate = new Date();
     const threeDaysFromNow = new Date(Date.UTC(currentDate.getUTCFullYear(), currentDate.getUTCMonth(), currentDate.getUTCDate() + 3, 0, 0, 0));
-    console.log('threeDaysFromNow: ', threeDaysFromNow);
+    //console.log('threeDaysFromNow: ', threeDaysFromNow);
     const fourDaysFromNow = new Date(Date.UTC(currentDate.getUTCFullYear(), currentDate.getUTCMonth(), currentDate.getUTCDate() + 4, 0, 0, 0));
-    console.log('fourDaysFromNow : ', fourDaysFromNow );
+    //console.log('fourDaysFromNow : ', fourDaysFromNow );
     
     const activities = await ActivitiesCollection.find({
         StartDate: {
@@ -46,9 +48,9 @@ async function sendEmails() {
     }).toArray();
 // Send an email to each registered user
 // Iterate over each activity
+//console.log('activity: ', activities);
 
 for (const activity of activities) {
-   // console.log('activity: ', activity);
     //console.log('formatETDate(activity.StartDate): ', formatETDate(activity.StartDate));
    // console.log('formatETDate(activity.EndDate): ', formatETDate(activity.EndDate));
     

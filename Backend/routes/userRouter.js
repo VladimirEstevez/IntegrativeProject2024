@@ -21,9 +21,9 @@ function GenerateToken(username) {
 
 router.post("/login", async (req, res) => {
   const { courriel, motDePasse } = req.body;
-  console.log("req.body: ", req.body);
-  console.log("motDePasse: ", motDePasse);
-  console.log("courriel: ", courriel);
+  //console.log("req.body: ", req.body);
+  //console.log("motDePasse: ", motDePasse);
+  //console.log("courriel: ", courriel);
 
   const user = await UsersCollection.findOne({
     courriel,
@@ -70,7 +70,7 @@ router.post("/login", async (req, res) => {
 
 router.patch("/updateUser", authMiddleware, async (req, res) => {
   const updatedUser = req.body;
-  console.log("updatedUser: ", updatedUser);
+  //console.log("updatedUser: ", updatedUser);
 
   const authHeader = req.headers.authorization;
   //console.log('authHeader: ', authHeader);
@@ -82,10 +82,10 @@ router.patch("/updateUser", authMiddleware, async (req, res) => {
   }
   try {
     // Use the promisified jwt.verify function with async/await
-    const user = await jwtVerify(token, process.env.SECRET_TOKEN);
-    console.log("user: ", user);
+   //const user = await jwtVerify(token, process.env.SECRET_TOKEN);
+    //console.log("user: ", user);
 
-    console.log("user.email: ", user.courriel);
+    //console.log("user.email: ", user.courriel);
     // Use the email from the JWT payload to update the user
     const result = await UsersCollection.updateOne(
       {
@@ -119,18 +119,18 @@ router.get("/protectedRoute", authMiddleware, async (req, res) => {
   const authHeader = req.headers["authorization"];
   //console.log('authHeader: ', authHeader);
   const token = authHeader && authHeader.split(" ")[1];
-  console.log("token: ", token);
+ // console.log("token: ", token);
 
   if (!token) {
     return res.sendStatus(401);
   }
 
   try {
-    const user = await jwtVerify(token, process.env.SECRET_TOKEN);
-    console.log("user: ", user);
-    req.user = user;
+    // const user = await jwtVerify(token, process.env.SECRET_TOKEN);
+    // //console.log("user: ", user);
+    // req.user = user;
     console.log("You have accessed a protected route");
-    res.send(user);
+    res.send(req.user);
   } catch (err) {
     console.log("err: ", err);
     return res.sendStatus(403);
@@ -214,7 +214,7 @@ router.post("/resetPassword", async (req, res) => {
 
   if (!user) {
     // If the token is not associated with a user, send an error message
-    res.status(400).send("Invalid token");
+    res.status(400).send("Impossible de traiter votre demande. Veuillez réessayer");
   } else{
     // If the token is valid, hash the new password and update it in the database
     const saltRounds = 10;
@@ -224,7 +224,80 @@ router.post("/resetPassword", async (req, res) => {
       { $set: {motDePasse: hashedPassword, resetPasswordToken: null } }
     )
     
-    res.status(200).send("Password reset successful");
+    res.status(200).send("Réinitialisation du mot de passe réussie");
+  }
+});
+
+router.get("/requestPasswordModification", authMiddleware, async (req, res) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    return res.status(401).send('Authorization header is missing');
+  }
+
+  const token = authHeader.split(' ')[1];
+  const decodedToken = jwt.verify(token, process.env.SECRET_TOKEN);
+  const userCourriel = decodedToken.courriel;
+
+  // Generate a unique token and associate it with the user's account
+  const newToken = GenerateToken({userCourriel});
+  console.log('newToken: ', newToken);
+  await UsersCollection.updateOne(
+    {courriel: userCourriel },
+    { $set: {modifyPasswordToken: newToken } }
+  )
+
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "integrativeprojectgroupthree@gmail.com",
+      pass: process.env.EMAIL_PASSWORD,
+    },
+  });
+
+  await transporter.sendMail(
+    {
+      from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
+      to: userCourriel,
+      subject: "Modify password",
+      text: `Click the link to modify your password: http://localhost:8080/user/passwordModification?token=${newToken}`,
+    },
+    function (error, info) {
+      if (error) {
+        res.status(400).send("Nous n'avons pas pu vous envoyer le courriel de modification du mot de passe.");
+      } else {
+        res.status(200).send("Vérifiez votre courriel pour modifier votre mot de passe");
+      }
+    }
+  );
+});
+
+// This route handles the initial GET request made when the user clicks the link in the email
+router.get("/passwordModification", async (req, res) => {
+  const { token } = req.query;
+
+  // Redirect to the reset password page in the React app
+  res.redirect(`http://localhost:3000/passwordModification?token=${token}`);
+});
+
+// This route handles the POST request made by your React app to reset the password
+router.post("/passwordModification", async (req, res) => {
+  const { token, password } = req.body;
+  const user = await UsersCollection.findOne({ modifyPasswordToken: token });
+
+  if (!user) {
+    // If the token is not associated with a user, send an error message
+    res.status(400).send("Impossible de traiter votre demande. Veuillez réessayer");
+  } else{
+    // If the token is valid, hash the new password and update it in the database
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    await UsersCollection.findOneAndUpdate(
+      {modifyPasswordToken: token},
+      { $set: {motDePasse: hashedPassword, modifyPasswordToken: null } }
+    )
+
+    res.status(200).send("Modification du mot de passe réussie");
   }
 });
 

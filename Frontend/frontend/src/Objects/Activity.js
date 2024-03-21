@@ -33,15 +33,16 @@ const Activity = () => {
     });
   
     if (response.ok) {
-      alert('Registration successful');
+      toast.success('Registration successful');
+		setTimeout(() => window.open(activity.event_url, '_blank'), 3000);
     } else {
-      alert('Registration failed');
+      toast.error('Registration failed');
     }
   }
  const handleEventUrlClick = (event) => {
     setIsLoading(true);
     setTimeout(() => {
-      window.open(activity.event_url, '_blank');
+      window.open(activity.post_url, '_blank');
       setIsLoading(false);
     }, 1000); // open the new window after 1 second
     event.preventDefault(); // prevent the default action
@@ -58,17 +59,21 @@ const Activity = () => {
   const postContentWithBreaks = activity.post_content.replace(/\r\n/g, '<br>');
   
 return (
+
+  <div>
+    <ToastContainer />
     <div className="activity p-5 shadow-sm bg-white rounded text-center" style={{background: 'linear-gradient(to bottom, #007bff, #ffffff)', maxWidth: '100%', margin: 'auto', color: '#333', height: '100vh', width: '100vw'}}>
       <img src={activity.post_thumbnail} alt="Event" className="activity-img my-3 img-fluid rounded mx-auto d-block" style={{maxWidth: '50%'}} />
       <h2 className="my-3">{activity.post_title}</h2>
       <p className="text-muted">{activity.post_excerpt}</p>
       <p className="my-3 text-justify" dangerouslySetInnerHTML={{ __html: postContentWithBreaks }}></p>
-      <p><small className="text-muted">Start Date: {formatDate(activity.StartDate)}</small></p>
-      <p><small className="text-muted">End Date: {formatDate(activity.EndDate)}</small></p>
-      <a href={activity.event_url} onClick={handleEventUrlClick} className="btn btn-primary my-3">click to open the form  </a>
+      <p><small className="text-muted">Start Date: {formatUTCDate(activity.StartDate)}</small></p>
+      <p><small className="text-muted">End Date: {formatUTCDate(activity.EndDate)}</small></p>
+      <span>Evenement sur le site Valcourt2030: </span><a href={activity.post_url} onClick={handleEventUrlClick} className=" my-3">   {activity.post_title}  </a>
       <p><small className="text-muted">Tags: {activity.tags.join(', ')}</small></p>
       <button onClick={() => goBack()} className="btn btn-secondary my-3">Go Back</button>
-      <button onClick={registerActivity} className="register-button btn btn-primary">Click to send email confirmation</button>
+      <button onClick={registerActivity} className="register-button btn btn-primary">Register to the activity</button>
+    </div>
     </div>
   );
 };
