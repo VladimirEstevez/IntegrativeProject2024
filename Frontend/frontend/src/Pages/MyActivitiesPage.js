@@ -8,22 +8,22 @@ const MyActivitiesPage = () => {
   const [activities, setActivities] = useState([]);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  const interests = [
-    "Arts",
-    "Cuisine",
-    "Concertation et partenariats",
-    "Développement local",
-    "Éducation",
-    "Environnement",
-    "Entrepreneuriat",
-    "Formation",
-    "Implication citoyenne",
-    "Interculturel",
-    "Intergénérationnel",
-    "Musique",
-    "Rencontre sociale",
-    "Sports et plein air",
-  ];
+  const [interests, setInterests] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/data");
+        const data = await response.json();
+        setInterests(data.interests);
+        
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchData();
+  }, []);
 
   //Create separate refs for each dropdown
   const filterDropdownRef = useRef(null);
@@ -59,7 +59,7 @@ const MyActivitiesPage = () => {
     return (
       <div ref={filterDropdownRef}>
         <button
-          className="btn btn-primary m-2"
+          className="btn btn-light  m-2 btn-custom btn-hover-effect"
           onClick={() => setDropdownOpen(!dropdownOpen)}
         >
           Filter
@@ -148,13 +148,6 @@ const MyActivitiesPage = () => {
         );
         const data = await response.json();
         console.log("data: ", data);
-
-        if (Array.isArray(data) && data.length > 0) {
-          console.log("There are activities in data");
-        } else {
-          console.log("There are no activities in data");
-        }
-        //console.log("before setActivities: ", activities);
         setActivities(data);
         //console.log("after setActivities: ", activities);
       } catch (error) {

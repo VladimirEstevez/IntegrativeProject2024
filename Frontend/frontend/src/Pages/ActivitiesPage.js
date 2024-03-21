@@ -9,7 +9,6 @@ const ActivitiesPage = () => {
   const [activities, setActivities] = useState([]);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-
   const [interests, setInterests] = useState([]);
 
 
@@ -29,6 +28,10 @@ const ActivitiesPage = () => {
   }, []);
 
 
+  //Create separate refs for each dropdown
+  const filterDropdownRef = useRef(null);
+  const dateDropdownRef = useRef(null);
+  
   // State variable for selected filters
   const [selectedFilters, setSelectedFilters] = useState([]);
   // State variable for dropdown open/close state
@@ -37,10 +40,13 @@ const ActivitiesPage = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   // State variable for dropdown open/close state
   const [dateDropdownOpen, setDateDropdownOpen] = useState(false);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (filterDropdownRef.current && !filterDropdownRef.current.contains(event.target)) {
         setDropdownOpen(false);
+      }
+      if (dateDropdownRef.current && !dateDropdownRef.current.contains(event.target)) {
         setDateDropdownOpen(false);
       }
     };
@@ -51,12 +57,11 @@ const ActivitiesPage = () => {
     };
   }, []);
 
-  const dropdownRef = useRef(null);
 
   // Render dropdown menu with checkboxes
   function renderFilterMenu() {
     return (
-      <div ref={dropdownRef}>
+      <div ref={filterDropdownRef}>
         <button
           className="btn btn-light  m-2 btn-custom btn-hover-effect"
           onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -87,8 +92,10 @@ const ActivitiesPage = () => {
   //Render date dropdown button
   function renderDateFilterMenu() {
     return (
-      <div ref={dropdownRef}>
-        <button className="btn btn-primary m-2" onClick={() => setDateDropdownOpen(!dateDropdownOpen)}>
+      <div ref={dateDropdownRef}>
+        <button 
+          className="btn btn-primary m-2" 
+          onClick={() => setDateDropdownOpen(!dateDropdownOpen)}>
           Filter by Date
         </button>
         {dateDropdownOpen && (
@@ -129,7 +136,14 @@ const ActivitiesPage = () => {
   useEffect(() => {
     const fetchActivities = async () => {
       try {
-        const response = await fetch("http://localhost:8080/activities");
+        const response = await fetch(
+          "http://localhost:8080/activities",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const data = await response.json();
         //console.log("data: ", data);
         setActivities(data);
