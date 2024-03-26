@@ -23,7 +23,10 @@ function NavbarComponent() {
   return (
     <div >
         <Navbar
-        style={{ backgroundColor: isNavbarOpen ? "white" : "transparent" }}
+        style={{ 
+          backgroundColor: isNavbarOpen ? "white" : "transparent",
+          zIndex: 1000,
+        }}
         expand="lg"
         className="position-absolute top-0 end-0"
         >
