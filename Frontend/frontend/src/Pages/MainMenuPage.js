@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { BookmarkHeart, BoxArrowInLeft, PersonGear, PersonWalking } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import '../css/MainMenuPage.css'; // import the CSS file
-import { Navbar, Nav } from 'react-bootstrap';
 
 const MainMenuPage =  () => {
   const navigate = useNavigate();
   const [prenom, setPrenom] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isNavbarOpen, setIsNavbarOpen] = useState(false);
 
   useEffect(() => {
     

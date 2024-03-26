@@ -53,7 +53,6 @@ function InscriptionPage() {
     interests: [], // Change to an array to store multiple interests
   });
 
-  const [interests, setInterests] = useState([]);
   const [tags, setTags] = useState([]);
   const [municipalites, setMunicipalites] = useState([]);
 
@@ -80,7 +79,7 @@ function InscriptionPage() {
     };
   
     fetchData();
-  }, []);
+  }, [tags]);
 
 
   
