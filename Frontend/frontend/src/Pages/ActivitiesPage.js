@@ -4,13 +4,11 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BoxArrowInLeft } from "react-bootstrap-icons";
 
-
 const ActivitiesPage = () => {
   const [activities, setActivities] = useState([]);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const [interests, setInterests] = useState([]);
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,35 +16,39 @@ const ActivitiesPage = () => {
         const response = await fetch("http://localhost:8080/data");
         const data = await response.json();
         setInterests(data.interests);
-        
       } catch (error) {
         console.error("Error:", error);
       }
     };
-  
+
     fetchData();
   }, []);
-
 
   //Create separate refs for each dropdown
   const filterDropdownRef = useRef(null);
   const dateDropdownRef = useRef(null);
-  
+
   // State variable for selected filters
   const [selectedFilters, setSelectedFilters] = useState([]);
   // State variable for dropdown open/close state
   const [dropdownOpen, setDropdownOpen] = useState(false);
-// Add a state variable for the selected date
+  // Add a state variable for the selected date
   const [selectedDate, setSelectedDate] = useState(null);
   // State variable for dropdown open/close state
   const [dateDropdownOpen, setDateDropdownOpen] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (filterDropdownRef.current && !filterDropdownRef.current.contains(event.target)) {
+      if (
+        filterDropdownRef.current &&
+        !filterDropdownRef.current.contains(event.target)
+      ) {
         setDropdownOpen(false);
       }
-      if (dateDropdownRef.current && !dateDropdownRef.current.contains(event.target)) {
+      if (
+        dateDropdownRef.current &&
+        !dateDropdownRef.current.contains(event.target)
+      ) {
         setDateDropdownOpen(false);
       }
     };
@@ -56,7 +58,6 @@ const ActivitiesPage = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
 
   // Render dropdown menu with checkboxes
   function renderFilterMenu() {
@@ -88,14 +89,15 @@ const ActivitiesPage = () => {
       </div>
     );
   }
-  
+
   //Render date dropdown button
   function renderDateFilterMenu() {
     return (
       <div ref={dateDropdownRef}>
-        <button 
-          className="btn btn-primary m-2" 
-          onClick={() => setDateDropdownOpen(!dateDropdownOpen)}>
+        <button
+          className="btn btn-primary m-2"
+          onClick={() => setDateDropdownOpen(!dateDropdownOpen)}
+        >
           Filter by Date
         </button>
         {dateDropdownOpen && (
@@ -105,7 +107,7 @@ const ActivitiesPage = () => {
           >
             <input
               type="date"
-              value={selectedDate || ''}
+              value={selectedDate || ""}
               onChange={(e) => setSelectedDate(e.target.value)}
             />
           </div>
@@ -118,8 +120,11 @@ const ActivitiesPage = () => {
   const filteredActivities = activities.filter(
     (activity) =>
       (selectedFilters.length === 0 ||
-      selectedFilters.some((filter) => activity.tags.includes(filter))) && 
-      (!selectedDate || selectedDate.trim() === '' || new Date(activity.StartDate).toISOString().substring(0, 10) === selectedDate)
+        selectedFilters.some((filter) => activity.tags.includes(filter))) &&
+      (!selectedDate ||
+        selectedDate.trim() === "" ||
+        new Date(activity.StartDate).toISOString().substring(0, 10) ===
+          selectedDate)
   );
 
   // Handle checkbox change
@@ -136,14 +141,11 @@ const ActivitiesPage = () => {
   useEffect(() => {
     const fetchActivities = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:8080/activities",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await fetch("http://localhost:8080/activities", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const data = await response.json();
         //console.log("data: ", data);
         setActivities(data);
@@ -167,7 +169,7 @@ const ActivitiesPage = () => {
             }
           );
 
-         // console.log("response: ", response);
+          // console.log("response: ", response);
           if (response.status === 401) {
             navigate("/");
           } else {
@@ -184,23 +186,23 @@ const ActivitiesPage = () => {
   }, [navigate, token]);
 
   return (
-     <div className="container mt-5" >
-      <div className="row justify-content-center" >
-        <h1 className="mb-4" >Vos activités</h1>
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <h1 className="mb-4">Vos activités</h1>
       </div>
-      
-     <div className="d-flex justify-content-center mb-4">
+
+      <div className="d-flex justify-content-center mb-4">
         <div>{renderFilterMenu()}</div>
         <div>{renderDateFilterMenu()}</div>
       </div>
-      <div className="row" >
-        {filteredActivities.map(activity => (
+      <div className="row">
+        {filteredActivities.map((activity) => (
           <div className="col-md-4 mb-4" key={activity._id}>
             <Card activity={activity} />
           </div>
         ))}
       </div>
-     <div className="row justify-content-center">
+      <div className="row justify-content-center">
         <button
           onClick={() => navigate("/")}
           className="btn btn-primary mt-4"

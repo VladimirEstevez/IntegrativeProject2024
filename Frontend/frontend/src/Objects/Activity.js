@@ -1,4 +1,4 @@
-import React, { useState, useEffect  } from 'react';
+import React, { useState  } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import formatUTCDate from './utilDate';
@@ -9,13 +9,6 @@ const Activity = () => {
   const navigate = useNavigate();
   const activity = location.state.activity;
  const [isLoading, setIsLoading] = useState(false);
-
-  const formatDate = (startDateString) => {
-    const startDate = new Date(startDateString);
-    const formattedDate = startDate.toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric' });
-    const formattedTime = startDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    return `${formattedDate} ${formattedTime}`;
-  }
 
  const goBack = () => {
    navigate('/activities'); // replace '/activities' with the path to your activities menu

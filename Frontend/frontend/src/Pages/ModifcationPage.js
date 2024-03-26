@@ -8,11 +8,7 @@ const ModificationPage = () => {
   const [nom, setNom] = useState('');
   const [municipalite, setMunicipalite] = useState('');
   const [tags, setTags] = useState([]);
-
-
-
   const [interests, setInterests] = useState([]);
-
   const [municipalites, setMunicipalites] = useState([]);
 
   useEffect(() => {
@@ -55,6 +51,30 @@ const ModificationPage = () => {
         {interest}
       </label>
     ));
+  }
+
+  async function ModifyPassword(){
+    const token = localStorage.getItem('token');
+    try {
+      const response = await fetch('http://localhost:8080/user/requestPasswordModification', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        }
+      });
+
+      const message = await response.text();
+
+      if (!response.ok) {
+        toast.error(message);
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      toast.success(message , { autoClose: 3000, pauseOnHover: false });
+    } catch (error) {
+      console.error('Error:', error);
+    }
   }
 
   const handleInterestChange = (e, interest) => {
@@ -198,7 +218,13 @@ const ModificationPage = () => {
               {renderInterests()}
             </div>
           </div>
-
+          <button type="button" className="btn btn-primary mb-3"
+              onClick={ModifyPassword}
+              style={{ position: 'relative', padding: '10px 20px', transition: 'transform 0.3s' }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}>
+              <span style={{ marginRight: '5px' }}>Demander la modification du mot de passe</span>
+            </button>
 
           <div className="d-flex justify-content-between">
             <button type="button" className="btn btn-primary"
