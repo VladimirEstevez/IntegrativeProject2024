@@ -1,0 +1,35 @@
+/* SelectedActivity.css */
+
+.container {
+    background-color: white;
+    border-radius: 4px;
+    padding: 16px;
+    max-width: 576px;
+    margin-top: 20px;
+  }
+  
+  .container h1 {
+    margin-bottom: 16px;
+  }
+  
+  .container .form-label {
+    margin-bottom: 5px;
+  }
+  
+  .container .form-control {
+    margin-bottom: 16px;
+  }
+  
+  .container .btn {
+    position: relative;
+    padding: 10px 20px;
+    transition: transform 0.3s;
+  }
+  
+  .container .btn:hover {
+    transform: scale(1.1);
+  }
+  
+  .container .btn span {
+    margin-right: 5px;
+  }

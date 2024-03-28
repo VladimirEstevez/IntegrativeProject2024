@@ -1,0 +1,66 @@
+.App {
+  text-align: center;
+  background-image: url("https://trello.com/1/cards/65e79e7c55fe67a8f170b1a1/attachments/65e79e825e1eb160099d921d/previews/65e79e845e1eb160099d9310/download/image.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #000444;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.btn-hover-effect {
+  transition: transform 0.3s;
+}
+
+.btn-hover-effect:hover {
+  transform: scale(1.1);
+}
+.btn-custom {
+  border-radius: 10px !important;
+  position: relative !important;
+  padding: 10px 20px !important;
+  transition: transform 0.3s !important;
+  background-color: #0098d9 !important;
+  color: white !important;
+  border-width: 3px !important;
+}
+
+.logo {
+  width: 80%; /* Make the logo take up 80% of its container's width */
+  max-width: 400px; /* Limit the maximum width of the logo */
+  height: auto; /* Keep the aspect ratio of the logo */
+}
