@@ -90,7 +90,7 @@ const MyActivitiesPage = () => {
     return (
       <div ref={dateDropdownRef}>
         <button
-          className="btn btn-primary m-2"
+          className="btn btn-light m-2 btn-custom btn-hover-effect"
           onClick={() => setDateDropdownOpen(!dateDropdownOpen)}
         >
           Filter by Date
