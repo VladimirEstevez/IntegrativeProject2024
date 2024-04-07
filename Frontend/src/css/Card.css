@@ -1,0 +1,66 @@
+/* Card.css */
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  width: 100%; /* Make the width responsive */
+  max-width: 350px; /* Maximum width of the card */
+  min-height: 350px; /* Adjust as needed */
+  object-fit: cover;
+  margin: 10px; /* Add some margin */
+}
+  
+  .card-img-top {
+    width: 100%;
+    height: auto;
+  }
+  
+  .card-body {
+    padding: 16px;
+  }
+  
+  .card-title {
+    color: #007bff;
+    font-size: 1.25rem;
+    margin-bottom: 16px;
+  }
+  
+  .card-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .text-muted {
+    color: #6c757d;
+  }
+  
+  .btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+  }
+  
+  .btn:hover,
+.btn:active,
+.btn:focus {
+  background-color: #007bff;
+  color: white;
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .card {
+    width: 100%; /* Make the width responsive */
+  }
+
+  .col-sm-6 {
+    padding-left: 5px; /* Adjust as needed */
+    padding-right: 5px; /* Adjust as needed */
+  }
+}
