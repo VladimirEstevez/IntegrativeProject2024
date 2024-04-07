@@ -3,7 +3,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FilePerson, XLg } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
-import '../css/inscription.css'; // Import the CSS file
+
 
 function InscriptionPage() {
   const navigate = useNavigate();
