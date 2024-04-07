@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
+import 'bootstrap/dist/css/bootstrap.css';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FilePerson, XLg } from "react-bootstrap-icons";
+import { Container, Form, Button, Row, Col } from 'react-bootstrap'; // Import Bootstrap components
 import { useNavigate } from "react-router-dom";
 
 
 function InscriptionPage() {
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const fetchProtectedRoute = async () => {
@@ -27,7 +28,7 @@ function InscriptionPage() {
 
           console.log("response: ", response);
           if (response.status === 401) {
-            localStorage.deleteItem("token");
+            localStorage.removeItem("token"); // Corrected typo
             navigate("/");
           } else {
             const user = await response.json();
@@ -50,7 +51,7 @@ function InscriptionPage() {
     motDePasse: "",
     confirmerMotDePasse: "",
     municipalite: "",
-    interests: [], // Change to an array to store multiple interests
+    interests: [],
   });
 
   const [tags, setTags] = useState([]);
@@ -69,10 +70,10 @@ function InscriptionPage() {
       try {
         const response = await fetch("http://localhost:8080/data");
         const data = await response.json();
-        console.log('Fetched data:', data); // Log the fetched data
-        setTags(data.interests); // Assume the API returns a tags array
-        setMunicipalites(data.municipalities); // Set the municipalities state with data.municipalities
-        console.log('Tags state after fetch:', tags); // Log the tags state after fetch
+        console.log('Fetched data:', data);
+        setTags(data.interests);
+        setMunicipalites(data.municipalities);
+        console.log('Tags state after fetch:', tags);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -81,10 +82,6 @@ function InscriptionPage() {
     fetchData();
   }, [tags]);
 
-
-  
-
-  // Handle tags in the handleChange function
   const handleChange = (event) => {
     if (event.target.name === 'tags') {
       const selectedTags = Array.from(event.target.selectedOptions, option => option.value);
@@ -99,7 +96,6 @@ function InscriptionPage() {
       });
     }
   };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -172,117 +168,70 @@ function InscriptionPage() {
         alert(
           "PLEASE CONFIRM YOUR EMAIL VERIFICATION BEFORE LOGGING IN FOR THE FIRST TIME"
         );
-        // Navigate to /menu after a delay
       }, 4000);
-      // Handle successful form submission here
     } else {
       toast.error("Error:", response.status, {
         autoClose: 3000,
         pauseOnHover: false,
       });
-      // Handle error here
     }
   };
 
   return (
-    <div className="container">
+    <Container style={{ minHeight: "100vh" }}>
       <ToastContainer />
-      <form className="form-container" onSubmit={handleSubmit}>
-        <h1>Inscription</h1>
-        <div className="form-input">
-          <label htmlFor="courriel">Courriel:</label>
-          <input
-            type="email"
-            id="courriel"
-            name="courriel"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-input">
-          <label htmlFor="prenom">Prénom:</label>
-          <input
-            type="text"
-            id="prenom"
-            name="prenom"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-input">
-          <label htmlFor="nom">Nom de famille:</label>
-          <input
-            type="text"
-            id="nom"
-            name="nom"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-input">
-          <label htmlFor="motDePasse">Mot de passe:</label>
-          <input
-            type="password"
-            id="motDePasse"
-            name="motDePasse"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-input">
-          <label htmlFor="confirmerMotDePasse">Confirmer le mot de passe:</label>
-          <input
-            type="password"
-            id="confirmerMotDePasse"
-            name="confirmerMotDePasse"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-input">
-          <label htmlFor="municipalite">Municipalité:</label>
-          <select
-            id="municipalite"
-            name="municipalite"
-            onChange={handleChange}
-          >
-            {renderMunicipalites()}
-          </select>
-        </div>
-        <div className="form-input">
-          <label htmlFor="interests">Intérêts:</label>
-          <select
-            id="tags"
-            name="tags"
-            value={form.tags} // Bind the value to form state
-            onChange={handleChange}
-            className="basic-multi-select"
-            classNamePrefix="select"
-            multiple // Allow multiple selection
-          >
-            {/* Render options for tags */}
-            {console.log('Rendering tags:', tags)} {/* Log the tags state during render */}
-            {tags && tags.map((tag, index) => (
-              <option key={index} value={tag}>
-                {tag}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="d-flex justify-content-between">
-          <button
-            type="button"
-            className="btn btn-light m-2 btn-custom btn-hover-effect"
-            onClick={() => navigate("/")}
-          >
-            <span>Annuler</span>
-            <XLg size={24} />
-          </button>
-          <button
-            type="submit"
-            className="btn btn-light m-2 btn-custom btn-hover-effect"
-          >
-            <span>S'inscrire</span>
-            <FilePerson size={24} />
-          </button>
-        </div>
-      </form>
-    </div>
+      <Row className="justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+        <Col md={6}>
+          <Form onSubmit={handleSubmit}>
+            <h1 style={{marginTop: 0}}>Inscription</h1>
+            <Form.Group controlId="courriel">
+              <Form.Label>Courriel:</Form.Label>
+              <Form.Control type="email" name="courriel" onChange={handleChange} />
+            </Form.Group>
+            <Form.Group controlId="prenom">
+              <Form.Label>Prénom:</Form.Label>
+              <Form.Control type="text" name="prenom" onChange={handleChange} />
+            </Form.Group>
+            <Form.Group controlId="nom">
+              <Form.Label>Nom de famille:</Form.Label>
+              <Form.Control type="text" name="nom" onChange={handleChange} />
+            </Form.Group>
+            <Form.Group controlId="motDePasse">
+              <Form.Label>Mot de passe:</Form.Label>
+              <Form.Control type="password" name="motDePasse" onChange={handleChange} />
+            </Form.Group>
+            <Form.Group controlId="confirmerMotDePasse">
+              <Form.Label>Confirmer le mot de passe:</Form.Label>
+              <Form.Control type="password" name="confirmerMotDePasse" onChange={handleChange} />
+            </Form.Group>
+            <Form.Group controlId="municipalite">
+              <Form.Label>Municipalité:</Form.Label>
+              <Form.Control as="select" name="municipalite" onChange={handleChange}>
+                {renderMunicipalites()}
+              </Form.Control>
+            </Form.Group>
+            <Form.Group controlId="tags">
+              <Form.Label>Intérêts:</Form.Label>
+              <Form.Control as="select" name="tags" value={form.tags} onChange={handleChange} multiple>
+                {tags && tags.map((tag, index) => (
+                  <option key={index} value={tag}>{tag}</option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+            <div className="d-flex justify-content-between">
+              <Button variant="light" className="m-2 btn-custom btn-hover-effect" onClick={() => navigate("/")}>
+                <span>Annuler</span>
+                <XLg size={24} />
+              </Button>
+              <Button type="submit" variant="light" className="m-2 btn-custom btn-hover-effect">
+                <span>S'inscrire</span>
+                <FilePerson size={24} />
+              </Button>
+            </div>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 

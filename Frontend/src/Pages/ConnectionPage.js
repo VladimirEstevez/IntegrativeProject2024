@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button, Form, Container, Row, Col } from 'react-bootstrap';
 import { BoxArrowInRight, XLg, BoxArrowUpRight } from 'react-bootstrap-icons';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -76,40 +76,38 @@ function ConnectionPage() {
   
 
   return (
-    <div>
+    <Container>
       <ToastContainer />
-      <div className="container-fluid d-flex justify-content-center align-items-center">
-        <div className="text-center">
-          <h1>Connexion</h1>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">Adresse Courriel:</label>
-              <input type="email" className="form-control" id="email" onChange={e => setForm({ ...form, courriel: e.target.value })} name="email" />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">Mot de Passe:</label>
-              <input type="password" className="form-control" id="password" onChange={e => setForm({ ...form, motDePasse: e.target.value })} name="password" />
-            </div>
-            <div className="d-flex justify-content-between">
-              <button type="button" onClick={() => navigate("/")} className="btn btn-light  m-2 btn-custom btn-hover-effect">
-                <span>Annuler</span>
+      <Row className="justify-content-center align-items-center">
+        <Col xs={12} md={6}>
+          <h1 className="text-center">Connexion</h1>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3">
+              <Form.Label>Adresse Courriel:</Form.Label>
+              <Form.Control type="email" onChange={e => setForm({ ...form, courriel: e.target.value })} />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Mot de Passe:</Form.Label>
+              <Form.Control type="password" onChange={e => setForm({ ...form, motDePasse: e.target.value })} />
+            </Form.Group>
+            <div className="d-grid gap-2">
+              <Button variant="light" className="m-2 btn-custom btn-hover-effect" type="button" onClick={() => navigate("/")}>
+                Annuler
                 <XLg size={24} />
-              </button>
-
-               <button type="submit" className="btn btn-light  m-2 btn-custom btn-hover-effect">
-                <span>Se Connecter</span>
+              </Button>
+              <Button variant="light" className="m-2 btn-custom btn-hover-effect" type="submit">
+                Se Connecter
                 <BoxArrowInRight size={24} />
-              </button>
-
-              <button onClick={() => navigate("/forgotPassword")} className="btn btn-light  m-2 btn-custom btn-hover-effect">
-                <span>Mot de passe oublié?</span>
+              </Button>
+              <Button variant="light" className="m-2 btn-custom btn-hover-effect" onClick={() => navigate("/forgotPassword")}>
+                Mot de passe oublié?
                 <BoxArrowUpRight size={24} />
-              </button>
+              </Button>
             </div>
-          </form>
-        </div>
-      </div>
-    </div>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 

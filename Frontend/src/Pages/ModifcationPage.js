@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
+import { Form, Container, Row, Col, Button } from 'react-bootstrap';
 import { PersonGear, XLg } from 'react-bootstrap-icons';
 
 const ModificationPage = () => {
@@ -36,20 +37,14 @@ const ModificationPage = () => {
 
   function renderInterests() {
     return interests.map((interest, index) => (
-      <label
-        htmlFor={`interest${index}`}
-        style={{ marginBottom: "5px" }}
+      <Form.Check 
         key={index}
-      >
-        <input
-          onChange={(e) => handleInterestChange(e, interest)}
-          type="checkbox"
-          id={`interest${index}`}
-          name={`${interest}`}
-          checked={tags.includes(interest)}
-        />{" "}
-        {interest}
-      </label>
+        type="checkbox"
+        id={`interest${index}`}
+        label={interest}
+        checked={tags.includes(interest)}
+        onChange={(e) => handleInterestChange(e, interest)}
+      />
     ));
   }
 
@@ -98,9 +93,6 @@ const ModificationPage = () => {
     if (tags.length > 0) updatedUser.tags = tags;
 
     const token = localStorage.getItem('token');
-
-
-
 
     try {
       // Send updatedUser to server to update the user in the database
@@ -168,84 +160,50 @@ const ModificationPage = () => {
   }, [navigate]);
 
   return (
-    <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
-      <div className="container bg-white rounded p-4 max-width-md mt-5">
-        <ToastContainer />
-        {/* ROW */}
-        <h1 className="mb-4">Modifier</h1>
-        {/* ROW */}
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="prenom" className="form-label">
-              Prénom
-            </label>
-            <input type="text" id="prenom" className="form-control" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
+    <Container>
+      <ToastContainer />
+      <Row className="justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+        <Col xs={12} md={8} lg={6}>
+          <div className="bg-white rounded p-4 mt-5">
+            <h1 className="mb-4">Modifier</h1>
+            <Form onSubmit={handleSubmit}>
+              <Form.Group className="mb-3">
+                <Form.Label>Prénom</Form.Label>
+                <Form.Control type="text" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Nom de famille</Form.Label>
+                <Form.Control type="text" value={nom} onChange={(e) => setNom(e.target.value)} />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Municipalité:</Form.Label>
+                <Form.Select value={municipalite} onChange={(e) => setMunicipalite(e.target.value)}>
+                  <option value="">Choisir...</option>
+                  {renderMunicipalites()}
+                </Form.Select>
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Intérêts:</Form.Label>
+                {renderInterests()}
+              </Form.Group>
+              <Button variant="light" className="m-2 btn-custom btn-hover-effect" onClick={ModifyPassword} >
+                Demander la modification du mot de passe
+              </Button>
+              <div className="d-grid gap-2">
+                <Button variant="light" className="m-2 btn-custom btn-hover-effect" onClick={() => navigate("/menu")}>
+                  Annuler
+                  <XLg size={24} />
+                </Button>
+                <Button variant="light" className="m-2 btn-custom btn-hover-effect" type="submit">
+                  Modifier Mon Profil
+                  <PersonGear size={24} />
+                </Button>
+              </div>
+            </Form>
           </div>
-          <div className="mb-3">
-            <label htmlFor="nom" className="form-label">
-              Nom de famille
-            </label>
-            <input type="text" id="nom" className="form-control" value={nom} onChange={(e) => setNom(e.target.value)} />
-          </div>
-
-          <div className="mb-3"          >
-            <label htmlFor="municipalite" style={{ marginBottom: "5px" }}>
-              Municipalité:
-            </label>
-            <select
-            value={municipalite}
-              id="municipalite"
-              name="municipalite"
-              className="form-select"
-              onChange={(e) => setMunicipalite(e.target.value)}
-            >
-              {renderMunicipalites()}
-            </select>
-          </div>
-
-
-          <div
-            style={{ marginBottom: "20px", width: "100%", maxWidth: "400px" }}
-          >
-            <label style={{ marginBottom: "5px" }}>Intérêts:</label>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                marginLeft: "10px",
-              }}
-            >
-              {renderInterests()}
-            </div>
-          </div>
-          <button type="button" className="btn btn-primary mb-3"
-              onClick={ModifyPassword}
-              style={{ position: 'relative', padding: '10px 20px', transition: 'transform 0.3s' }}
-              onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}>
-              <span style={{ marginRight: '5px' }}>Demander la modification du mot de passe</span>
-            </button>
-
-          <div className="d-flex justify-content-between">
-            <button type="button" className="btn btn-primary"
-              onClick={() => navigate("/menu")}
-              style={{ position: 'relative', padding: '10px 20px', transition: 'transform 0.3s' }}
-              onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}>
-              <span style={{ marginRight: '5px' }}>Annuler</span>
-              <XLg size={24} />
-            </button>
-            <button type="submit" className="btn btn-primary"
-              style={{ position: 'relative', padding: '10px 20px', transition: 'transform 0.3s' }}
-              onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}>
-              <span style={{ marginRight: '5px' }}>Modifier Mon Profil</span>
-              <PersonGear size={24} />
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
