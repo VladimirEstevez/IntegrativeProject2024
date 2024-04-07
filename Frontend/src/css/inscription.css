@@ -1,12 +1,12 @@
-/* CSS */
+/* CSS 
 .container {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   padding: 20px;
-  height: 100%; /* Set height to 100% to fill the viewport */
-  box-sizing: border-box; /* Include padding in the height calculation */
+  height: 100%; /* Set height to 100% to fill the viewport 
+  box-sizing: border-box; /* Include padding in the height calculation 
 }
 
 .form-container {
@@ -26,8 +26,8 @@ select {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: calc(100% - 20px); /* Adjust width to accommodate padding */
-  box-sizing: border-box; /* Include padding in the width calculation */
+  width: calc(100% - 20px); /* Adjust width to accommodate padding 
+  box-sizing: border-box; Include padding in the width calculation 
 }
 
 .interests-container {
@@ -36,12 +36,12 @@ select {
   align-items: flex-start;
 }
 
-/* Add margin-bottom to each label element */
+/* Add margin-bottom to each label element 
 .interests-container label {
   display: block;
 }
 
-/* Add margin-bottom to each checkbox input */
+/* Add margin-bottom to each checkbox input 
 .interests-container input[type="checkbox"] {
   margin-bottom: 5px;
 }
@@ -75,4 +75,4 @@ button {
 
 button:hover {
   transform: scale(1.1);
-}
+}*/
