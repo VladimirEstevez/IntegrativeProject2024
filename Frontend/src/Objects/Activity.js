@@ -57,8 +57,8 @@ return (
 
   <div>
     <ToastContainer />
-    <div className="activity p-5 shadow-sm bg-white rounded text-center" style={{background: 'linear-gradient(to bottom, #007bff, #ffffff)', maxWidth: '100%', margin: 'auto', color: '#333', height: '100vh', width: '100vw'}}>
-      <img src={activity.post_thumbnail} alt="Event" className="activity-img my-3 img-fluid rounded mx-auto d-block" style={{maxWidth: '50%'}} />
+    <div className="activity p-5 shadow-sm bg-white rounded text-center" style={{background: 'linear-gradient(to bottom, #007bff, #ffffff)', maxWidth: '100%', color: '#333', height: '100vh', width: '100vw'}}>
+      <img src={activity.post_thumbnail} alt="Event" className="activity-img my-3 img-fluid rounded d-block" style={{maxWidth: '50%'}} />
       <h2 className="my-3">{activity.post_title}</h2>
       <p className="text-muted">{activity.post_excerpt}</p>
       <p className="my-3 text-justify" dangerouslySetInnerHTML={{ __html: postContentWithBreaks }}></p>
@@ -69,7 +69,7 @@ return (
       <button onClick={() => goBack()} className="btn btn-secondary my-3">Go Back</button>
       <button onClick={registerActivity} className="register-button btn btn-primary">Register to the activity</button>
     </div>
-    </div>
+  </div>
   );
 };
 
