@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import '../css/Card.css';
+// import '../css/Card.css';
 import formatUTCDate from './utilDate';
 
 const Card = ({ activity }) => {
@@ -20,8 +20,8 @@ const Card = ({ activity }) => {
     };
 
     return (
-        <div className="card shadow-sm">
-            <img src={activity.post_thumbnail} alt="Event" className="card-img-top" />
+        <div className="card shadow-sm mt-1">
+            <img src={activity.post_thumbnail} alt="Event" className="card-img-top" style={{ height: "150px" }}/>
             <div className="card-body">
                 <h5 className="card-title text-primary">{activity.post_title}</h5>
                 <p className="card-text">{activity.post_excerpt}</p>
