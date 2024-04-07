@@ -5,6 +5,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
+
 function ConnectionPage() {
   const [form, setForm] = useState({
     courriel: '',
@@ -28,6 +29,7 @@ function ConnectionPage() {
       const data = await response.json();
       console.log('Token: ', data.accessToken);
       localStorage.setItem('token', data.accessToken);
+
 
       toast.success('Connexion réussie!', { autoClose: 3000, pauseOnHover: false });
       setTimeout(() => {

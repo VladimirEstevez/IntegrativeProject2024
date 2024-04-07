@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { FilePerson, XLg } from "react-bootstrap-icons";
 import { Container, Form, Button, Row, Col } from 'react-bootstrap'; // Import Bootstrap components
 import { useNavigate } from "react-router-dom";
-import '../css/inscription.css'; // Import the CSS file
+
 
 function InscriptionPage() {
   const navigate = useNavigate();

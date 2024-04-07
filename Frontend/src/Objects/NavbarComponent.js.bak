@@ -21,35 +21,39 @@ function NavbarComponent() {
   }
 
   return (
-    <div >
+    <div>
         <Navbar
         style={{ 
           backgroundColor: isNavbarOpen ? "white" : "transparent",
+<<<<<<< HEAD
           zIndex: 1000,
+=======
+          zIndex: 1000, 
+>>>>>>> Layout-Fixes
         }}
         expand="lg"
-        className="position-absolute top-0 end-0"
+        className="position-absolute top-0 end-0 mb-3"
         >
         <Navbar.Toggle
             onClick={() => setIsNavbarOpen(!isNavbarOpen)}
             aria-controls="basic-navbar-nav"
         />
         <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ml-auto">
-            <Nav.Link onClick={() => navigate("/myActivities")}>
-                <span style={{ marginRight: "5px" }}>Voir mes activités</span>
+            <Nav className="ms-auto">
+            <Nav.Link className="me-1 ms-1" onClick={() => navigate("/myActivities")}>
+                <span>Voir mes activités</span>
                 <BookmarkHeart size={24} />
             </Nav.Link>
-            <Nav.Link onClick={() => navigate("/activities")}>
-                <span style={{ marginRight: "5px" }}>Voir les activités</span>
+            <Nav.Link className="me-1 ms-1" onClick={() => navigate("/activities")}>
+                <span>Voir les activités</span>
                 <PersonWalking size={24} />
             </Nav.Link>
-            <Nav.Link onClick={() => navigate("/modify")}>
-                <span style={{ marginRight: "5px" }}>Modifier Mon Profil</span>
+            <Nav.Link className="me-1 ms-1" onClick={() => navigate("/modify")}>
+                <span>Modifier Mon Profil</span>
                 <PersonGear size={24} />
             </Nav.Link>
-            <Nav.Link onClick={() => SeDeconnecter()}>
-                <span style={{ marginRight: "5px" }}>Se Déconnecter</span>
+            <Nav.Link className="me-1 ms-1" onClick={() => SeDeconnecter()}>
+                <span>Se Déconnecter</span>
                 <BoxArrowInLeft size={24} />
             </Nav.Link>
             </Nav>
