@@ -90,42 +90,56 @@ const ActivitiesPage = () => {
     );
   }
 
-  //Render date dropdown button
-  function renderDateFilterMenu() {
-    return (
-      <div ref={dateDropdownRef}>
-        <button
-          className="btn btn-primary m-2"
-          onClick={() => setDateDropdownOpen(!dateDropdownOpen)}
+ //Render date dropdown button
+ function renderDateFilterMenu() {
+  return (
+    <div ref={dateDropdownRef}>
+        <div
+        className="bg-white"
+        style={{ zIndex: 1000 }}
+      >
+        <select
+          value={selectedDate || ""}
+          onChange={(e) => setSelectedDate(e.target.value)}
         >
-          Filter by Date
-        </button>
-        {dateDropdownOpen && (
-          <div
-            className="position-absolute bg-white border rounded p-2"
-            style={{ zIndex: 1000 }}
-          >
-            <input
-              type="date"
-              value={selectedDate || ""}
-              onChange={(e) => setSelectedDate(e.target.value)}
-            />
-          </div>
-        )}
+          <option value="">All activities</option>
+          <option value="previous">Previous activities</option>
+          <option value="today">Today's Activities</option>
+          <option value="upcoming">Upcoming activities</option>
+        </select>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
   // Filter activities with tags and date
-  const filteredActivities = activities.filter(
-    (activity) =>
-      (selectedFilters.length === 0 ||
-        selectedFilters.some((filter) => activity.tags.includes(filter))) &&
-      (!selectedDate ||
-        selectedDate.trim() === "" ||
-        new Date(activity.StartDate).toISOString().substring(0, 10) ===
-          selectedDate)
-  );
+  // Filter activities with tags and date
+  const filteredActivities = Array.isArray(activities)
+    ? activities.filter((activity) => {
+
+      //Filter by tags
+      const tagFilter = selectedFilters.length === 0 || selectedFilters.some((filter) => activity.tag.includes(filter));
+
+      //Filter by date
+      let dateFilter = false;
+      const activityDate = new Date(activity.StartDate).toISOString().substring(0, 10);
+      switch (selectedDate) {
+        case "previous":
+          dateFilter = activityDate < new Date().toISOString().substring(0, 10);
+          break;
+        case "today":
+          dateFilter = activityDate === new Date().toISOString().substring(0, 10);
+          break;
+        case "upcoming":
+          dateFilter = activityDate > new Date().toISOString().substring(0, 10);
+          break;
+        default:
+          dateFilter = true;
+      }
+
+      return tagFilter && dateFilter;
+    })
+    : [];
 
   // Handle checkbox change
   const handleFilterChange = (e, interest) => {
@@ -191,16 +205,20 @@ const ActivitiesPage = () => {
         <h1 className="mb-4">Vos activités</h1>
       </div>
 
-      <div className="d-flex justify-content-center mb-4">
+      <div className="d-flex justify-content-center align-items-center m-4">
         <div>{renderFilterMenu()}</div>
         <div>{renderDateFilterMenu()}</div>
       </div>
       <div className="row">
-        {filteredActivities.map((activity) => (
-          <div className="col-12 col-sm-6 col-md-4 mb-4" key={activity._id}>
-            <Card activity={activity} />
-          </div>
-        ))}
+        {filteredActivities.length > 0 ? (
+          filteredActivities.map((activity) => (
+            <div className="col-md-4 mb-4" key={activity._id}>
+              <Card activity={activity} />
+            </div>
+          ))
+        ) : (
+          <p>Aucune activité trouvée.</p>
+        )}
       </div>
       <div className="row justify-content-center">
         <button
