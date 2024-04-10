@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Card from "../Objects/Card";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BoxArrowInLeft, House, HouseFill } from "react-bootstrap-icons";
+import {  House } from "react-bootstrap-icons";
 
 const MyActivitiesPage = () => {
   const [activities, setActivities] = useState([]);
