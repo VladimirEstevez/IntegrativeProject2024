@@ -1,7 +1,0 @@
-body {
-    height: 100vh;
-    margin: 0;
-    background-size: 100% 200px;
-    background-image: linear-gradient(to bottom, #007bff 50%, transparent 50%);
-    background-repeat: repeat-y;
-  }

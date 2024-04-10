@@ -60,35 +60,36 @@ const ActivitiesPage = () => {
   }, []);
 
   // Render dropdown menu with checkboxes
-  function renderFilterMenu() {
-    return (
-      <div ref={filterDropdownRef}>
-        <button
-          className="btn btn-light  m-2 btn-custom btn-hover-effect"
-          onClick={() => setDropdownOpen(!dropdownOpen)}
+function renderFilterMenu() {
+  return (
+    <div className="dropdown" ref={filterDropdownRef}>
+      <button
+        className="btn btn-light btn-custom btn-hover-effect dropdown-toggle"
+        onClick={() => setDropdownOpen(!dropdownOpen)}
+      >
+        Filter
+      </button>
+      {dropdownOpen && (
+        <div
+          className="dropdown-menu show p-2"
+          style={{ zIndex: 1000 }}
         >
-          Filter
-        </button>
-        {dropdownOpen && (
-          <div
-            className="position-absolute bg-white border rounded p-2"
-            style={{ zIndex: 1000 }}
-          >
-            {interests.map((interest, index) => (
-              <label key={index} style={{ display: "block", padding: "5px" }}>
-                <input
-                  type="checkbox"
-                  onChange={(e) => handleFilterChange(e, interest)}
-                  checked={selectedFilters.includes(interest)}
-                />{" "}
-                {interest}
-              </label>
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  }
+          {interests.map((interest, index) => (
+            <label key={index} className="dropdown-item" style={{ padding: "5px" }}>
+              <input
+                type="checkbox"
+                onChange={(e) => handleFilterChange(e, interest)}
+                checked={selectedFilters.includes(interest)}
+              />{" "}
+              {interest}
+            </label>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 
  //Render date dropdown button
  function renderDateFilterMenu() {
@@ -101,6 +102,7 @@ const ActivitiesPage = () => {
         <select
           value={selectedDate || ""}
           onChange={(e) => setSelectedDate(e.target.value)}
+
         >
           <option value="">All activities</option>
           <option value="previous">Previous activities</option>
@@ -202,12 +204,14 @@ const ActivitiesPage = () => {
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
-        <h1 className="mb-4">Vos activités</h1>
+        <h1 className="col-4 text-center mb-4">Vos activités</h1>
       </div>
+
 
       <div className="d-flex justify-content-center align-items-center m-4">
         <div>{renderFilterMenu()}</div>
         <div>{renderDateFilterMenu()}</div>
+
       </div>
       <div className="row">
         {filteredActivities.length > 0 ? (
@@ -222,12 +226,9 @@ const ActivitiesPage = () => {
       </div>
       <div className="row justify-content-center">
         <button
+          className="col-4 btn btn-light btn-custom btn-hover-effect position-relative"
           onClick={() => navigate("/")}
-          className="btn btn-primary mt-4"
           style={{
-            borderRadius: "10px",
-            position: "relative",
-            padding: "10px 20px",
             transition: "transform 0.3s",
           }}
           onMouseEnter={(e) => {
@@ -237,8 +238,7 @@ const ActivitiesPage = () => {
             e.currentTarget.style.transform = "scale(1)";
           }}
         >
-          <span style={{ marginRight: "5px" }}>Se Déconnecter</span>
-          <BoxArrowInLeft size={24} />
+          Se Déconnecter <BoxArrowInLeft size={24} />
         </button>
       </div>
     </div>
