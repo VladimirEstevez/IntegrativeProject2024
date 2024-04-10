@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Card from "../Objects/Card";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BoxArrowInLeft } from "react-bootstrap-icons";
+import { BoxArrowInLeft, House, HouseCheck, HouseDoor, HouseExclamation, HouseFill } from "react-bootstrap-icons";
 
 const ActivitiesPage = () => {
   const [activities, setActivities] = useState([]);
@@ -206,22 +206,23 @@ function renderFilterMenu() {
       <div className="row justify-content-center">
         <h1 className="col-4 text-center mb-4">Vos activités</h1>
       </div>
-
-
-      <div className="d-flex justify-content-center align-items-center m-4">
-        <div>{renderFilterMenu()}</div>
-        <div>{renderDateFilterMenu()}</div>
-
+      <div className="row justify-content-center">
+        <div className="col-sm-auto text-center">
+          <div>{renderFilterMenu()}</div>
+        </div>
+        <div className="col-sm-auto text-center mt-2">
+          <div className="mw-75">{renderDateFilterMenu()}</div>
+        </div>
       </div>
       <div className="row">
         {filteredActivities.length > 0 ? (
           filteredActivities.map((activity) => (
-            <div className="col-md-4 mb-4" key={activity._id}>
+            <div className="col-12 col-sm-6 col-md-4 mb-4" key={activity._id}>
               <Card activity={activity} />
             </div>
           ))
         ) : (
-          <p>Aucune activité trouvée.</p>
+          <p className="col-md-12">Aucune activité trouvée.</p>
         )}
       </div>
       <div className="row justify-content-center">
@@ -238,7 +239,7 @@ function renderFilterMenu() {
             e.currentTarget.style.transform = "scale(1)";
           }}
         >
-          Se Déconnecter <BoxArrowInLeft size={24} />
+          Retour à la page d'accueil <House size={20} />
         </button>
       </div>
     </div>

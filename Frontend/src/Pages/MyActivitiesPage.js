@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Card from "../Objects/Card";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BoxArrowInLeft } from "react-bootstrap-icons";
+import { BoxArrowInLeft, House, HouseFill } from "react-bootstrap-icons";
 
 const MyActivitiesPage = () => {
   const [activities, setActivities] = useState([]);
@@ -50,9 +50,9 @@ const MyActivitiesPage = () => {
 
   function renderFilterMenu() {
     return (
-      <div ref={filterDropdownRef} className="m-2">
+      <div className="dropdown" ref={filterDropdownRef}>
         <button
-          className="btn btn-light btn-custom btn-hover-effect"
+          className="btn btn-light btn-custom btn-hover-effect dropdown-toggle"
           onClick={() => setDropdownOpen(!dropdownOpen)}
         >
           Filter
@@ -182,13 +182,13 @@ const MyActivitiesPage = () => {
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
-        <h1 className="mb-4 col-4 text-center">Mes activités</h1>
+        <h1 className="col-4 text-center mb-4">Mes activités</h1>
       </div>
       <div className="row justify-content-center">
         <div className="col-sm-auto text-center">
-          <div className="">{renderFilterMenu()}</div>
+          <div>{renderFilterMenu()}</div>
         </div>
-        <div className="col-sm-auto text-center">
+        <div className="col-sm-auto text-center mt-2">
           <div className="mw-75">{renderDateFilterMenu()}</div>
         </div>
       </div>
@@ -204,13 +204,10 @@ const MyActivitiesPage = () => {
         )}
       </div>
       <div className="row justify-content-center">
-        <button
-          onClick={() => navigate("/")}
+      <button
           className="col-4 btn btn-light btn-custom btn-hover-effect position-relative  mb-4"
+          onClick={() => navigate("/")}
           style={{
-            borderRadius: "10px",
-            position: "relative",
-            padding: "10px 20px",
             transition: "transform 0.3s",
           }}
           onMouseEnter={(e) => {
@@ -220,8 +217,7 @@ const MyActivitiesPage = () => {
             e.currentTarget.style.transform = "scale(1)";
           }}
         >
-          <span style={{ marginRight: "5px" }}>Se Déconnecter</span>
-          <BoxArrowInLeft size={24} />
+          Retour à la page d'accueil <House size={20} />
         </button>
       </div>
     </div>
