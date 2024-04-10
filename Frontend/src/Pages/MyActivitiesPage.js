@@ -77,36 +77,50 @@ const MyActivitiesPage = () => {
 
   function renderDateFilterMenu() {
     return (
-      <div ref={dateDropdownRef} className="m-2">
-        <button
-          className="btn btn-light btn-custom btn-hover-effect"
-          onClick={() => setDateDropdownOpen(!dateDropdownOpen)}
+      <div ref={dateDropdownRef}>
+          <div
+          className="bg-white"
+          style={{ zIndex: 1000 }}
         >
-          Filter by Date
-        </button>
-        {dateDropdownOpen && (
-          <div className="position-absolute bg-white border rounded p-2" style={{ zIndex: 1000 }}>
-            <input
-              type="date"
-              value={selectedDate || ""}
-              onChange={(e) => setSelectedDate(e.target.value)}
-            />
-          </div>
-        )}
+          <select
+            value={selectedDate || ""}
+            onChange={(e) => setSelectedDate(e.target.value)}
+          >
+            <option value="">All activities</option>
+            <option value="previous">Previous activities</option>
+            <option value="today">Today's Activities</option>
+            <option value="upcoming">Upcoming activities</option>
+          </select>
+        </div>
       </div>
     );
   }
 
   const filteredActivities = Array.isArray(activities)
-    ? activities.filter(
-        (activity) =>
-          (selectedFilters.length === 0 ||
-            selectedFilters.some((filter) => activity.tags.includes(filter))) &&
-          (!selectedDate ||
-            selectedDate.trim() === "" ||
-            new Date(activity.StartDate).toISOString().substring(0, 10) ===
-              selectedDate)
-      )
+    ? activities.filter((activity) => {
+
+      //Filter by tags
+      const tagFilter = selectedFilters.length === 0 || selectedFilters.some((filter) => activity.tag.includes(filter));
+
+      //Filter by date
+      let dateFilter = false;
+      const activityDate = new Date(activity.StartDate).toISOString().substring(0, 10);
+      switch (selectedDate) {
+        case "previous":
+          dateFilter = activityDate < new Date().toISOString().substring(0, 10);
+          break;
+        case "today":
+          dateFilter = activityDate === new Date().toISOString().substring(0, 10);
+          break;
+        case "upcoming":
+          dateFilter = activityDate > new Date().toISOString().substring(0, 10);
+          break;
+        default:
+          dateFilter = true;
+      }
+
+      return tagFilter && dateFilter;
+    })
     : [];
 
   const handleFilterChange = (e, interest) => {
