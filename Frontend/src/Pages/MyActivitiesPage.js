@@ -16,26 +16,20 @@ const MyActivitiesPage = () => {
         const response = await fetch("http://localhost:8080/data");
         const data = await response.json();
         setInterests(data.interests);
-        
       } catch (error) {
         console.error("Error:", error);
       }
     };
-  
+
     fetchData();
   }, []);
 
-  //Create separate refs for each dropdown
   const filterDropdownRef = useRef(null);
   const dateDropdownRef = useRef(null);
 
-  // State variable for selected filters
   const [selectedFilters, setSelectedFilters] = useState([]);
-  // State variable for dropdown open/close state
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  // Add a state variable for the selected date
   const [selectedDate, setSelectedDate] = useState(null);
-  // State variable for dropdown open/close state
   const [dateDropdownOpen, setDateDropdownOpen] = useState(false);
 
   useEffect(() => {
@@ -54,21 +48,17 @@ const MyActivitiesPage = () => {
     };
   }, []);
 
-  // Render dropdown menu with checkboxes
   function renderFilterMenu() {
     return (
-      <div ref={filterDropdownRef}>
+      <div ref={filterDropdownRef} className="m-2">
         <button
-          className="btn btn-light  m-2 btn-custom btn-hover-effect"
+          className="btn btn-light btn-custom btn-hover-effect"
           onClick={() => setDropdownOpen(!dropdownOpen)}
         >
           Filter
         </button>
         {dropdownOpen && (
-          <div
-            className="position-absolute bg-white border rounded p-2"
-            style={{ zIndex: 1000 }}
-          >
+          <div className="position-absolute bg-white border rounded p-2" style={{ zIndex: 1000 }}>
             {interests.map((interest, index) => (
               <label key={index} style={{ display: "block", padding: "5px" }}>
                 <input
@@ -85,21 +75,17 @@ const MyActivitiesPage = () => {
     );
   }
 
-  //Render date dropdown button
   function renderDateFilterMenu() {
     return (
-      <div ref={dateDropdownRef}>
+      <div ref={dateDropdownRef} className="m-2">
         <button
-          className="btn btn-light m-2 btn-custom btn-hover-effect"
+          className="btn btn-light btn-custom btn-hover-effect"
           onClick={() => setDateDropdownOpen(!dateDropdownOpen)}
         >
           Filter by Date
         </button>
         {dateDropdownOpen && (
-          <div
-            className="position-absolute bg-white border rounded p-2"
-            style={{ zIndex: 1000 }}
-          >
+          <div className="position-absolute bg-white border rounded p-2" style={{ zIndex: 1000 }}>
             <input
               type="date"
               value={selectedDate || ""}
@@ -111,7 +97,6 @@ const MyActivitiesPage = () => {
     );
   }
 
-  // Filter activities with tags and date
   const filteredActivities = Array.isArray(activities)
     ? activities.filter(
         (activity) =>
@@ -124,7 +109,6 @@ const MyActivitiesPage = () => {
       )
     : [];
 
-  // Handle checkbox change
   const handleFilterChange = (e, interest) => {
     if (e.target.checked) {
       setSelectedFilters((prevFilters) => [...prevFilters, interest]);
@@ -147,9 +131,7 @@ const MyActivitiesPage = () => {
           }
         );
         const data = await response.json();
-        console.log("data: ", data);
         setActivities(data);
-        //console.log("after setActivities: ", activities);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -172,7 +154,6 @@ const MyActivitiesPage = () => {
 
           if (response.status === 401) {
             navigate("/");
-          } else {
           }
         } catch (error) {
           console.error("Error:", error);
@@ -180,7 +161,6 @@ const MyActivitiesPage = () => {
       }
     };
 
-    // Call the functions sequentially
     fetchProtectedRoute();
     fetchActivities();
   }, [navigate, token]);
@@ -188,28 +168,31 @@ const MyActivitiesPage = () => {
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
-        <h1 className="mb-4">Mes activités</h1>
+        <h1 className="mb-4 col-4 text-center">Mes activités</h1>
       </div>
-
-      <div className="d-flex justify-content-center mb-4">
-        <div>{renderFilterMenu()}</div>
-        <div>{renderDateFilterMenu()}</div>
+      <div className="row justify-content-center">
+        <div className="col-sm-auto text-center">
+          <div className="">{renderFilterMenu()}</div>
+        </div>
+        <div className="col-sm-auto text-center">
+          <div className="mw-75">{renderDateFilterMenu()}</div>
+        </div>
       </div>
       <div className="row">
         {filteredActivities.length > 0 ? (
           filteredActivities.map((activity) => (
-            <div className="col-md-4 mb-4" key={activity._id}>
+            <div className="col-12 col-sm-6 col-md-4 mb-4" key={activity._id}>
               <Card activity={activity} />
             </div>
           ))
         ) : (
-          <p>Aucune activité trouvée.</p>
+          <p className="col-md-12">Aucune activité trouvée.</p>
         )}
       </div>
       <div className="row justify-content-center">
         <button
           onClick={() => navigate("/")}
-          className="btn btn-primary mt-4"
+          className="col-4 btn btn-light btn-custom btn-hover-effect position-relative  mb-4"
           style={{
             borderRadius: "10px",
             position: "relative",
