@@ -100,9 +100,9 @@ const ActivitiesPage = () => {
             value={selectedDate || ""}
             onChange={(e) => setSelectedDate(e.target.value)}
           >
-            <option value="">L'ensemble des Activités</option>
+            <option value="">Ensemble des Activités</option>
             <option value="previous">Activités précédentes</option>
-            <option value="today">Les activités du jour</option>
+            <option value="today">Activités du jour</option>
             <option value="upcoming">Activités à venir</option>
           </select>
         </div>
