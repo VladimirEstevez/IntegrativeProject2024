@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Card from "../Objects/Card";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BoxArrowInLeft } from "react-bootstrap-icons";
+import {  House } from "react-bootstrap-icons";
 
 const MyActivitiesPage = () => {
   const [activities, setActivities] = useState([]);
@@ -57,9 +57,15 @@ const MyActivitiesPage = () => {
   // Render dropdown menu with checkboxes
   function renderFilterMenu() {
     return (
+<<<<<<< HEAD
       <div ref={filterDropdownRef}>
         <button
           className="btn btn-light  m-2 btn-custom btn-hover-effect"
+=======
+      <div className="dropdown" ref={filterDropdownRef}>
+        <button
+          className="btn btn-light btn-custom btn-hover-effect dropdown-toggle"
+>>>>>>> 64326b1f0081601d8ab07a41fadc09a0711a0d7a
           onClick={() => setDropdownOpen(!dropdownOpen)}
         >
           Filter
@@ -201,12 +207,24 @@ const MyActivitiesPage = () => {
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
+<<<<<<< HEAD
         <h1 className="mb-4">Mes activités</h1>
       </div>
 
       <div className="d-flex justify-content-center align-items-center m-4">
         <div>{renderFilterMenu()}</div>
         <div>{renderDateFilterMenu()}</div>
+=======
+        <h1 className="col-4 text-center mb-4">Mes activités</h1>
+      </div>
+      <div className="row justify-content-center">
+        <div className="col-sm-auto text-center">
+          <div>{renderFilterMenu()}</div>
+        </div>
+        <div className="col-sm-auto text-center mt-2">
+          <div className="mw-75">{renderDateFilterMenu()}</div>
+        </div>
+>>>>>>> 64326b1f0081601d8ab07a41fadc09a0711a0d7a
       </div>
       <div className="row">
         {filteredActivities.length > 0 ? (
@@ -220,13 +238,16 @@ const MyActivitiesPage = () => {
         )}
       </div>
       <div className="row justify-content-center">
+<<<<<<< HEAD
         <button
           onClick={() => navigate("/")}
           className="btn btn-primary mt-4"
+=======
+      <button
+          className="col-4 btn btn-light btn-custom btn-hover-effect position-relative  mb-4"
+          onClick={() => navigate("/")}
+>>>>>>> 64326b1f0081601d8ab07a41fadc09a0711a0d7a
           style={{
-            borderRadius: "10px",
-            position: "relative",
-            padding: "10px 20px",
             transition: "transform 0.3s",
           }}
           onMouseEnter={(e) => {
@@ -236,8 +257,7 @@ const MyActivitiesPage = () => {
             e.currentTarget.style.transform = "scale(1)";
           }}
         >
-          <span style={{ marginRight: "5px" }}>Se Déconnecter</span>
-          <BoxArrowInLeft size={24} />
+          Retour à la page d'accueil <House size={20} />
         </button>
       </div>
     </div>
