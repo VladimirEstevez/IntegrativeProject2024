@@ -33,6 +33,7 @@ function InscriptionPage() {
           } else {
             const user = await response.json();
             console.log("user: ", user);
+            setTags(user.tags);
             navigate("/menu");
           }
         } catch (error) {
@@ -44,6 +45,8 @@ function InscriptionPage() {
     fetchProtectedRoute();
   }, [navigate]);
 
+  
+
   const [form, setForm] = useState({
     prenom: "",
     nom: "",
@@ -51,19 +54,14 @@ function InscriptionPage() {
     motDePasse: "",
     confirmerMotDePasse: "",
     municipalite: "",
-    interests: [],
+    tags: [],
   });
 
   const [tags, setTags] = useState([]);
   const [municipalites, setMunicipalites] = useState([]);
+  const [interests, setInterests] = useState([]);
 
-  function renderMunicipalites() {
-    return municipalites.map((municipalite, index) => (
-      <option key={index} value={municipalite}>
-        {municipalite}
-      </option>
-    ));
-  }
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,7 +69,7 @@ function InscriptionPage() {
         const response = await fetch("http://localhost:8080/data");
         const data = await response.json();
         console.log('Fetched data:', data);
-        setTags(data.interests);
+        setInterests(data.interests);
         setMunicipalites(data.municipalities);
         console.log('Tags state after fetch:', tags);
       } catch (error) {
@@ -82,12 +80,33 @@ function InscriptionPage() {
     fetchData();
   }, [tags]);
 
+  function renderInterests() {
+    return interests.map((interest, index) => (
+      <Form.Check 
+        key={index}
+        type="checkbox"
+        id={`interest${index}`}
+        label={interest}
+        checked={tags.includes(interest)}
+        onChange={(e) => handleInterestChange(e, interest)}
+      />
+    ));
+  }
+
+  function renderMunicipalites() {
+    return municipalites.map((municipalite, index) => (
+      <option key={index} value={municipalite}>
+        {municipalite}
+      </option>
+    ));
+  }
+
   const handleChange = (event) => {
     if (event.target.name === 'tags') {
       const selectedTags = Array.from(event.target.selectedOptions, option => option.value);
       setForm({
         ...form,
-        tags: selectedTags,
+        interests: selectedTags,
       });
     } else {
       setForm({
@@ -97,10 +116,18 @@ function InscriptionPage() {
     }
   };
 
+  const handleInterestChange = (e, interest) => {
+    if (e.target.checked) {
+      setTags(prevTags => [...prevTags, interest]);
+    } else {
+      setTags(prevTags => prevTags.filter(tag => tag !== interest));
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const finalForm = { ...form };
+    finalForm.tags = tags; // Set interests from tags
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
     if (!emailRegex.test(form.courriel)) {
@@ -178,7 +205,8 @@ function InscriptionPage() {
   };
 
   return (
-    <Container style={{ minHeight: "100vh" }}>
+   
+      <Container style={{ minHeight: "100vh" }}>
       <ToastContainer />
       <Row className="justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
         <Col md={6}>
@@ -210,14 +238,10 @@ function InscriptionPage() {
                 {renderMunicipalites()}
               </Form.Control>
             </Form.Group>
-            <Form.Group controlId="tags">
-              <Form.Label>Intérêts:</Form.Label>
-              <Form.Control as="select" name="tags" value={form.tags} onChange={handleChange} multiple>
-                {tags && tags.map((tag, index) => (
-                  <option key={index} value={tag}>{tag}</option>
-                ))}
-              </Form.Control>
-            </Form.Group>
+            <Form.Group className="mb-3">
+                <Form.Label>Intérêts:</Form.Label>
+                {renderInterests()}
+              </Form.Group>
             <div className="d-flex justify-content-between">
               <Button variant="light" className="m-2 btn-custom btn-hover-effect" onClick={() => navigate("/")}>
                 <span>Annuler</span>
@@ -232,6 +256,8 @@ function InscriptionPage() {
         </Col>
       </Row>
     </Container>
+    
+    
   );
 }
 

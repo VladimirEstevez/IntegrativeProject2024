@@ -117,7 +117,7 @@ const ActivitiesPage = () => {
         //Filter by tags
         const tagFilter =
           selectedFilters.length === 0 ||
-          selectedFilters.some((filter) => activity.tag.includes(filter));
+          (Array.isArray(activity.tags) && selectedFilters.some((filter) => activity.tags.includes(filter)));
 
         //Filter by date
         let dateFilter = false;
@@ -227,7 +227,7 @@ const ActivitiesPage = () => {
       </div>
       <div className="row justify-content-center">
         <button
-          className="col-4 btn btn-light btn-custom btn-hover-effect position-relative"
+          className="col-4 btn btn-light btn-custom btn-hover-effect position-relative  mb-4"
           onClick={() => navigate("/")}
           style={{
             transition: "transform 0.3s",
