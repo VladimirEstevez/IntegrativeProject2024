@@ -57,15 +57,10 @@ const MyActivitiesPage = () => {
   // Render dropdown menu with checkboxes
   function renderFilterMenu() {
     return (
-<<<<<<< HEAD
-      <div ref={filterDropdownRef}>
-        <button
-          className="btn btn-light  m-2 btn-custom btn-hover-effect"
-=======
       <div className="dropdown" ref={filterDropdownRef}>
         <button
           className="btn btn-light btn-custom btn-hover-effect dropdown-toggle"
->>>>>>> 64326b1f0081601d8ab07a41fadc09a0711a0d7a
+
           onClick={() => setDropdownOpen(!dropdownOpen)}
         >
           Filter
@@ -103,10 +98,10 @@ const MyActivitiesPage = () => {
             value={selectedDate || ""}
             onChange={(e) => setSelectedDate(e.target.value)}
           >
-            <option value="">All activities</option>
-            <option value="previous">Previous activities</option>
-            <option value="today">Today's Activities</option>
-            <option value="upcoming">Upcoming activities</option>
+            <option value="">Ensemble des Activités</option>
+            <option value="previous">Activités précédentes</option>
+            <option value="today">Activités du jour</option>
+            <option value="upcoming">Activités à venir</option>
           </select>
         </div>
       </div>
@@ -207,15 +202,7 @@ const MyActivitiesPage = () => {
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
-<<<<<<< HEAD
-        <h1 className="mb-4">Mes activités</h1>
-      </div>
-
-      <div className="d-flex justify-content-center align-items-center m-4">
-        <div>{renderFilterMenu()}</div>
-        <div>{renderDateFilterMenu()}</div>
-=======
-        <h1 className="col-4 text-center mb-4">Mes activités</h1>
+        <h1 className="col-12 text-center mb-4">Mes activités</h1>
       </div>
       <div className="row justify-content-center">
         <div className="col-sm-auto text-center">
@@ -224,7 +211,6 @@ const MyActivitiesPage = () => {
         <div className="col-sm-auto text-center mt-2">
           <div className="mw-75">{renderDateFilterMenu()}</div>
         </div>
->>>>>>> 64326b1f0081601d8ab07a41fadc09a0711a0d7a
       </div>
       <div className="row">
         {filteredActivities.length > 0 ? (
@@ -238,15 +224,9 @@ const MyActivitiesPage = () => {
         )}
       </div>
       <div className="row justify-content-center">
-<<<<<<< HEAD
-        <button
-          onClick={() => navigate("/")}
-          className="btn btn-primary mt-4"
-=======
       <button
           className="col-4 btn btn-light btn-custom btn-hover-effect position-relative  mb-4"
           onClick={() => navigate("/")}
->>>>>>> 64326b1f0081601d8ab07a41fadc09a0711a0d7a
           style={{
             transition: "transform 0.3s",
           }}
