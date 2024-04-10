@@ -117,7 +117,7 @@ const ActivitiesPage = () => {
         //Filter by tags
         const tagFilter =
           selectedFilters.length === 0 ||
-          selectedFilters.some((filter) => activity.tag.includes(filter));
+          (Array.isArray(activity.tags) && selectedFilters.some((filter) => activity.tags.includes(filter)));
 
         //Filter by date
         let dateFilter = false;
