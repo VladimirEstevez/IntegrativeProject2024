@@ -16,12 +16,11 @@ const MyActivitiesPage = () => {
         const response = await fetch("http://localhost:8080/data");
         const data = await response.json();
         setInterests(data.interests);
-        
       } catch (error) {
         console.error("Error:", error);
       }
     };
-  
+
     fetchData();
   }, []);
 
@@ -40,10 +39,16 @@ const MyActivitiesPage = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (filterDropdownRef.current && !filterDropdownRef.current.contains(event.target)) {
+      if (
+        filterDropdownRef.current &&
+        !filterDropdownRef.current.contains(event.target)
+      ) {
         setDropdownOpen(false);
       }
-      if (dateDropdownRef.current && !dateDropdownRef.current.contains(event.target)) {
+      if (
+        dateDropdownRef.current &&
+        !dateDropdownRef.current.contains(event.target)
+      ) {
         setDateDropdownOpen(false);
       }
     };
@@ -89,18 +94,15 @@ const MyActivitiesPage = () => {
   function renderDateFilterMenu() {
     return (
       <div ref={dateDropdownRef}>
-          <div
-          className="bg-white"
-          style={{ zIndex: 1000 }}
-        >
+        <div className="bg-white" style={{ zIndex: 1000 }}>
           <select
             value={selectedDate || ""}
             onChange={(e) => setSelectedDate(e.target.value)}
           >
-            <option value="">All activities</option>
-            <option value="previous">Previous activities</option>
-            <option value="today">Today's Activities</option>
-            <option value="upcoming">Upcoming activities</option>
+            <option value="">L'ensemble des Activités</option>
+            <option value="previous">Activités précédentes</option>
+            <option value="today">Les activités du jour</option>
+            <option value="upcoming">Activités à venir</option>
           </select>
         </div>
       </div>
@@ -110,29 +112,35 @@ const MyActivitiesPage = () => {
   // Filter activities with tags and date
   const filteredActivities = Array.isArray(activities)
     ? activities.filter((activity) => {
+        //Filter by tags
+        const tagFilter =
+          selectedFilters.length === 0 ||
+          selectedFilters.some((filter) => activity.tag.includes(filter));
 
-      //Filter by tags
-      const tagFilter = selectedFilters.length === 0 || selectedFilters.some((filter) => activity.tag.includes(filter));
+        //Filter by date
+        let dateFilter = false;
+        const activityDate = new Date(activity.StartDate)
+          .toISOString()
+          .substring(0, 10);
+        switch (selectedDate) {
+          case "previous":
+            dateFilter =
+              activityDate < new Date().toISOString().substring(0, 10);
+            break;
+          case "today":
+            dateFilter =
+              activityDate === new Date().toISOString().substring(0, 10);
+            break;
+          case "upcoming":
+            dateFilter =
+              activityDate > new Date().toISOString().substring(0, 10);
+            break;
+          default:
+            dateFilter = true;
+        }
 
-      //Filter by date
-      let dateFilter = false;
-      const activityDate = new Date(activity.StartDate).toISOString().substring(0, 10);
-      switch (selectedDate) {
-        case "previous":
-          dateFilter = activityDate < new Date().toISOString().substring(0, 10);
-          break;
-        case "today":
-          dateFilter = activityDate === new Date().toISOString().substring(0, 10);
-          break;
-        case "upcoming":
-          dateFilter = activityDate > new Date().toISOString().substring(0, 10);
-          break;
-        default:
-          dateFilter = true;
-      }
-
-      return tagFilter && dateFilter;
-    })
+        return tagFilter && dateFilter;
+      })
     : [];
 
   // Handle checkbox change
@@ -199,9 +207,8 @@ const MyActivitiesPage = () => {
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
-        <h1 className="mb-4">Mes activités</h1>
+        <h1 className="col-4 text-center mb-4">Mes activités</h1>
       </div>
-
       <div className="d-flex justify-content-center align-items-center m-4">
         <div>{renderFilterMenu()}</div>
         <div>{renderDateFilterMenu()}</div>
@@ -214,7 +221,9 @@ const MyActivitiesPage = () => {
             </div>
           ))
         ) : (
-          <p>Aucune activité trouvée.</p>
+          <div className="text-center">
+            <p>Aucune activité trouvée.</p>
+          </div>
         )}
       </div>
       <div className="row justify-content-center">

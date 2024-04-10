@@ -60,87 +60,89 @@ const ActivitiesPage = () => {
   }, []);
 
   // Render dropdown menu with checkboxes
-function renderFilterMenu() {
-  return (
-    <div className="dropdown" ref={filterDropdownRef}>
-      <button
-        className="btn btn-light btn-custom btn-hover-effect dropdown-toggle"
-        onClick={() => setDropdownOpen(!dropdownOpen)}
-      >
-        Filter
-      </button>
-      {dropdownOpen && (
-        <div
-          className="dropdown-menu show p-2"
-          style={{ zIndex: 1000 }}
+  function renderFilterMenu() {
+    return (
+      <div className="dropdown" ref={filterDropdownRef}>
+        <button
+          className="btn btn-light btn-custom btn-hover-effect dropdown-toggle"
+          onClick={() => setDropdownOpen(!dropdownOpen)}
         >
-          {interests.map((interest, index) => (
-            <label key={index} className="dropdown-item" style={{ padding: "5px" }}>
-              <input
-                type="checkbox"
-                onChange={(e) => handleFilterChange(e, interest)}
-                checked={selectedFilters.includes(interest)}
-              />{" "}
-              {interest}
-            </label>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-
- //Render date dropdown button
- function renderDateFilterMenu() {
-  return (
-    <div ref={dateDropdownRef}>
-        <div
-        className="bg-white"
-        style={{ zIndex: 1000 }}
-      >
-        <select
-          value={selectedDate || ""}
-          onChange={(e) => setSelectedDate(e.target.value)}
-
-        >
-          <option value="">All activities</option>
-          <option value="previous">Previous activities</option>
-          <option value="today">Today's Activities</option>
-          <option value="upcoming">Upcoming activities</option>
-        </select>
+          Filter
+        </button>
+        {dropdownOpen && (
+          <div className="dropdown-menu show p-2" style={{ zIndex: 1000 }}>
+            {interests.map((interest, index) => (
+              <label
+                key={index}
+                className="dropdown-item"
+                style={{ padding: "5px" }}
+              >
+                <input
+                  type="checkbox"
+                  onChange={(e) => handleFilterChange(e, interest)}
+                  checked={selectedFilters.includes(interest)}
+                />{" "}
+                {interest}
+              </label>
+            ))}
+          </div>
+        )}
       </div>
-    </div>
-  );
-}
+    );
+  }
+
+  //Render date dropdown button
+  function renderDateFilterMenu() {
+    return (
+      <div ref={dateDropdownRef}>
+        <div className="bg-white" style={{ zIndex: 1000 }}>
+          <select
+            value={selectedDate || ""}
+            onChange={(e) => setSelectedDate(e.target.value)}
+          >
+            <option value="">L'ensemble des Activités</option>
+            <option value="previous">Activités précédentes</option>
+            <option value="today">Les activités du jour</option>
+            <option value="upcoming">Activités à venir</option>
+          </select>
+        </div>
+      </div>
+    );
+  }
 
   // Filter activities with tags and date
   // Filter activities with tags and date
   const filteredActivities = Array.isArray(activities)
     ? activities.filter((activity) => {
+        //Filter by tags
+        const tagFilter =
+          selectedFilters.length === 0 ||
+          selectedFilters.some((filter) => activity.tag.includes(filter));
 
-      //Filter by tags
-      const tagFilter = selectedFilters.length === 0 || selectedFilters.some((filter) => activity.tag.includes(filter));
+        //Filter by date
+        let dateFilter = false;
+        const activityDate = new Date(activity.StartDate)
+          .toISOString()
+          .substring(0, 10);
+        switch (selectedDate) {
+          case "previous":
+            dateFilter =
+              activityDate < new Date().toISOString().substring(0, 10);
+            break;
+          case "today":
+            dateFilter =
+              activityDate === new Date().toISOString().substring(0, 10);
+            break;
+          case "upcoming":
+            dateFilter =
+              activityDate > new Date().toISOString().substring(0, 10);
+            break;
+          default:
+            dateFilter = true;
+        }
 
-      //Filter by date
-      let dateFilter = false;
-      const activityDate = new Date(activity.StartDate).toISOString().substring(0, 10);
-      switch (selectedDate) {
-        case "previous":
-          dateFilter = activityDate < new Date().toISOString().substring(0, 10);
-          break;
-        case "today":
-          dateFilter = activityDate === new Date().toISOString().substring(0, 10);
-          break;
-        case "upcoming":
-          dateFilter = activityDate > new Date().toISOString().substring(0, 10);
-          break;
-        default:
-          dateFilter = true;
-      }
-
-      return tagFilter && dateFilter;
-    })
+        return tagFilter && dateFilter;
+      })
     : [];
 
   // Handle checkbox change
@@ -206,12 +208,9 @@ function renderFilterMenu() {
       <div className="row justify-content-center">
         <h1 className="col-4 text-center mb-4">Vos activités</h1>
       </div>
-
-
       <div className="d-flex justify-content-center align-items-center m-4">
         <div>{renderFilterMenu()}</div>
         <div>{renderDateFilterMenu()}</div>
-
       </div>
       <div className="row">
         {filteredActivities.length > 0 ? (
@@ -221,7 +220,9 @@ function renderFilterMenu() {
             </div>
           ))
         ) : (
-          <p>Aucune activité trouvée.</p>
+          <div className="text-center">
+            <p>Aucune activité trouvée.</p>
+          </div>
         )}
       </div>
       <div className="row justify-content-center">
