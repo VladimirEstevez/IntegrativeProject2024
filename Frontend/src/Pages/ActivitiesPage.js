@@ -64,7 +64,7 @@ const ActivitiesPage = () => {
     return (
       <div className="dropdown" ref={filterDropdownRef}>
         <button
-          className="btn btn-light btn-custom btn-hover-effect dropdown-toggle"
+          className="btn btn-light btn-custom m-2 btn-hover-effect dropdown-toggle"
           onClick={() => setDropdownOpen(!dropdownOpen)}
         >
           Filter
@@ -95,7 +95,7 @@ const ActivitiesPage = () => {
   function renderDateFilterMenu() {
     return (
       <div ref={dateDropdownRef}>
-        <div className="bg-white" style={{ zIndex: 1000 }}>
+        <div className="bg-white m-2" style={{ zIndex: 1000 }}>
           <select
             value={selectedDate || ""}
             onChange={(e) => setSelectedDate(e.target.value)}
