@@ -1,42 +1,42 @@
-import React, { useEffect, useState, useRef } from "react";
-import Card from "../Objects/Card";
-import { useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { House } from "react-bootstrap-icons";
+
+import React, { useEffect, useState, useRef } from "react"; // Importing necessary modules and components
+import Card from "../Objects/Card"; // Importing custom Card component
+import { useNavigate } from "react-router-dom"; // Importing hook for navigation
+import "bootstrap/dist/css/bootstrap.min.css"; // Importing Bootstrap CSS
+import { BoxArrowInLeft } from "react-bootstrap-icons"; // Importing logout icon
+
 
 const ActivitiesPage = () => {
-  const [activities, setActivities] = useState([]);
-  const navigate = useNavigate();
-  const token = localStorage.getItem("token");
-  const [interests, setInterests] = useState([]);
+  // State variables and constants initialization
+  const [activities, setActivities] = useState([]); // State for storing activities
+  const navigate = useNavigate(); // Navigation function
+  const token = localStorage.getItem("token"); // Token stored in local storage
+  const [interests, setInterests] = useState([]); // State for storing interests
 
+  // Fetch interests data from the server on component mount
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:8080/data");
         const data = await response.json();
-        setInterests(data.interests);
+        setInterests(data.interests); // Setting fetched interests data
       } catch (error) {
         console.error("Error:", error);
       }
     };
 
-    fetchData();
+    fetchData(); // Calling fetch function
   }, []);
 
-  //Create separate refs for each dropdown
+  // Refs for dropdowns and state variables for dropdown open/close state
   const filterDropdownRef = useRef(null);
   const dateDropdownRef = useRef(null);
+  const [selectedFilters, setSelectedFilters] = useState([]); // State for selected filters
+  const [dropdownOpen, setDropdownOpen] = useState(false); // State for dropdown open/close
+  const [selectedDate, setSelectedDate] = useState(null); // State for selected date
+  const [dateDropdownOpen, setDateDropdownOpen] = useState(false); // State for date dropdown open/close
 
-  // State variable for selected filters
-  const [selectedFilters, setSelectedFilters] = useState([]);
-  // State variable for dropdown open/close state
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  // Add a state variable for the selected date
-  const [selectedDate, setSelectedDate] = useState(null);
-  // State variable for dropdown open/close state
-  const [dateDropdownOpen, setDateDropdownOpen] = useState(false);
-
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -59,7 +59,9 @@ const ActivitiesPage = () => {
     };
   }, []);
 
-  // Render dropdown menu with checkboxes
+
+  // Render dropdown menu with checkboxes for interests
+
   function renderFilterMenu() {
     return (
       <div className="dropdown" ref={filterDropdownRef}>
@@ -70,13 +72,14 @@ const ActivitiesPage = () => {
           Filter
         </button>
         {dropdownOpen && (
-          <div className="dropdown-menu show p-2" style={{ zIndex: 1000 }}>
+
+          <div
+            className="dropdown-menu show p-2"
+            style={{ zIndex: 1000 }}
+          >
             {interests.map((interest, index) => (
-              <label
-                key={index}
-                className="dropdown-item"
-                style={{ padding: "5px" }}
-              >
+              <label key={index} className="dropdown-item" style={{ padding: "5px" }}>
+
                 <input
                   type="checkbox"
                   onChange={(e) => handleFilterChange(e, interest)}
@@ -91,7 +94,7 @@ const ActivitiesPage = () => {
     );
   }
 
-  //Render date dropdown button
+  // Render date dropdown button
   function renderDateFilterMenu() {
     return (
       <div ref={dateDropdownRef}>
@@ -110,7 +113,8 @@ const ActivitiesPage = () => {
     );
   }
 
-  // Filter activities with tags and date
+
+
   // Filter activities with tags and date
   const filteredActivities = Array.isArray(activities)
     ? activities.filter((activity) => {
@@ -145,6 +149,7 @@ const ActivitiesPage = () => {
       })
     : [];
 
+
   // Handle checkbox change
   const handleFilterChange = (e, interest) => {
     if (e.target.checked) {
@@ -156,6 +161,7 @@ const ActivitiesPage = () => {
     }
   };
 
+  // Fetch activities data from the server on component mount
   useEffect(() => {
     const fetchActivities = async () => {
       try {
@@ -165,8 +171,7 @@ const ActivitiesPage = () => {
           },
         });
         const data = await response.json();
-        //console.log("data: ", data);
-        setActivities(data);
+        setActivities(data); // Setting fetched activities data
       } catch (error) {
         console.error("Error:", error);
       }
@@ -174,7 +179,7 @@ const ActivitiesPage = () => {
 
     const fetchProtectedRoute = async () => {
       if (!token) {
-        navigate("/");
+        navigate("/"); // Redirect to login page if token is not available
       } else {
         try {
           const response = await fetch(
@@ -187,10 +192,10 @@ const ActivitiesPage = () => {
             }
           );
 
-          // console.log("response: ", response);
           if (response.status === 401) {
-            navigate("/");
+            navigate("/"); // Redirect to login page if unauthorized
           } else {
+            // Do nothing if authorized
           }
         } catch (error) {
           console.error("Error:", error);
@@ -203,6 +208,7 @@ const ActivitiesPage = () => {
     fetchActivities();
   }, [navigate, token]);
 
+  // Render activities
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
@@ -229,8 +235,10 @@ const ActivitiesPage = () => {
       </div>
       <div className="row justify-content-center">
         <button
-          className="col-4 btn btn-light btn-custom btn-hover-effect position-relative  mb-4"
-          onClick={() => navigate("/")}
+
+          className="col-4 btn btn-light btn-custom btn-hover-effect position-relative"
+          onClick={() => navigate("/")} // Logout button with transition effect
+
           style={{
             transition: "transform 0.3s",
           }}
@@ -248,4 +256,4 @@ const ActivitiesPage = () => {
   );
 };
 
-export default ActivitiesPage;
+export default ActivitiesPage; // Exporting ActivitiesPage component

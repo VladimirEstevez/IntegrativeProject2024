@@ -260,7 +260,10 @@ router.get("/requestPasswordModification", authMiddleware, async (req, res) => {
       from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
       to: userCourriel,
       subject: "Modify password",
-      text: `Click the link to modify your password: http://localhost:8080/user/passwordModification?token=${newToken}`,
+      html: `
+    <p>Cliquez sur le lien ci-dessous pour modifier votre mot de passe :</p>
+    <p><a href="http://localhost:8080/user/passwordModification?token=${encodeURIComponent(newToken)}" style="display: inline-block; background-color: #007bff; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px;">Modifier le mot de passe</a></p>
+  `,
     },
     function (error, info) {
       if (error) {
