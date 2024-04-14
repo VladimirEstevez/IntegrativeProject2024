@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Card from "../Objects/Card"; // Importing Card component
 import { useNavigate } from "react-router-dom"; // Importing hook for navigation
 import "bootstrap/dist/css/bootstrap.min.css"; // Importing Bootstrap CSS
-import { BoxArrowInLeft } from "react-bootstrap-icons"; // Importing logout icon
+import {House, BoxArrowInLeft } from "react-bootstrap-icons"; // Importing logout icon
 
 
 // Functional component for My Activities Page
