@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Card from "../Objects/Card"; // Importing Card component
 import { useNavigate } from "react-router-dom"; // Importing hook for navigation
 import "bootstrap/dist/css/bootstrap.min.css"; // Importing Bootstrap CSS
-import { BoxArrowInLeft } from "react-bootstrap-icons"; // Importing logout icon
+import { House } from "react-bootstrap-icons"; // Importing logout icon
 
 
 // Functional component for My Activities Page
@@ -230,7 +230,7 @@ const MyActivitiesPage = () => {
         {/* Logout button */}
         <button
           onClick={() => navigate("/")} // Navigate to login page on click
-          className="btn btn-primary mt-4"
+          className="col-4 btn btn-light btn-custom btn-hover-effect position-relative"
 
           style={{
             transition: "transform 0.3s",
