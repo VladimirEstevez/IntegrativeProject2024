@@ -1,44 +1,43 @@
 import React, { useEffect, useState, useRef } from "react";
-import Card from "../Objects/Card";
-import { useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { BoxArrowInLeft } from "react-bootstrap-icons";
+import Card from "../Objects/Card"; // Importing Card component
+import { useNavigate } from "react-router-dom"; // Importing hook for navigation
+import "bootstrap/dist/css/bootstrap.min.css"; // Importing Bootstrap CSS
+import { BoxArrowInLeft } from "react-bootstrap-icons"; // Importing logout icon
 
+// Functional component for My Activities Page
 const MyActivitiesPage = () => {
-  const [activities, setActivities] = useState([]);
-  const navigate = useNavigate();
-  const token = localStorage.getItem("token");
-  const [interests, setInterests] = useState([]);
+  const [activities, setActivities] = useState([]); // State for activities
+  const navigate = useNavigate(); // Navigation hook
+  const token = localStorage.getItem("token"); // Retrieving token from local storage
+  const [interests, setInterests] = useState([]); // State for user interests
 
   useEffect(() => {
+    // Fetching user interests from server
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8080/data");
-        const data = await response.json();
-        setInterests(data.interests);
-        
+        const response = await fetch("http://localhost:8080/data"); // Fetching data from server
+        const data = await response.json(); // Parsing response as JSON
+        setInterests(data.interests); // Setting interests state with fetched data
       } catch (error) {
-        console.error("Error:", error);
+        console.error("Error:", error); // Logging error if any
       }
     };
   
-    fetchData();
+    fetchData(); // Calling fetchData function on component mount
   }, []);
 
-  //Create separate refs for each dropdown
+  // Creating refs for dropdowns
   const filterDropdownRef = useRef(null);
   const dateDropdownRef = useRef(null);
 
-  // State variable for selected filters
-  const [selectedFilters, setSelectedFilters] = useState([]);
-  // State variable for dropdown open/close state
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  // Add a state variable for the selected date
-  const [selectedDate, setSelectedDate] = useState(null);
-  // State variable for dropdown open/close state
-  const [dateDropdownOpen, setDateDropdownOpen] = useState(false);
+  // State variables for filters and dropdowns
+  const [selectedFilters, setSelectedFilters] = useState([]); // State for selected filters
+  const [dropdownOpen, setDropdownOpen] = useState(false); // State for filter dropdown
+  const [selectedDate, setSelectedDate] = useState(null); // State for selected date
+  const [dateDropdownOpen, setDateDropdownOpen] = useState(false); // State for date filter dropdown
 
   useEffect(() => {
+    // Handling click outside dropdown to close it
     const handleClickOutside = (event) => {
       if (filterDropdownRef.current && !filterDropdownRef.current.contains(event.target)) {
         setDropdownOpen(false);
@@ -48,13 +47,13 @@ const MyActivitiesPage = () => {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside); // Adding event listener for mousedown
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside); // Removing event listener on component unmount
     };
   }, []);
 
-  // Render dropdown menu with checkboxes
+  // Function to render filter dropdown menu
   function renderFilterMenu() {
     return (
       <div ref={filterDropdownRef}>
@@ -85,7 +84,7 @@ const MyActivitiesPage = () => {
     );
   }
 
-  //Render date dropdown button
+  // Function to render date filter dropdown menu
   function renderDateFilterMenu() {
     return (
       <div ref={dateDropdownRef}>
@@ -111,7 +110,7 @@ const MyActivitiesPage = () => {
     );
   }
 
-  // Filter activities with tags and date
+  // Filtering activities based on selected filters and date
   const filteredActivities = Array.isArray(activities)
     ? activities.filter(
         (activity) =>
@@ -124,7 +123,7 @@ const MyActivitiesPage = () => {
       )
     : [];
 
-  // Handle checkbox change
+  // Handling checkbox change
   const handleFilterChange = (e, interest) => {
     if (e.target.checked) {
       setSelectedFilters((prevFilters) => [...prevFilters, interest]);
@@ -136,28 +135,27 @@ const MyActivitiesPage = () => {
   };
 
   useEffect(() => {
+    // Fetching user activities from server
     const fetchActivities = async () => {
       try {
         const response = await fetch(
           "http://localhost:8080/activities/my-activities",
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${token}`, // Setting authorization header with token
             },
           }
         );
-        const data = await response.json();
-        console.log("data: ", data);
-        setActivities(data);
-        //console.log("after setActivities: ", activities);
+        const data = await response.json(); // Parsing response as JSON
+        setActivities(data); // Setting activities state with fetched data
       } catch (error) {
-        console.error("Error:", error);
+        console.error("Error:", error); // Logging error if any
       }
     };
 
     const fetchProtectedRoute = async () => {
       if (!token) {
-        navigate("/");
+        navigate("/"); // Redirecting to login page if token is not present
       } else {
         try {
           const response = await fetch(
@@ -165,41 +163,41 @@ const MyActivitiesPage = () => {
             {
               method: "GET",
               headers: {
-                authorization: "Bearer " + token,
+                authorization: "Bearer " + token, // Setting authorization header with token
               },
             }
           );
 
           if (response.status === 401) {
-            navigate("/");
-          } else {
+            navigate("/"); // Redirecting to login page if unauthorized
           }
         } catch (error) {
-          console.error("Error:", error);
+          console.error("Error:", error); // Logging error if any
         }
       }
     };
 
-    // Call the functions sequentially
+    // Calling functions sequentially
     fetchProtectedRoute();
     fetchActivities();
   }, [navigate, token]);
 
+  // JSX for rendering My Activities Page
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
-        <h1 className="mb-4">Mes activités</h1>
+        <h1 className="mb-4">Mes activités</h1> {/* Page heading */}
       </div>
 
       <div className="d-flex justify-content-center mb-4">
-        <div>{renderFilterMenu()}</div>
-        <div>{renderDateFilterMenu()}</div>
+        <div>{renderFilterMenu()}</div> {/* Render filter menu */}
+        <div>{renderDateFilterMenu()}</div> {/* Render date filter menu */}
       </div>
       <div className="row">
         {filteredActivities.length > 0 ? (
           filteredActivities.map((activity) => (
             <div className="col-md-4 mb-4" key={activity._id}>
-              <Card activity={activity} />
+              <Card activity={activity} /> {/* Render Card component for each activity */}
             </div>
           ))
         ) : (
@@ -207,8 +205,9 @@ const MyActivitiesPage = () => {
         )}
       </div>
       <div className="row justify-content-center">
+        {/* Logout button */}
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/")} // Navigate to login page on click
           className="btn btn-primary mt-4"
           style={{
             borderRadius: "10px",
@@ -217,18 +216,18 @@ const MyActivitiesPage = () => {
             transition: "transform 0.3s",
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "scale(1.1)";
+            e.currentTarget.style.transform = "scale(1.1)"; // Scaling effect on hover
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "scale(1)";
+            e.currentTarget.style.transform = "scale(1)"; // Reverting scale effect on hover out
           }}
         >
-          <span style={{ marginRight: "5px" }}>Se Déconnecter</span>
-          <BoxArrowInLeft size={24} />
+          <span style={{ marginRight: "5px" }}>Se Déconnecter</span> {/* Logout text */}
+          <BoxArrowInLeft size={24} /> {/* Logout icon */}
         </button>
       </div>
     </div>
   );
 };
 
-export default MyActivitiesPage;
+export default MyActivitiesPage; // Exporting MyActivitiesPage component

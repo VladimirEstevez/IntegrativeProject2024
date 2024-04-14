@@ -19,8 +19,9 @@ import NavbarComponent from './Objects/NavbarComponent';
 
 const root = document.getElementById('root');
 
+// Function to wrap layout with NavbarComponent
 function WithNavbarLayout() {
-  return(
+  return (
     <>
       <NavbarComponent/>
       <Outlet/>
@@ -28,16 +29,20 @@ function WithNavbarLayout() {
   );
 }
 
+// Rendering the application with React Router
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
     <Router>
       <Routes>
+        {/* Route for the main page */}
         <Route path="/" element={<App />} />
+        {/* Routes for various pages */}
         <Route path="/login" element={<ConnectionPage />} />
         <Route path="/register" element={<InscriptionPage />} />
         <Route path="/forgotPassword" element={<PasswordPage />} />
         <Route path="/resetPassword" element={<ResetPasswordPage />} />
         <Route path="/passwordModification" element={<PasswordModificationPage />} />
+        {/* Routes with WithNavbarLayout wrapping */}
         <Route element={<WithNavbarLayout />}>
           <Route path="/menu" element={<MainMenuPage />} />
           <Route path="/activities" element={<ActivitiesPage />} />
@@ -50,4 +55,3 @@ ReactDOM.createRoot(root).render(
     </Router>
   </React.StrictMode>
 );
-

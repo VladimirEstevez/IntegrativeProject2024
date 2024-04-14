@@ -1,52 +1,15 @@
-import React, { useState, useEffect } from "react";
-import 'bootstrap/dist/css/bootstrap.css';
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { FilePerson, XLg } from "react-bootstrap-icons";
-import { Container, Form, Button, Row, Col } from 'react-bootstrap'; // Import Bootstrap components
-import { useNavigate } from "react-router-dom";
-
+import React, { useState, useEffect } from "react"; // Importing necessary modules and components
+import 'bootstrap/dist/css/bootstrap.css'; // Importing Bootstrap CSS
+import { toast, ToastContainer } from "react-toastify"; // Importing toast notification components
+import "react-toastify/dist/ReactToastify.css"; // Importing toast notification CSS
+import { FilePerson, XLg } from "react-bootstrap-icons"; // Importing icons
+import { Container, Form, Button, Row, Col } from 'react-bootstrap'; // Importing Bootstrap components
+import { useNavigate } from "react-router-dom"; // Importing hook for navigation
 
 function InscriptionPage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Navigation function
 
-  useEffect(() => {
-    const fetchProtectedRoute = async () => {
-      const token = localStorage.getItem("token");
-
-      if (token) {
-        try {
-          const response = await fetch(
-            "http://localhost:8080/user/protectedRoute",
-            {
-              method: "GET",
-              headers: {
-                authorization: "Bearer " + token,
-              },
-            }
-          );
-
-          console.log("response: ", response);
-          if (response.status === 401) {
-            localStorage.removeItem("token"); // Corrected typo
-            navigate("/");
-          } else {
-            const user = await response.json();
-            console.log("user: ", user);
-            setTags(user.tags);
-            navigate("/menu");
-          }
-        } catch (error) {
-          console.error("Error:", error);
-        }
-      }
-    };
-
-    fetchProtectedRoute();
-  }, [navigate]);
-
-  
-
+  // State for form fields and tags
   const [form, setForm] = useState({
     prenom: "",
     nom: "",
@@ -57,29 +20,29 @@ function InscriptionPage() {
     tags: [],
   });
 
-  const [tags, setTags] = useState([]);
-  const [municipalites, setMunicipalites] = useState([]);
-  const [interests, setInterests] = useState([]);
+  const [tags, setTags] = useState([]); // State for tags
+  const [municipalites, setMunicipalites] = useState([]); // State for municipalities
+  const [interests, setInterests] = useState([]); // State for interests
 
-  
-
+  // Fetch data from the server on component mount
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:8080/data");
         const data = await response.json();
         console.log('Fetched data:', data);
-        setInterests(data.interests);
-        setMunicipalites(data.municipalities);
-        console.log('Tags state after fetch:', tags);
+        setInterests(data.interests); // Set interests from fetched data
+        setMunicipalites(data.municipalities); // Set municipalities from fetched data
+        console.log('Tags state after fetch:', tags); // Log tags state after fetch (won't be updated immediately)
       } catch (error) {
         console.error("Error:", error);
       }
     };
   
     fetchData();
-  }, [tags]);
+  }, [tags]); // Fetch data when tags state changes
 
+  // Render interests checkboxes
   function renderInterests() {
     return interests.map((interest, index) => (
       <Form.Check 
@@ -93,6 +56,7 @@ function InscriptionPage() {
     ));
   }
 
+  // Render municipality options
   function renderMunicipalites() {
     return municipalites.map((municipalite, index) => (
       <option key={index} value={municipalite}>
@@ -101,6 +65,7 @@ function InscriptionPage() {
     ));
   }
 
+  // Handle form field changes
   const handleChange = (event) => {
     if (event.target.name === 'tags') {
       const selectedTags = Array.from(event.target.selectedOptions, option => option.value);
@@ -116,6 +81,7 @@ function InscriptionPage() {
     }
   };
 
+  // Handle interest checkbox changes
   const handleInterestChange = (e, interest) => {
     if (e.target.checked) {
       setTags(prevTags => [...prevTags, interest]);
@@ -123,13 +89,19 @@ function InscriptionPage() {
       setTags(prevTags => prevTags.filter(tag => tag !== interest));
     }
   };
+
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Copy form state to avoid mutating it
     const finalForm = { ...form };
     finalForm.tags = tags; // Set interests from tags
+
+    // Regular expression to validate email format
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
+    // Validate email format
     if (!emailRegex.test(form.courriel)) {
       toast.error("Format d'email invalide", {
         autoClose: 3000,
@@ -138,6 +110,7 @@ function InscriptionPage() {
       return;
     }
 
+    // Validate password strength
     const confirmPassword = form.confirmerMotDePasse;
     const password = form.motDePasse;
     const hasUpperCase = /[A-Z]/.test(password);
@@ -151,6 +124,7 @@ function InscriptionPage() {
       return;
     }
 
+    // Validate password confirmation
     if (password !== confirmPassword) {
       toast.error("Les mots de passe ne correspondent pas.", {
         autoClose: 3000,
@@ -159,8 +133,10 @@ function InscriptionPage() {
       return;
     }
 
+    // Remove confirmMotDePasse field from finalForm
     delete finalForm.confirmerMotDePasse;
 
+    // Send email verification request to server
     const emailResponse = await fetch(
       "http://localhost:8080/register/verifyEmail",
       {
@@ -172,11 +148,14 @@ function InscriptionPage() {
       }
     );
 
+    // Handle email verification response
     if (!emailResponse.ok) {
       const data = await emailResponse.json();
       toast.error(data.message, { autoClose: 3000, pauseOnHover: false });
       return;
     }
+
+    // Send registration request to server
     const response = await fetch("http://localhost:8080/register/subscribe", {
       method: "POST",
       headers: {
@@ -185,6 +164,7 @@ function InscriptionPage() {
       body: JSON.stringify(finalForm),
     });
 
+    // Handle registration response
     if (response.ok) {
       toast.success("Votre utilisateur a été créé avec succès!", {
         autoClose: 3000,
@@ -205,12 +185,11 @@ function InscriptionPage() {
   };
 
   return (
-   
-      <Container style={{ minHeight: "100vh" }}>
-      <ToastContainer />
+    <Container style={{ minHeight: "100vh" }}>
+      <ToastContainer /> {/* Container for toast notifications */}
       <Row className="justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
         <Col md={6}>
-          <Form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}> {/* Registration form */}
             <h1 style={{marginTop: 0}}>Inscription</h1>
             <Form.Group controlId="courriel">
               <Form.Label>Courriel:</Form.Label>
@@ -235,12 +214,12 @@ function InscriptionPage() {
             <Form.Group controlId="municipalite">
               <Form.Label>Municipalité:</Form.Label>
               <Form.Control as="select" name="municipalite" onChange={handleChange}>
-                {renderMunicipalites()}
+                {renderMunicipalites()} {/* Render municipality options */}
               </Form.Control>
             </Form.Group>
             <Form.Group className="mb-3">
                 <Form.Label>Intérêts:</Form.Label>
-                {renderInterests()}
+                {renderInterests()} {/* Render interests checkboxes */}
               </Form.Group>
             <div className="d-flex justify-content-between">
               <Button variant="light" className="m-2 btn-custom btn-hover-effect" onClick={() => navigate("/")}>
@@ -256,9 +235,7 @@ function InscriptionPage() {
         </Col>
       </Row>
     </Container>
-    
-    
   );
 }
 
-export default InscriptionPage;
+export default InscriptionPage; // Exporting InscriptionPage component

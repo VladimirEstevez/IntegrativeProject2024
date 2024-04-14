@@ -1,47 +1,57 @@
-import React, { useState  } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import "bootstrap/dist/css/bootstrap.min.css";
-import formatUTCDate from './utilDate';
-import { toast, ToastContainer } from 'react-toastify';
+import React, { useState } from 'react'; // Importing React and useState hook
+import { useLocation, useNavigate } from 'react-router-dom'; // Importing useLocation and useNavigate hooks from react-router-dom
+import "bootstrap/dist/css/bootstrap.min.css"; // Importing Bootstrap CSS
+import formatUTCDate from './utilDate'; // Importing utility function for formatting UTC date
+import { toast, ToastContainer } from 'react-toastify'; // Importing toast notifications
 
+// Functional component for individual activity page
 const Activity = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const activity = location.state.activity;
- const [isLoading, setIsLoading] = useState(false);
+  const location = useLocation(); // Accessing current location
+  const navigate = useNavigate(); // Accessing navigate function from react-router-dom
+  const activity = location.state.activity; // Extracting activity object from location state
+  const [isLoading, setIsLoading] = useState(false); // State variable for loading state
 
- const goBack = () => {
-   navigate('/activities'); // replace '/activities' with the path to your activities menu
+  // Function to navigate back to activities menu
+  const goBack = () => {
+    navigate('/activities'); // Navigating back to activities menu
   }
 
-
+  // Function to register for the activity
   const registerActivity = async () => {
-    const token = localStorage.getItem('token'); // replace with how you store your jwt token
-  
+    const token = localStorage.getItem('token'); // Fetching token from local storage
+    
+    // Sending registration data to backend route
     const response = await fetch('http://localhost:8080/activities/register-activity', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': token
+        'Authorization': token // Sending authorization token in headers
       },
-      body: JSON.stringify(activity)
+      body: JSON.stringify(activity) // Sending activity object in JSON format
     });
-  
+
+    // Handling response from server
     if (response.ok) {
+      // Displaying success message and redirecting to event URL
       toast.success('Registration successful');
-		setTimeout(() => window.open(activity.event_url, '_blank'), 3000);
+      setTimeout(() => window.open(activity.event_url, '_blank'), 3000);
     } else {
+      // Displaying error message if registration fails
       toast.error('Registration failed');
     }
   }
- const handleEventUrlClick = (event) => {
-    setIsLoading(true);
+
+  // Function to handle click on event URL
+  const handleEventUrlClick = (event) => {
+    setIsLoading(true); // Setting loading state to true
     setTimeout(() => {
-      window.open(activity.post_url, '_blank');
-      setIsLoading(false);
-    }, 1000); // open the new window after 1 second
-    event.preventDefault(); // prevent the default action
+      window.open(activity.post_url, '_blank'); // Opening event URL in new tab after 1 second
+      setIsLoading(false); // Setting loading state to false
+    }, 1000); // Delaying action for 1 second
+    event.preventDefault(); // Preventing default action
   }
+
+  // Rendering loading state if isLoading is true
   if (isLoading) {
     return (
       <div className="text-center" style={{background: 'linear-gradient(to bottom, #007bff, #ffffff)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', width: '100vw'}}>
@@ -51,26 +61,28 @@ const Activity = () => {
     );
   }
 
+  // Formatting post content with line breaks
   const postContentWithBreaks = activity.post_content.replace(/\r\n/g, '<br>');
-  
-return (
 
-  <div>
-    <ToastContainer />
-    <div className="activity p-5 shadow-sm bg-white rounded text-center" style={{background: 'linear-gradient(to bottom, #007bff, #ffffff)', maxWidth: '100%', color: '#333', height: '100vh', width: '100vw'}}>
-      <img src={activity.post_thumbnail} alt="Event" className="activity-img my-3 img-fluid rounded d-block" style={{maxWidth: '50%'}} />
-      <h2 className="my-3">{activity.post_title}</h2>
-      <p className="text-muted">{activity.post_excerpt}</p>
-      <p className="my-3 text-justify" dangerouslySetInnerHTML={{ __html: postContentWithBreaks }}></p>
-      <p><small className="text-muted">Start Date: {formatUTCDate(activity.StartDate)}</small></p>
-      <p><small className="text-muted">End Date: {formatUTCDate(activity.EndDate)}</small></p>
-      <span>Evenement sur le site Valcourt2030: </span><a href={activity.post_url} onClick={handleEventUrlClick} className=" my-3">   {activity.post_title}  </a>
-      <p><small className="text-muted">Tags: {activity.tags.join(', ')}</small></p>
-      <button onClick={() => goBack()} className="btn btn-secondary my-3">Go Back</button>
-      <button onClick={registerActivity} className="register-button btn btn-primary">Register to the activity</button>
+  // Rendering activity details
+  return (
+    <div>
+      <ToastContainer /> {/* Toast notifications container */}
+      {/* Activity details */}
+      <div className="activity p-5 shadow-sm bg-white rounded text-center" style={{background: 'linear-gradient(to bottom, #007bff, #ffffff)', maxWidth: '100%', color: '#333', height: '100vh', width: '100vw'}}>
+        <img src={activity.post_thumbnail} alt="Event" className="activity-img my-3 img-fluid rounded d-block" style={{maxWidth: '50%'}} /> {/* Activity image */}
+        <h2 className="my-3">{activity.post_title}</h2> {/* Activity title */}
+        <p className="text-muted">{activity.post_excerpt}</p> {/* Activity excerpt */}
+        <p className="my-3 text-justify" dangerouslySetInnerHTML={{ __html: postContentWithBreaks }}></p> {/* Activity content */}
+        <p><small className="text-muted">Start Date: {formatUTCDate(activity.StartDate)}</small></p> {/* Start date */}
+        <p><small className="text-muted">End Date: {formatUTCDate(activity.EndDate)}</small></p> {/* End date */}
+        <span>Evenement sur le site Valcourt2030: </span><a href={activity.post_url} onClick={handleEventUrlClick} className=" my-3">   {activity.post_title}  </a> {/* Event URL */}
+        <p><small className="text-muted">Tags: {activity.tags.join(', ')}</small></p> {/* Tags */}
+        <button onClick={() => goBack()} className="btn btn-secondary my-3">Go Back</button> {/* Button to go back */}
+        <button onClick={registerActivity} className="register-button btn btn-primary">Register to the activity</button> {/* Button to register */}
+      </div>
     </div>
-  </div>
   );
 };
 
-export default Activity;  
+export default Activity; // Exporting Activity component

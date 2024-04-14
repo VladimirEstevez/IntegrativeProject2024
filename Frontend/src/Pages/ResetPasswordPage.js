@@ -1,18 +1,22 @@
-// ResetPassword.js
-import React, { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import React, { useState } from "react"; // Importing useState hook from React
+import { toast, ToastContainer } from "react-toastify"; // Importing toast notifications
 
+// Functional component for password reset page
 function ResetPasswordPage() {
+  // State variables for password and confirmPassword
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  // Function to handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Preventing default form submission behavior
 
+    // Validation checks for password strength
     const hasUpperCase = /[A-Z]/.test(password);
     const hasNumber = /\d/.test(password);
     const hasMinLength = password.length >= 8;
 
+    // Display error if password does not meet requirements
     if (!hasUpperCase || !hasNumber || !hasMinLength) {
       toast.error(
         "Le mot de passe doit comporter au moins 8 caractères, dont une lettre majuscule et un chiffre."
@@ -26,8 +30,10 @@ function ResetPasswordPage() {
       return;
     }
 
+    // Extract token from URL query parameters
     const params = new URLSearchParams(window.location.search);
     const token = params.get("token");
+
     // Send data to backend route for password reset
     try {
       const response = await fetch("http://localhost:8080/user/resetPassword", {
@@ -35,29 +41,25 @@ function ResetPasswordPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ token, password }),
+        body: JSON.stringify({ token, password }), // Sending token and new password in JSON format
       });
 
       if (response.ok) {
-        //Display success message
-        toast.success("Réinitialisation du mot de passe réussie.")
-        // Redirect to /menu
+        // Display success message if password reset is successful
+        toast.success("Réinitialisation du mot de passe réussie.");
+        // Redirect to home page
         window.location.href = "/";
       } else {
-        // Display error message to user
-        return(
-          toast.error("Le mot de passe est déjà modifié.")
-        )
+        // Display error message if password is already modified
+        toast.error("Le mot de passe est déjà modifié.");
       }
     } catch (error) {
-      // Display error message to user
-      return(
-        toast.error("Une erreur s'est produite lors de la réinitialisation du mot de passe.")
-      )
+      // Display error message if an error occurs during password reset
+      toast.error("Une erreur s'est produite lors de la réinitialisation du mot de passe.");
     }
   };
 
-  // If the password reset hasn't happened yet, display the form
+  // Render form for password reset
   return (
     <div
       style={{
@@ -65,12 +67,13 @@ function ResetPasswordPage() {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh", // This assumes that the div takes up the full viewport height
+        height: "100vh", // Setting full viewport height
       }}
     >
-      <ToastContainer />
-      <h1 className="m-4">Réinitialisation du mot de passe</h1>
+      <ToastContainer /> {/* Toast notifications container */}
+      <h1 className="m-4">Réinitialisation du mot de passe</h1> {/* Heading */}
       <form onSubmit={handleSubmit} style={{ textAlign: "left" }}>
+        {/* Password input */}
         <input
           type="password"
           id="password"
@@ -80,6 +83,7 @@ function ResetPasswordPage() {
           required
           className="form-control my-3"
         />
+        {/* Confirm password input */}
         <input
           type="password"
           id="confirmPassword"
@@ -89,6 +93,7 @@ function ResetPasswordPage() {
           required
           className="form-control my-3"
         />
+        {/* Submit button */}
         <div className="d-flex justify-content-center align-items-center my-3">
           <button
             type="submit"
@@ -99,13 +104,13 @@ function ResetPasswordPage() {
               borderRadius: "10px",
               border: "none",
               cursor: "pointer",
-              transition: "transform 0.3s", // Add transition
+              transition: "transform 0.3s", // Adding transition effect
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "scale(1.1)";
-            }} // Add onMouseEnter
+              e.currentTarget.style.transform = "scale(1.1)"; // Scaling effect on hover
+            }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "scale(1)";
+              e.currentTarget.style.transform = "scale(1)"; // Reverting scale effect on hover out
             }}
           >
             Confirmer
@@ -116,4 +121,4 @@ function ResetPasswordPage() {
   );
 }
 
-export default ResetPasswordPage;
+export default ResetPasswordPage; // Exporting ResetPasswordPage component
