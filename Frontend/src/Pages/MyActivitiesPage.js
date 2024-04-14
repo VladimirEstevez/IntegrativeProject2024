@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
+
 import Card from "../Objects/Card"; // Importing Card component
 import { useNavigate } from "react-router-dom"; // Importing hook for navigation
 import "bootstrap/dist/css/bootstrap.min.css"; // Importing Bootstrap CSS
 import { BoxArrowInLeft } from "react-bootstrap-icons"; // Importing logout icon
+
 
 // Functional component for My Activities Page
 const MyActivitiesPage = () => {
@@ -56,9 +58,10 @@ const MyActivitiesPage = () => {
   // Function to render filter dropdown menu
   function renderFilterMenu() {
     return (
-      <div ref={filterDropdownRef}>
+      <div className="dropdown" ref={filterDropdownRef}>
         <button
-          className="btn btn-light  m-2 btn-custom btn-hover-effect"
+          className="btn btn-light btn-custom btn-hover-effect dropdown-toggle"
+
           onClick={() => setDropdownOpen(!dropdownOpen)}
         >
           Filter
@@ -88,39 +91,52 @@ const MyActivitiesPage = () => {
   function renderDateFilterMenu() {
     return (
       <div ref={dateDropdownRef}>
-        <button
-          className="btn btn-light m-2 btn-custom btn-hover-effect"
-          onClick={() => setDateDropdownOpen(!dateDropdownOpen)}
-        >
-          Filter by Date
-        </button>
-        {dateDropdownOpen && (
           <div
-            className="position-absolute bg-white border rounded p-2"
-            style={{ zIndex: 1000 }}
+          className="bg-white"
+          style={{ zIndex: 1000 }}
+        >
+          <select
+            value={selectedDate || ""}
+            onChange={(e) => setSelectedDate(e.target.value)}
           >
-            <input
-              type="date"
-              value={selectedDate || ""}
-              onChange={(e) => setSelectedDate(e.target.value)}
-            />
-          </div>
-        )}
+            <option value="">Ensemble des Activités</option>
+            <option value="previous">Activités précédentes</option>
+            <option value="today">Activités du jour</option>
+            <option value="upcoming">Activités à venir</option>
+          </select>
+        </div>
       </div>
     );
   }
 
   // Filtering activities based on selected filters and date
   const filteredActivities = Array.isArray(activities)
-    ? activities.filter(
-        (activity) =>
-          (selectedFilters.length === 0 ||
-            selectedFilters.some((filter) => activity.tags.includes(filter))) &&
-          (!selectedDate ||
-            selectedDate.trim() === "" ||
-            new Date(activity.StartDate).toISOString().substring(0, 10) ===
-              selectedDate)
-      )
+    ? activities.filter((activity) => {
+
+      //Filter by tags
+      const tagFilter =
+          selectedFilters.length === 0 ||
+          (Array.isArray(activity.tags) && selectedFilters.some((filter) => activity.tags.includes(filter)));
+
+      //Filter by date
+      let dateFilter = false;
+      const activityDate = new Date(activity.StartDate).toISOString().substring(0, 10);
+      switch (selectedDate) {
+        case "previous":
+          dateFilter = activityDate < new Date().toISOString().substring(0, 10);
+          break;
+        case "today":
+          dateFilter = activityDate === new Date().toISOString().substring(0, 10);
+          break;
+        case "upcoming":
+          dateFilter = activityDate > new Date().toISOString().substring(0, 10);
+          break;
+        default:
+          dateFilter = true;
+      }
+
+      return tagFilter && dateFilter;
+    })
     : [];
 
   // Handling checkbox change
@@ -186,12 +202,17 @@ const MyActivitiesPage = () => {
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
-        <h1 className="mb-4">Mes activités</h1> {/* Page heading */}
-      </div>
 
-      <div className="d-flex justify-content-center mb-4">
-        <div>{renderFilterMenu()}</div> {/* Render filter menu */}
-        <div>{renderDateFilterMenu()}</div> {/* Render date filter menu */}
+        <h1 className="col-12 text-center mb-4">Mes activités</h1>
+      </div>
+      <div className="row justify-content-center">
+        <div className="col-sm-auto text-center">
+          <div>{renderFilterMenu()}</div>
+        </div>
+        <div className="col-sm-auto text-center mt-2">
+          <div className="mw-75">{renderDateFilterMenu()}</div>
+        </div>
+
       </div>
       <div className="row">
         {filteredActivities.length > 0 ? (
@@ -205,14 +226,13 @@ const MyActivitiesPage = () => {
         )}
       </div>
       <div className="row justify-content-center">
+
         {/* Logout button */}
         <button
           onClick={() => navigate("/")} // Navigate to login page on click
           className="btn btn-primary mt-4"
+
           style={{
-            borderRadius: "10px",
-            position: "relative",
-            padding: "10px 20px",
             transition: "transform 0.3s",
           }}
           onMouseEnter={(e) => {
@@ -222,8 +242,9 @@ const MyActivitiesPage = () => {
             e.currentTarget.style.transform = "scale(1)"; // Reverting scale effect on hover out
           }}
         >
-          <span style={{ marginRight: "5px" }}>Se Déconnecter</span> {/* Logout text */}
-          <BoxArrowInLeft size={24} /> {/* Logout icon */}
+
+          Retour à la page d'accueil <House size={20} />
+
         </button>
       </div>
     </div>
