@@ -3,60 +3,70 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const { client } = require("../database/database.js");
 const nodemailer = require("nodemailer");
-const { ObjectId } = require('mongodb');
+const { ObjectId } = require("mongodb");
 
 //Database setup
 const db = client.db("integrativeProjectDB");
 const UsersCollection = db.collection("Users");
 const ActivitiesCollection = db.collection("Activities");
-const { formatUTCDate } = require('../dateUtils/formatDate.js')
+const { formatUTCDate } = require("../dateUtils/formatDate.js");
 
 // This route returns a collection of activities from the database.
 router.get("/", async (req, res) => {
-    try {
-        const activities = await ActivitiesCollection.find().toArray();
-        res.json(activities);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Error fetching activities" }); // send a JSON error message
-    }
+  try {
+    const activities = await ActivitiesCollection.find().toArray();
+    res.json(activities);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching activities" }); // send a JSON error message
+  }
 });
 
 // This route registers a user to an activity and sends an email to the user.
 router.post("/register-activity", async (req, res) => {
-    const activity = req.body;
+  const activity = req.body;
 
-    const user = await UsersCollection.findOne({ courriel: decoded.courriel });
+  const user = await UsersCollection.findOne({ courriel: decoded.courriel });
 
-    if (!user) {
-        return res.status(404).send({ message: "No user found" });
-    }
+  if (!user) {
+    return res.status(404).send({ message: "No user found" });
+  }
 
-    await ActivitiesCollection.updateOne(
-        { _id: new ObjectId(activity._id) },
-        { $addToSet: { registeredUsers: user.courriel } });
+  await ActivitiesCollection.updateOne(
+    { _id: new ObjectId(activity._id) },
+    { $addToSet: { registeredUsers: user.courriel } }
+  );
 
-    const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-            user: process.env.RECIPIENT_EMAIL,
-            pass: process.env.EMAIL_PASSWORD,
-        },
-    });
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.RECIPIENT_EMAIL,
+      pass: process.env.EMAIL_PASSWORD,
+    },
+  });
 
-    await transporter.sendMail({
-        from: `"Valcour2030" <${process.env.RECIPIENT_EMAIL}>`,
-        to: user.courriel,
-        subject: "Activity Registration",
-        html: `
-        Bienvenue! Vous vous �tes inscrit � l'activit� : ${activity.post_title}.<br>
-            Date de d�but : ${formatUTCDate(activity.StartDate).toLocaleString('fr-FR')},<br>
-            Date de fin : ${formatUTCDate(activity.EndDate).toLocaleString('fr-FR')}.<br>
-            Tags : ${activity.tags.join(', ')}<br>
+  await transporter.sendMail(
+    {
+      from: `"Valcour2030" <${process.env.RECIPIENT_EMAIL}>`,
+      to: user.courriel,
+      subject: "Activity Registration",
+      html: `
+        Bienvenue! Vous vous �tes inscrit � l'activit� : ${
+          activity.post_title
+        }.<br>
+            Date de d�but : ${formatUTCDate(activity.StartDate).toLocaleString(
+              "fr-FR"
+            )},<br>
+            Date de fin : ${formatUTCDate(activity.EndDate).toLocaleString(
+              "fr-FR"
+            )}.<br>
+            Tags : ${activity.tags.join(", ")}<br>
             <p>Pour plus de d�tails, cliquez sur le bouton ci-dessous :
             <button id="detailsButton" style="background-color: blue; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Voir les d�tails</button></p>
 
-            <img src="${activity.post_thumbnail}" alt="Image de l'activit�" style="width: 100%; max-width: 600px;">
+            <img src="${
+              activity.post_thumbnail
+            }" alt="Image de l'activit�" style="width: 100%; max-width: 600px;">
             
             <script>
                 // Ajout d'un gestionnaire d'�v�nements au clic du bouton
@@ -65,19 +75,23 @@ router.post("/register-activity", async (req, res) => {
                 });
             </script>
         `,
-    }, function (error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log("Email sent: " + info.response);
-        }
-    });
+    },
+    function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    }
+  );
 
-    res.status(200).send({ message: "Activity registration successful" });
+  res.status(200).send({ message: "Activity registration successful" });
 });
 
 // This route registers the user to an activity when the user clicks the "Register" button on the email notification and opens up the form to register for the activity.
-router.get("/register-activity/:email/:activityId/:formUrl", async (req, res) => {
+router.get(
+  "/register-activity/:email/:activityId/:formUrl",
+  async (req, res) => {
     console.log("les activités; form;");
     const email = req.params.email;
     const activityId = req.params.activityId;
@@ -86,45 +100,46 @@ router.get("/register-activity/:email/:activityId/:formUrl", async (req, res) =>
     const user = await UsersCollection.findOne({ courriel: email });
 
     if (!user) {
-        return res.status(404).send({ message: "No user found" });
+      return res.status(404).send({ message: "No user found" });
     }
 
     await ActivitiesCollection.updateOne(
-        { _id: new ObjectId(activityId) },
-        { $addToSet: { registeredUsers: email } }
+      { _id: new ObjectId(activityId) },
+      { $addToSet: { registeredUsers: email } }
     );
 
     // Redirect to the form URL
     res.redirect(formUrl);
-});
+  }
+);
 
 // This route gets the user email from decoding the token, and returns the registered activities for that user.
 router.get("/my-activities", async (req, res) => {
-    // Get the token from the Authorization header
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-        return res.status(401).send('No token provided');
+  // Get the token from the Authorization header
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).send("No token provided");
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  const decoded = jwt.verify(token, process.env.SECRET_TOKEN);
+  const userEmail = decoded.courriel;
+
+  // Find the activities the user is registered to
+  try {
+    const activities = await ActivitiesCollection.find({
+      registeredUsers: { $in: [userEmail] },
+    }).toArray();
+
+    if (!activities) {
+      return res.status(404).send("No activities found");
     }
-
-    const token = authHeader.split(' ')[1];
-
-    const decoded = jwt.verify(token, process.env.SECRET_TOKEN);
-    const userEmail = decoded.courriel;
-
-    // Find the activities the user is registered to
-    try {
-        const activities = await ActivitiesCollection.find({
-            registeredUsers: { $in: [userEmail] }
-        }).toArray();
-
-        if (!activities) {
-            return res.status(404).send('No activities found');
-        }
-        res.send(activities);
-    } catch (error) {
-        console.error("Error in find operation: ", error);
-        return res.status(500).send('Server error');
-    }
+    res.send(activities);
+  } catch (error) {
+    console.error("Error in find operation: ", error);
+    return res.status(500).send("Server error");
+  }
 });
 
 module.exports = router;

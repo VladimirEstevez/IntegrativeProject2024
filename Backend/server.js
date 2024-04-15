@@ -91,7 +91,9 @@ app.post("/", async (req, res) => {
 
         // Generate a unique URL for each user and each activity
 
-        const registerUrl = `http://localhost:8080/activities/register-activity/${user.courriel}/${activityId}/${encodeURIComponent(eventData.event_url)}`;
+        const registerUrl = `http://localhost:8080/activities/register-activity/${
+          user.courriel
+        }/${activityId}/${encodeURIComponent(eventData.event_url)}`;
 
         // Send an email to the user
         await transporter.sendMail(

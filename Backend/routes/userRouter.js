@@ -14,7 +14,7 @@ const UsersCollection = db.collection("Users");
 
 // This function generates a token for the user using the username(email).
 function GenerateToken(username) {
-  return jwt.sign( username , process.env.SECRET_TOKEN, {
+  return jwt.sign(username, process.env.SECRET_TOKEN, {
     expiresIn: "1d",
   });
 }
@@ -36,9 +36,9 @@ router.post("/login", async (req, res) => {
       return;
     }
   }
-  
+
   const match = await bcrypt.compare(motDePasse, user.motDePasse);
-  
+
   if (!user || !match) {
     return res.status(400).send({
       message: "Ce courriel n'existe pas ou le mot de passe est incorrect",
@@ -142,11 +142,11 @@ router.post("/requestPasswordReset", async (req, res) => {
   const userCourriel = req.body.courriel;
 
   // Generate a unique token and associate it with the user's account
-  const token = GenerateToken({userCourriel});
+  const token = GenerateToken({ userCourriel });
   await UsersCollection.updateOne(
-    {courriel: userCourriel },
-    { $set: {resetPasswordToken: token } }
-  )
+    { courriel: userCourriel },
+    { $set: { resetPasswordToken: token } }
+  );
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -156,25 +156,32 @@ router.post("/requestPasswordReset", async (req, res) => {
     },
   });
 
-  await transporter.sendMail({
-    from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
-    to: userCourriel,
-    subject: "Réinitialisation du mot de passe",
-    html: `
+  await transporter.sendMail(
+    {
+      from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
+      to: userCourriel,
+      subject: "Réinitialisation du mot de passe",
+      html: `
       <p>Cliquez sur le bouton suivant pour réinitialiser votre mot de passe :
       <a href="http://localhost:8080/user/resetPassword?token=${token}" style="display: inline-block; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; border: 1px solid transparent; padding: .375rem .75rem; font-size: 1rem;
        line-height: 1.5; border-radius: .25rem; color: #fff; background-color: #007bff; text-decoration: none;">Réinitialiser le mot de passe</a></p>
       <img src="https://valfamille.com/site2022/wp-content/uploads/logo-bleu-marge.jpg" alt="Valcourt 2030" style="max-width: 60%; max-height: 50vh; margin-bottom: 20px;">
 
-      `
-  
-  
+      `,
     },
     function (error, info) {
       if (error) {
-        res.status(400).send("Nous n'avons pas pu vous envoyer le courriel de réinitialisation du mot de passe.");
+        res
+          .status(400)
+          .send(
+            "Nous n'avons pas pu vous envoyer le courriel de réinitialisation du mot de passe."
+          );
       } else {
-        res.status(200).send("Vérifiez votre courriel pour réinitialiser votre mot de passe");
+        res
+          .status(200)
+          .send(
+            "Vérifiez votre courriel pour réinitialiser votre mot de passe"
+          );
       }
     }
   );
@@ -195,16 +202,18 @@ router.post("/resetPassword", async (req, res) => {
 
   if (!user) {
     // If the token is not associated with a user, send an error message
-    res.status(400).send("Impossible de traiter votre demande. Veuillez réessayer");
-  } else{
+    res
+      .status(400)
+      .send("Impossible de traiter votre demande. Veuillez réessayer");
+  } else {
     // If the token is valid, hash the new password and update it in the database
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     await UsersCollection.findOneAndUpdate(
-      {resetPasswordToken: token},
-      { $set: {motDePasse: hashedPassword, resetPasswordToken: null } }
-    )
-    
+      { resetPasswordToken: token },
+      { $set: { motDePasse: hashedPassword, resetPasswordToken: null } }
+    );
+
     res.status(200).send("Réinitialisation du mot de passe réussie");
   }
 });
@@ -214,20 +223,20 @@ router.get("/requestPasswordModification", authMiddleware, async (req, res) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
-    return res.status(401).send('Authorization header is missing');
+    return res.status(401).send("Authorization header is missing");
   }
 
-  const token = authHeader.split(' ')[1];
+  const token = authHeader.split(" ")[1];
   const decodedToken = jwt.verify(token, process.env.SECRET_TOKEN);
   const userCourriel = decodedToken.courriel;
 
   // Generate a unique token and associate it with the user's account
-  const newToken = GenerateToken({userCourriel});
-  console.log('newToken: ', newToken);
+  const newToken = GenerateToken({ userCourriel });
+  console.log("newToken: ", newToken);
   await UsersCollection.updateOne(
-    {courriel: userCourriel },
-    { $set: {modifyPasswordToken: newToken } }
-  )
+    { courriel: userCourriel },
+    { $set: { modifyPasswordToken: newToken } }
+  );
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -244,14 +253,22 @@ router.get("/requestPasswordModification", authMiddleware, async (req, res) => {
       subject: "Modify password",
       html: `
     <p>Cliquez sur le lien ci-dessous pour modifier votre mot de passe :</p>
-    <p><a href="http://localhost:8080/user/passwordModification?token=${encodeURIComponent(newToken)}" style="display: inline-block; background-color: #007bff; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px;">Modifier le mot de passe</a></p>
+    <p><a href="http://localhost:8080/user/passwordModification?token=${encodeURIComponent(
+      newToken
+    )}" style="display: inline-block; background-color: #007bff; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px;">Modifier le mot de passe</a></p>
   `,
     },
     function (error, info) {
       if (error) {
-        res.status(400).send("Nous n'avons pas pu vous envoyer le courriel de modification du mot de passe.");
+        res
+          .status(400)
+          .send(
+            "Nous n'avons pas pu vous envoyer le courriel de modification du mot de passe."
+          );
       } else {
-        res.status(200).send("Vérifiez votre courriel pour modifier votre mot de passe");
+        res
+          .status(200)
+          .send("Vérifiez votre courriel pour modifier votre mot de passe");
       }
     }
   );
@@ -272,15 +289,17 @@ router.post("/passwordModification", async (req, res) => {
 
   if (!user) {
     // If the token is not associated with a user, send an error message
-    res.status(400).send("Impossible de traiter votre demande. Veuillez réessayer");
-  } else{
+    res
+      .status(400)
+      .send("Impossible de traiter votre demande. Veuillez réessayer");
+  } else {
     // If the token is valid, hash the new password and update it in the database
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     await UsersCollection.findOneAndUpdate(
-      {modifyPasswordToken: token},
-      { $set: {motDePasse: hashedPassword, modifyPasswordToken: null } }
-    )
+      { modifyPasswordToken: token },
+      { $set: { motDePasse: hashedPassword, modifyPasswordToken: null } }
+    );
 
     res.status(200).send("Modification du mot de passe réussie");
   }
