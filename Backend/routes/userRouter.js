@@ -12,18 +12,16 @@ const nodemailer = require("nodemailer");
 const db = client.db("integrativeProjectDB");
 const UsersCollection = db.collection("Users");
 
+// This function generates a token for the user using the username(email).
 function GenerateToken(username) {
-  //return jwt.sign(username, process.env.SECRET_TOKEN);
   return jwt.sign( username , process.env.SECRET_TOKEN, {
     expiresIn: "1d",
   });
 }
 
+// This route verifies the username and the password provided by user and logs in the user if successful else returns an error message.
 router.post("/login", async (req, res) => {
   const { courriel, motDePasse } = req.body;
-  //console.log("req.body: ", req.body);
-  //console.log("motDePasse: ", motDePasse);
-  //console.log("courriel: ", courriel);
 
   const user = await UsersCollection.findOne({
     courriel,
@@ -38,16 +36,10 @@ router.post("/login", async (req, res) => {
       return;
     }
   }
-
-  if (!user) {
-    return res.status(400).send({
-      message: "Ce courriel n'existe pas ou le mot de passe est incorrect",
-    });
-  }
-
+  
   const match = await bcrypt.compare(motDePasse, user.motDePasse);
-
-  if (!match) {
+  
+  if (!user || !match) {
     return res.status(400).send({
       message: "Ce courriel n'existe pas ou le mot de passe est incorrect",
     });
@@ -61,31 +53,25 @@ router.post("/login", async (req, res) => {
     tags: user.tags,
   });
 
-  console.log("RIGHT TOKEN: ", accessToken);
   res.status(200).send({
     message: "Login successful",
     accessToken: accessToken,
   });
 });
 
+// This route updates the user information in the database and returns the updated user information.
 router.patch("/updateUser", authMiddleware, async (req, res) => {
   const updatedUser = req.body;
-  //console.log("updatedUser: ", updatedUser);
 
   const authHeader = req.headers.authorization;
-  //console.log('authHeader: ', authHeader);
   const token = authHeader && authHeader.split(" ")[1];
-  //console.log('token: ', token);
 
   if (token == null) {
-    return res.sendStatus(401); // If there's no token, return a 401 status
+    return res.sendStatus(401);
   }
   try {
-    // Use the promisified jwt.verify function with async/await
-   //const user = await jwtVerify(token, process.env.SECRET_TOKEN);
-    //console.log("user: ", user);
+    const user = await jwtVerify(token, process.env.SECRET_TOKEN);
 
-    //console.log("user.email: ", user.courriel);
     // Use the email from the JWT payload to update the user
     const result = await UsersCollection.updateOne(
       {
@@ -114,21 +100,16 @@ router.patch("/updateUser", authMiddleware, async (req, res) => {
   }
 });
 
+// This route verifies if the user is authenticated, by verifying the token.
 router.get("/protectedRoute", authMiddleware, async (req, res) => {
-  //console.log('req: ', req);
   const authHeader = req.headers["authorization"];
-  //console.log('authHeader: ', authHeader);
   const token = authHeader && authHeader.split(" ")[1];
- // console.log("token: ", token);
 
   if (!token) {
     return res.sendStatus(401);
   }
 
   try {
-    // const user = await jwtVerify(token, process.env.SECRET_TOKEN);
-    // //console.log("user: ", user);
-    // req.user = user;
     console.log("You have accessed a protected route");
     res.send(req.user);
   } catch (err) {
@@ -137,8 +118,7 @@ router.get("/protectedRoute", authMiddleware, async (req, res) => {
   }
 });
 
-//ROUTE TO VERIFY IF EMAIL THAT EMAIL EXISTS,
-// IT CHECKS IF THE EMAIL HAS BEEN ALREADY TAKEN IN THE DATABASE BEFORE LETTING THE USER RESET THE PASSWORD
+// This route verifies if the email exists, it checks if the email has been already taken in the database.
 router.post("/verifyEmail", async (req, res) => {
   const courriel = req.body.courriel;
 
@@ -157,6 +137,7 @@ router.post("/verifyEmail", async (req, res) => {
   }
 });
 
+// This route sends the email to the user with the link to reset the password
 router.post("/requestPasswordReset", async (req, res) => {
   const userCourriel = req.body.courriel;
 
@@ -228,6 +209,7 @@ router.post("/resetPassword", async (req, res) => {
   }
 });
 
+// This route sends the email to the user with the link to modify the password
 router.get("/requestPasswordModification", authMiddleware, async (req, res) => {
   const authHeader = req.headers.authorization;
 
@@ -275,7 +257,7 @@ router.get("/requestPasswordModification", authMiddleware, async (req, res) => {
   );
 });
 
-// This route handles the initial GET request made when the user clicks the link in the email
+// This route handles the initial GET request made when the user clicks the link in the email for modifying the password
 router.get("/passwordModification", async (req, res) => {
   const { token } = req.query;
 
@@ -283,7 +265,7 @@ router.get("/passwordModification", async (req, res) => {
   res.redirect(`http://localhost:3000/passwordModification?token=${token}`);
 });
 
-// This route handles the POST request made by your React app to reset the password
+// This route handles the POST request made by your React app to modify the password
 router.post("/passwordModification", async (req, res) => {
   const { token, password } = req.body;
   const user = await UsersCollection.findOne({ modifyPasswordToken: token });

@@ -10,27 +10,16 @@ const bcrypt = require("bcrypt");
 //Database setup
 const db = client.db("integrativeProjectDB");
 const UsersCollection = db.collection("Users");
-const ActivitiesCollection = db.collection("Activities");
 
-// router.post("/", async (req, res) => {
-//   console.log("Webhook received:");
-//   console.log(req.body);
-
-//   await ActivitiesCollection.insertOne(req.body);
-
-//   res.status(200).send(req.body);
-// });
-
+// This route creats a new User and sends an email to the user to confirm their account.
 router.post("/subscribe", async (req, res) => {
-    console.log("Subscription received:");
-    console.log(req.body);
     const user = req.body;
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(user.motDePasse, saltRounds);
     user.motDePasse = hashedPassword;
-    user.verified = false; // Add a verified field set to false
-    const result = await UsersCollection.insertOne(user);
-    //const savedUser = result.ops[0]; // Get the saved user with _id
+    user.verified = false;
+    
+    await UsersCollection.insertOne(user);
 
     // Generate a verification token
     const token = jwt.sign({
@@ -39,17 +28,17 @@ router.post("/subscribe", async (req, res) => {
         process.env.SECRET_TOKEN
     );
 
+    // Create a Nodemailer transporter using Gmail as the service.
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: "integrativeprojectgroupthree@gmail.com",
+            user: process.env.RECIPIENT_EMAIL,
             pass: process.env.EMAIL_PASSWORD,
         },
     });
 
-
     await transporter.sendMail({
-        from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
+        from: `"Valcour2030" <${process.env.RECIPIENT_EMAIL}>`,
         to: user.courriel,
         subject: "Verify your account",
         html: `
@@ -68,8 +57,8 @@ router.post("/subscribe", async (req, res) => {
       message: "User created successfully",
   });
 });
-// USER REGISTERS TO THE FIRST TIME
-//AN EMAIL GETS SENT AND HE HAS TO CLICK ON A LINK BEFORE BEING ABLE TO SIGN IN FOR THE FIRST TIME
+
+// This route confirms the first time user as verified.
 router.get("/confirm", async (req, res) => {
     const token = req.query.token;
 
@@ -109,9 +98,7 @@ router.get("/confirm", async (req, res) => {
     }
 });
 
-
-//ROUTE TO VERIFY IF EMAIL EXISTS ALREADY WHEN USER IS REGISTERING FOR THE FIRST TIME
-// IT CHECKS IF THE EMAIL HAS BEEN ALREADY TAKEN IN THE DATABASE BEFORE LETTING THE USER REGISTER
+// This route verifies if the user is already registered with the email they are trying to register with.
 router.post("/verifyEmail", async (req, res) => {
     const {
         courriel

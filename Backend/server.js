@@ -5,134 +5,170 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const { connect } = require("./database/database");
-const ngrok = require("ngrok");
 const { client } = require("./database/database");
 const authMiddleware = require("./auth.js");
 const registerRouter = require("./routes/registerRouter.js");
 const activitiesRouter = require("./routes/activitiesRouter.js");
 const userRouter = require("./routes/userRouter.js");
-const { ObjectId } = require('mongodb'); 
+const { ObjectId } = require("mongodb");
 const nodemailer = require("nodemailer");
-const cron = require('node-cron');
-const reminderTask = require('./routes/reminderRouter.js');
-const moment = require('moment');
+const cron = require("node-cron");
+const reminderTask = require("./routes/reminderRouter.js");
+const moment = require("moment");
 
 //TO RUN SERVER DO NPM START AND ON ANOTHER TERMINAL DO NPX NGROK HTTP 8080
 
 // Middleware setup
 app.use(cors());
-app.use(morgan(":method :url :status :res[content-length] - :response-time ms"));
+app.use(
+  morgan(":method :url :status :res[content-length] - :response-time ms")
+);
 app.use(bodyParser.json());
 
 app.get("/", function (req, res) {
-    res.send("Hello World");
+  res.send("Hello World");
 });
 
-cron.schedule('* * * * * *', reminderTask);
+// Schedule the reminder task to run every day at 5 AM
+cron.schedule("0 0 5 * * *", reminderTask);
 
+// Send email to users when a new event is added. The email is sent to the users with matching tags of the event.
 app.post("/", async (req, res) => {
-    console.log("Webhook received:");
-    console.log(req.body);
-   function adjustDate(dateString) {
-        var date = new Date(dateString);
-        var userTimezoneOffset = date.getTimezoneOffset() * 60000;
-        return new Date(date.getTime() - userTimezoneOffset);
-    }
+  console.log("Webhook received:");
+  console.log(req.body);
+  function adjustDate(dateString) {
+    var date = new Date(dateString);
+    var userTimezoneOffset = date.getTimezoneOffset() * 60000;
+    return new Date(date.getTime() - userTimezoneOffset);
+  }
 
-    if (req.body.post && req.body.post.post_type === "tribe_events") {
+  if (req.body.post && req.body.post.post_type === "tribe_events") {
+    const tags = Object.values(req.body.taxonomies.post_tag || {}).map(
+      (tag) => tag.name
+    );
 
-        const tags = Object.values(req.body.taxonomies.post_tag || {}).map(tag => tag.name);
+    const eventData = {
+      post_content: req.body.post.post_content,
+      post_title: req.body.post.post_title,
+      post_excerpt: req.body.post.post_excerpt,
+      StartDate: new Date(req.body.post_meta._EventStartDate[0]),
+      EndDate: new Date(req.body.post_meta._EventEndDate[0]),
+      post_thumbnail: req.body.post_thumbnail,
+      event_url: req.body.post_meta._EventURL[0],
+      post_url: req.body.post_permalink,
+      tags: tags,
+    };
 
-        const eventData = {
-            post_content: req.body.post.post_content,
-            post_title: req.body.post.post_title,
-            post_excerpt: req.body.post.post_excerpt,
-            StartDate: new Date(req.body.post_meta._EventStartDate[0]),
-            EndDate: new Date(req.body.post_meta._EventEndDate[0]),
-            post_thumbnail: req.body.post_thumbnail,
-            event_url: req.body.post_meta._EventURL[0],
-            post_url: req.body.post_permalink,
-            tags: tags,
-        };
+    const formattedStartDate = moment(eventData.StartDate).format(
+      "YYYY-MM-DD hh:mm A"
+    );
+    const formattedEndDate = moment(eventData.EndDate).format(
+      "YYYY-MM-DD hh:mm A"
+    );
+    const insertResult = await ActivitiesCollection.insertOne(eventData);
+    const activityId = insertResult.insertedId;
+    // Get all users from the database
+    const users = await UsersCollection.find().toArray();
 
-const formattedStartDate = moment(eventData.StartDate).format('YYYY-MM-DD hh:mm A');
-const formattedEndDate = moment(eventData.EndDate).format('YYYY-MM-DD hh:mm A');
-        const insertResult = await ActivitiesCollection.insertOne(eventData);
-        const activityId = insertResult.insertedId;
-          // Get all users from the database
-        const users = await UsersCollection.find().toArray();
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "integrativeprojectgroupthree@gmail.com",
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+    // Send an email to each user
+    for (const user of users) {
+      // Find the matching tags
+      const matchingTags = tags.filter((tag) => user.tags.includes(tag));
 
-        const transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                user: "integrativeprojectgroupthree@gmail.com",
-                pass: process.env.EMAIL_PASSWORD,
-            },
-        });
-        // Send an email to each user
- for (const user of users) {
-            // Find the matching tags
-            const matchingTags = tags.filter(tag => user.tags.includes(tag));
+      // Check if there are any matching tags
+      if (matchingTags.length > 0) {
+        const postContentWithBreaks = eventData.post_content.replace(
+          /\r\n/g,
+          "<br>"
+        );
 
-            // Check if there are any matching tags
-            if (matchingTags.length > 0) {
+        // Generate a unique URL for each user and each activity
 
-                const postContentWithBreaks = eventData.post_content.replace(/\r\n/g, '<br>');
+        const registerUrl = `http://localhost:8080/activities/register-activity/${user.courriel}/${activityId}/${encodeURIComponent(eventData.event_url)}`;
 
-                // Generate a unique URL for each user and each activity
-
-                const registerUrl = `http://localhost:8080/activities/register-activity/${user.courriel}/${activityId}/${encodeURIComponent(eventData.event_url)}`;
-
-                // Send an email to the user
-                await transporter.sendMail({
-                    from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
-                    to: user.courriel,
-                    subject: `Nouvelle activité : ${eventData.post_title}`,
-                    html: `
-                    <p>Une nouvelle activité a été ajoutée qui pourrait vous intéresser. L'activité a le(s) tag(s) suivant(s) qui correspondent à vos intérêts : ${matchingTags.join(', ')}.</p>
-                    <p>${eventData.post_title} - Du ${new Date(eventData.StartDate).toLocaleString('fr-FR', { dateStyle: 'medium', timeStyle: 'short' })} au ${new Date(eventData.EndDate).toLocaleString('fr-FR', { dateStyle: 'medium', timeStyle: 'short' })}</p>
+        // Send an email to the user
+        await transporter.sendMail(
+          {
+            from: `"Valcour2030" <${process.env.RECIPIENT_EMAIL}>`,
+            to: user.courriel,
+            subject: `Nouvelle activitï¿½ : ${eventData.post_title}`,
+            html: `
+                    <p>Une nouvelle activitï¿½ a ï¿½tï¿½ ajoutï¿½e qui pourrait vous intï¿½resser. L'activitï¿½ a le(s) tag(s) suivant(s) qui correspondent ï¿½ vos intï¿½rï¿½ts : ${matchingTags.join(
+                      ", "
+                    )}.</p>
+                    <p>${eventData.post_title} - Du ${new Date(
+              eventData.StartDate
+            ).toLocaleString("fr-FR", {
+              dateStyle: "medium",
+              timeStyle: "short",
+            })} au ${new Date(eventData.EndDate).toLocaleString("fr-FR", {
+              dateStyle: "medium",
+              timeStyle: "short",
+            })}</p>
                     <p>${postContentWithBreaks}</p>
-                    <img src="${eventData.post_thumbnail}" alt="Image de l'activité" style="width: 100%; max-width: 600px;">
-                    <p>Cliquez sur ce <a href="${eventData.post_url}">lien</a> pour accéder à l'événement.</p>
-                    <p><a href="${registerUrl}" style="display: inline-block; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; border: 1px solid transparent; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; border-radius: .25rem; color: #fff; background-color: #007bff;">Cliquez sur ce bouton pour vous inscrire à l'événement !</a></p>
+                    <img src="${
+                      eventData.post_thumbnail
+                    }" alt="Image de l'activitï¿½" style="width: 100%; max-width: 600px;">
+                    <p>Cliquez sur ce <a href="${
+                      eventData.post_url
+                    }">lien</a> pour accï¿½der ï¿½ l'ï¿½vï¿½nement.</p>
+                    <p><a href="${registerUrl}" style="display: inline-block; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; border: 1px solid transparent; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; border-radius: .25rem; color: #fff; background-color: #007bff;">Cliquez sur ce bouton pour vous inscrire ï¿½ l'ï¿½vï¿½nement !</a></p>
  
                 `,
-                }, function (error, info) {
-                    if (error) {
-                        console.log(error);
-                    } else {
-                        console.log("Email sent: " + info.response);
-                    }
-                });
+          },
+          function (error, info) {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log("Email sent: " + info.response);
             }
-        }
-
+          }
+        );
+      }
     }
+  }
 
-    res.status(200).send(req.body);
+  res.status(200).send(req.body);
+});
+
+// This route gets all the tags and the municipalities from the database.
+app.get("/data", async (req, res) => {
+  const interests = await DataCollection.findOne({
+    _id: new ObjectId("65e52fd998321b99c36da1dc"),
+  });
+  console.log("interests: ", interests);
+  const municipalities = await DataCollection.findOne({
+    _id: new ObjectId("65e52fec98321b99c36da1dd"),
+  });
+  console.log(" municipalities: ", municipalities);
+
+  res.json({
+    interests: interests.Interests,
+    municipalities: municipalities.Municipalities,
+  });
 });
 
 //Database setup
 const db = client.db("integrativeProjectDB");
-const ActivitiesCollection = db.collection("Activities")
-const UsersCollection = db.collection("Users")
-const DataCollection = db.collection("Data")
-app.get("/data", async (req, res) => {
-    const interests = await DataCollection.findOne({ _id: new ObjectId("65e52fd998321b99c36da1dc") });
-    console.log('interests: ', interests);
-    const municipalities = await DataCollection.findOne({ _id: new ObjectId("65e52fec98321b99c36da1dd") });
-    console.log(' municipalities: ',  municipalities);
-  
-    res.json({ interests: interests.Interests, municipalities: municipalities.Municipalities });
-  });
+const ActivitiesCollection = db.collection("Activities");
+const UsersCollection = db.collection("Users");
+const DataCollection = db.collection("Data");
+
 // Routes setup
 app.use("/register", registerRouter);
-app.use("/activities", activitiesRouter);
+app.use("/activities", authMiddleware, activitiesRouter);
 app.use("/user", userRouter);
 
 //Start the server
-const port = process.env.PORT || 8080;
+const port = process.env.PORT;
 app.listen(port, () => {
-    connect();
-    console.log("Server listening on port " + port);
+  connect();
+  console.log("Server listening on port " + port);
 });
