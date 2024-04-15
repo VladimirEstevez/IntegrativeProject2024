@@ -37,14 +37,14 @@ const Card = ({ activity }) => {
                 {/* End date */}
                 <p className="card-text"><small className="text-muted">Fin: {formatUTCDate(activity.EndDate)}</small></p>
                 {/* Tags */}
-                <p className="card-text"><small className="text-muted">Tags: {activity.tags.join(', ')}</small></p>
+                <p className="card-text"><small className="text-muted">Mots clés: {activity.tags.join(', ')}</small></p>
                 <div className='d-flex justify-content-center'> {/* Button container */}
                     {/* Button to navigate to activity details */}
                     <button 
                         onClick={goToActivity} 
                         className="btn btn-primary" 
                     >
-                        GO TO ACTIVITY
+                        Détails de l'activité
                     </button>
                 </div>
             </div>

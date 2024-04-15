@@ -32,9 +32,8 @@ const ActivitiesPage = () => {
   const filterDropdownRef = useRef(null);
   const dateDropdownRef = useRef(null);
   const [selectedFilters, setSelectedFilters] = useState([]); // State for selected filters
-  const [dropdownOpen, setDropdownOpen] = useState(false); // State for dropdown open/close
+  const [filterDropdownOpen, setFilterDropdownOpen] = useState(false); // State for dropdown open/close
   const [selectedDate, setSelectedDate] = useState(null); // State for selected date
-  const [dateDropdownOpen, setDateDropdownOpen] = useState(false); // State for date dropdown open/close
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -43,13 +42,7 @@ const ActivitiesPage = () => {
         filterDropdownRef.current &&
         !filterDropdownRef.current.contains(event.target)
       ) {
-        setDropdownOpen(false);
-      }
-      if (
-        dateDropdownRef.current &&
-        !dateDropdownRef.current.contains(event.target)
-      ) {
-        setDateDropdownOpen(false);
+        setFilterDropdownOpen(false);
       }
     };
 
@@ -67,11 +60,11 @@ const ActivitiesPage = () => {
       <div className="dropdown" ref={filterDropdownRef}>
         <button
           className="btn btn-light btn-custom btn-hover-effect dropdown-toggle"
-          onClick={() => setDropdownOpen(!dropdownOpen)}
+          onClick={() => setFilterDropdownOpen(!filterDropdownOpen)}
         >
-          Filter
+          Filtre
         </button>
-        {dropdownOpen && (
+        {filterDropdownOpen && (
 
           <div
             className="dropdown-menu show p-2"

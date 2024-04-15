@@ -74,12 +74,12 @@ const Activity = () => {
         <h2 className="my-3">{activity.post_title}</h2> {/* Activity title */}
         <p className="text-muted">{activity.post_excerpt}</p> {/* Activity excerpt */}
         <p className="my-3 text-justify" dangerouslySetInnerHTML={{ __html: postContentWithBreaks }}></p> {/* Activity content */}
-        <p><small className="text-muted">Start Date: {formatUTCDate(activity.StartDate)}</small></p> {/* Start date */}
-        <p><small className="text-muted">End Date: {formatUTCDate(activity.EndDate)}</small></p> {/* End date */}
+        <p><small className="text-muted">Date de début: {formatUTCDate(activity.StartDate)}</small></p> {/* Start date */}
+        <p><small className="text-muted">Date de fin: {formatUTCDate(activity.EndDate)}</small></p> {/* End date */}
         <span>Evenement sur le site Valcourt2030: </span><a href={activity.post_url} onClick={handleEventUrlClick} className=" my-3">   {activity.post_title}  </a> {/* Event URL */}
-        <p><small className="text-muted">Tags: {activity.tags.join(', ')}</small></p> {/* Tags */}
-        <button onClick={() => goBack()} className="btn btn-secondary my-3">Go Back</button> {/* Button to go back */}
-        <button onClick={registerActivity} className="register-button btn btn-primary">Register to the activity</button> {/* Button to register */}
+        <p><small className="text-muted">Mots clés: {activity.tags.join(', ')}</small></p> {/* Tags */}
+        <button onClick={() => goBack()} className="btn btn-secondary my-3">Retourner</button> {/* Button to go back */}
+        <button onClick={registerActivity} className="register-button btn btn-primary">S'inscrire à l'activité</button> {/* Button to register */}
       </div>
     </div>
   );

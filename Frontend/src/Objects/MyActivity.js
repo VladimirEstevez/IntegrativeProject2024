@@ -50,15 +50,15 @@ const MyActivity = () => {
       {/* Activity content */}
       <p className="my-3 text-justify" dangerouslySetInnerHTML={{ __html: postContentWithBreaks }}></p>
       {/* Start date */}
-      <p><small className="text-muted">Start Date: {formatUTCDate(activity.StartDate)}</small></p>
+      <p><small className="text-muted">Date de début: {formatUTCDate(activity.StartDate)}</small></p>
       {/* End date */}
-      <p><small className="text-muted">End Date: {formatUTCDate(activity.EndDate)}</small></p>
+      <p><small className="text-muted">Date de fin: {formatUTCDate(activity.EndDate)}</small></p>
       {/* Event URL */}
       <span>Evenement sur le site Valcourt2030: </span><a href={activity.post_url} onClick={handleEventUrlClick} className=" my-3">   {activity.post_title}  </a>
       {/* Tags */}
-      <p><small className="text-muted">Tags: {activity.tags.join(', ')}</small></p>
+      <p><small className="text-muted">Mots clés: {activity.tags.join(', ')}</small></p>
       {/* Button to go back */}
-      <button onClick={() => goBack()} className="btn btn-secondary my-3">Go Back</button>
+      <button onClick={() => goBack()} className="btn btn-secondary my-3">Retourner</button>
     </div>
   );
 };

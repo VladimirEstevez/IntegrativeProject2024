@@ -34,18 +34,14 @@ const MyActivitiesPage = () => {
 
   // State variables for filters and dropdowns
   const [selectedFilters, setSelectedFilters] = useState([]); // State for selected filters
-  const [dropdownOpen, setDropdownOpen] = useState(false); // State for filter dropdown
+  const [filterDropdownOpen, setFilterDropdownOpen] = useState(false); // State for filter dropdown
   const [selectedDate, setSelectedDate] = useState(null); // State for selected date
-  const [dateDropdownOpen, setDateDropdownOpen] = useState(false); // State for date filter dropdown
 
   useEffect(() => {
     // Handling click outside dropdown to close it
     const handleClickOutside = (event) => {
       if (filterDropdownRef.current && !filterDropdownRef.current.contains(event.target)) {
-        setDropdownOpen(false);
-      }
-      if (dateDropdownRef.current && !dateDropdownRef.current.contains(event.target)) {
-        setDateDropdownOpen(false);
+        setFilterDropdownOpen(false);
       }
     };
 
@@ -62,11 +58,11 @@ const MyActivitiesPage = () => {
         <button
           className="btn btn-light btn-custom btn-hover-effect dropdown-toggle"
 
-          onClick={() => setDropdownOpen(!dropdownOpen)}
+          onClick={() => setFilterDropdownOpen(!filterDropdownOpen)}
         >
-          Filter
+          Filtre
         </button>
-        {dropdownOpen && (
+        {filterDropdownOpen && (
           <div
             className="position-absolute bg-white border rounded p-2"
             style={{ zIndex: 1000 }}
