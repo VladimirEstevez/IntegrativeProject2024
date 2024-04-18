@@ -4,6 +4,7 @@ import Card from "../Objects/Card"; // Importing Card component
 import { useNavigate } from "react-router-dom"; // Importing hook for navigation
 import "bootstrap/dist/css/bootstrap.min.css"; // Importing Bootstrap CSS
 import { House } from "react-bootstrap-icons"; // Importing logout icon
+import backgroundImage from '../Logo/V2030.png'; // Importing the background image
 
 
 // Functional component for My Activities Page
@@ -196,6 +197,7 @@ const MyActivitiesPage = () => {
 
   // JSX for rendering My Activities Page
   return (
+  <div className="position-relative min-vh-100" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: '0.9' }}>
     <div className="container mt-5">
       <div className="row justify-content-center">
 
@@ -244,6 +246,7 @@ const MyActivitiesPage = () => {
         </button>
       </div>
     </div>
+   </div>
   );
 };
 

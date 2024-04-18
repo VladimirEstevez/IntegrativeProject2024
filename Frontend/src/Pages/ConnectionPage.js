@@ -4,6 +4,8 @@ import { BoxArrowInRight, XLg, BoxArrowUpRight } from 'react-bootstrap-icons'; /
 import { toast, ToastContainer } from 'react-toastify'; // Importing toast notification components
 import 'react-toastify/dist/ReactToastify.css'; // Importing toast notification CSS
 import { useNavigate } from 'react-router-dom'; // Importing hook for navigation
+import backgroundImage from '../Logo/V2030.png'; // Importing the background image
+
 
 function ConnectionPage() {
   // State for form fields
@@ -82,31 +84,33 @@ function ConnectionPage() {
 
   // Render login form
   return (
+    <div className="position-relative min-vh-100" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: '0.9' }}>
+
     <Container>
       <ToastContainer /> {/* Container for toast notifications */}
       <Row className="justify-content-center align-items-center">
         <Col xs={12} md={6}>
-          <h1 className="text-center">Connexion</h1>
+          <h1 className="text-center" style={{ color: 'white' }}>Connexion</h1>
           <Form onSubmit={handleSubmit}> {/* Form for login */}
             <Form.Group className="mb-3">
-              <Form.Label>Adresse Courriel:</Form.Label>
+              <Form.Label style={{ color: 'white' }}>Adresse Courriel:</Form.Label>
               <Form.Control type="email" onChange={e => setForm({ ...form, courriel: e.target.value })} /> {/* Email input */}
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Mot de Passe:</Form.Label>
+              <Form.Label style={{ color: 'white' }}>Mot de Passe:</Form.Label>
               <Form.Control type="password" onChange={e => setForm({ ...form, motDePasse: e.target.value })} /> {/* Password input */}
             </Form.Group>
             <div className="d-grid gap-2">
               {/* Buttons for login, cancel, and forgot password */}
-              <Button variant="light" className="m-2 btn-custom btn-hover-effect" type="button" onClick={() => navigate("/")}>
+              <Button variant="light" style={{ color: 'white' }} className="m-2 btn-custom btn-hover-effect" type="button" onClick={() => navigate("/")}>
                 Annuler
                 <XLg size={24} />
               </Button>
-              <Button variant="light" className="m-2 btn-custom btn-hover-effect" type="submit">
+              <Button variant="light" style={{ color: 'white' }} className="m-2 btn-custom btn-hover-effect" type="submit">
                 Se Connecter
                 <BoxArrowInRight size={24} />
               </Button>
-              <Button variant="light" className="m-2 btn-custom btn-hover-effect" onClick={() => navigate("/forgotPassword")}>
+              <Button variant="light" style={{ color: 'white' }} className="m-2 btn-custom btn-hover-effect" onClick={() => navigate("/forgotPassword")}>
                 Mot de passe oublié?
                 <BoxArrowUpRight size={24} />
               </Button>
@@ -115,6 +119,7 @@ function ConnectionPage() {
         </Col>
       </Row>
     </Container>
+  </div>
   );
 }
 

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'; // Importing hook for navigation
 import { toast, ToastContainer } from 'react-toastify'; // Importing toast notifications
 import { Form} from 'react-bootstrap'; // Importing Bootstrap components
 import { PersonGear, XLg } from 'react-bootstrap-icons'; // Importing Bootstrap icons
+import backgroundImage from '../Logo/V2030.png'; // Importing the background image
 
 const ModificationPage = () => {
   const [prenom, setPrenom] = useState(''); // State for first name
@@ -157,25 +158,27 @@ const ModificationPage = () => {
   }, [navigate]); // Dependency array containing navigate function
 
   return (
+    <div className="position-relative min-vh-100" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: '0.9' }}>
+
     <div className="d-flex justify-content-center align-items-center">
       <div className="container">
         <ToastContainer />
-        <h1 className="mb-4">Modifier</h1>
+        <h1 className="mb-4" style={{  color: 'white' }}>Modifier</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="prenom" className="form-label">
+            <label htmlFor="prenom" className="form-label"style={{  color: 'white' }} > 
               Prénom
             </label>
             <input type="text" id="prenom" className="form-control" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
           </div>
           <div className="mb-3">
-            <label htmlFor="nom" className="form-label">
+            <label htmlFor="nom" className="form-label" style={{  color: 'white' }}>
               Nom de famille
             </label>
             <input type="text" id="nom" className="form-control" value={nom} onChange={(e) => setNom(e.target.value)} />
           </div>
           <div className="mb-3">
-            <label htmlFor="municipalite" style={{ marginBottom: "5px" }}>
+            <label htmlFor="municipalite"style={{  color: 'white' }}>
               Municipalité:
             </label>
             <select
@@ -194,15 +197,15 @@ const ModificationPage = () => {
               {renderInterests()} {/* Render interest options */}
             </div>
           </div>
-          <button type="button" className="btn btn-primary mb-3" onClick={ModifyPassword}> {/* Button to request password modification */}
+          <button type="button"variant="light" className="m-2 btn-custom btn-hover-effect" onClick={ModifyPassword}> {/* Button to request password modification */}
             <span style={{ marginRight: '5px' }}>Demander la modification du mot de passe</span>
           </button>
           <div className="d-flex justify-content-between">
-            <button type="button" className="btn btn-primary" onClick={() => navigate("/menu")}> {/* Button to cancel */}
+            <button type="button"variant="light" className="m-2 btn-custom btn-hover-effect" onClick={() => navigate("/menu")}> {/* Button to cancel */}
               <span style={{ marginRight: '5px' }}>Annuler</span>
               <XLg size={24} />
             </button>
-            <button type="submit" className="btn btn-primary"> {/* Button to submit form */}
+            <button type="submit" variant="light" className="m-2 btn-custom btn-hover-effect"> {/* Button to submit form */}
               <span style={{ marginRight: '5px' }}>Modifier Mon Profil</span>
               <PersonGear size={24} />
             </button>
@@ -210,6 +213,7 @@ const ModificationPage = () => {
         </form>
       </div>
     </div>
+  </div>
   );
 };
 

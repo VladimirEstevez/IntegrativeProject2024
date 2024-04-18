@@ -1,5 +1,7 @@
 import React, { useState } from "react"; // Importing useState hook from React
 import { toast, ToastContainer } from "react-toastify"; // Importing toast notifications
+import backgroundImage from '../Logo/V2030.png'; // Importing the background image
+
 
 // Functional component for password reset page
 function ResetPasswordPage() {
@@ -61,6 +63,8 @@ function ResetPasswordPage() {
 
   // Render form for password reset
   return (
+    <div className="position-relative min-vh-100" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: '0.9' }}>
+
     <div
       style={{
         display: "flex",
@@ -118,6 +122,7 @@ function ResetPasswordPage() {
         </div>
       </form>
     </div>
+  </div>
   );
 }
 

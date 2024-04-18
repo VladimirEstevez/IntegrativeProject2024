@@ -1,6 +1,8 @@
 import React, { useState } from "react"; // Importing useState hook from React
 import { toast, ToastContainer } from "react-toastify"; // Importing toast notifications
 import { Form, Button } from 'react-bootstrap'; // Importing Form and Button components from react-bootstrap
+import backgroundImage from '../Logo/V2030.png'; // Importing the background image
+
 
 // Functional component for password modification page
 function PasswordModificationPage() {
@@ -80,6 +82,8 @@ function PasswordModificationPage() {
   } else {
     // Render form if password modification is not yet successful
     return (
+      <div className="position-relative min-vh-100" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: '0.9' }}>
+
       <div
         style={{
           display: "flex",
@@ -90,7 +94,7 @@ function PasswordModificationPage() {
         }}
       >
         <ToastContainer /> {/* Toast notifications container */}
-        <h1 className="m-4 text-center">Modification du mot de passe</h1> {/* Heading */}
+        <h1 className="m-4 text-center" style={{ color: 'white' }}>Modification du mot de passe</h1> {/* Heading */}
         <Form onSubmit={handleSubmit} style={{ textAlign: "left" }}>
           {/* Password input */}
           <Form.Control
@@ -134,6 +138,7 @@ function PasswordModificationPage() {
             </Button>
           </div>
         </Form>
+      </div>
       </div>
     );
   }

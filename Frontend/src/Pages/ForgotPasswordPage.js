@@ -4,6 +4,8 @@ import { XLg, BoxArrowUpRight } from "react-bootstrap-icons"; // Importing icons
 import { toast, ToastContainer } from "react-toastify"; // Importing toast notification components
 import "react-toastify/dist/ReactToastify.css"; // Importing toast notification CSS
 import { useNavigate } from "react-router-dom"; // Importing hook for navigation
+import backgroundImage from '../Logo/V2030.png'; // Importing the background image
+
 
 function ForgotPasswordPage() {
   // State for form field
@@ -80,6 +82,8 @@ function ForgotPasswordPage() {
 
   // Render forgot password form
   return (
+    <div className="position-relative min-vh-100" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: '0.9' }}>
+
     <div>
       <ToastContainer /> {/* Container for toast notifications */}
       <div className="container-fluid d-flex justify-content-center align-items-center bg-white" style={{ height: "100vh" }}>
@@ -108,6 +112,7 @@ function ForgotPasswordPage() {
         </div>
       </div>
     </div>
+  </div>
   );
 }
 
