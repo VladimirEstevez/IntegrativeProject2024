@@ -1,7 +1,6 @@
 import React, { useState } from 'react'; // Importing React and useState hook
 import { useLocation, useNavigate } from 'react-router-dom'; // Importing useLocation and useNavigate hooks from react-router-dom
 import "bootstrap/dist/css/bootstrap.min.css"; // Importing Bootstrap CSS
-import formatUTCDate from './utilDate'; // Importing utility function for formatting UTC date
 
 // Functional component for displaying user's activity details
 const MyActivity = () => {
@@ -50,9 +49,9 @@ const MyActivity = () => {
       {/* Activity content */}
       <p className="my-3 text-justify" dangerouslySetInnerHTML={{ __html: postContentWithBreaks }}></p>
       {/* Start date */}
-      <p><small className="text-muted">Date de début: {formatUTCDate(activity.StartDate)}</small></p>
+      <p><small className="text-muted">Date de début: {(activity.StartDate)}</small></p>
       {/* End date */}
-      <p><small className="text-muted">Date de fin: {formatUTCDate(activity.EndDate)}</small></p>
+      <p><small className="text-muted">Date de fin: {(activity.EndDate)}</small></p>
       {/* Event URL */}
       <span>Evenement sur le site Valcourt2030: </span><a href={activity.post_url} onClick={handleEventUrlClick} className=" my-3">   {activity.post_title}  </a>
       {/* Tags */}

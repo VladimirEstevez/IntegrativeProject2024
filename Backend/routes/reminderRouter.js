@@ -2,7 +2,7 @@ const { client } = require("../database/database");
 const nodemailer = require("nodemailer");
 const db = client.db("integrativeProjectDB");
 const ActivitiesCollection = db.collection("Activities");
-const { formatUTCDate } = require("../dateUtils/formatDate.js");
+
 
 // This function sends the reminder emails to the registered users of the activities.
 async function sendEmails() {
@@ -46,8 +46,8 @@ async function sendEmails() {
 
   // Iterate over each activity and send email to registered users of that activity.
   for (const activity of activities) {
-    console.log("activity.StartDate: ", formatUTCDate(activity.StartDate));
-    console.log("activity.EndDate: ", formatUTCDate(activity.EndDate));
+    console.log("activity.StartDate: ", (activity.StartDate));
+    console.log("activity.EndDate: ", (activity.EndDate));
 
     // Send an email to each registered user
     for (const email of activity.registeredUsers) {
@@ -56,10 +56,10 @@ async function sendEmails() {
           <h3>${activity.post_title}</h3>
           <p>Bonjour, nous voulons vous rappeler que vous êtes inscrit à l'activité suivante : ${activity.post_title}. Elle aura lieu dans trois jours !</p>
         </div>`;
-      htmlContent += `<p>L'événement commence à : ${formatUTCDate(
+      htmlContent += `<p>L'événement commence à : ${(
         activity.StartDate
       )}</p>`;
-      htmlContent += `<p>Et se termine à : ${formatUTCDate(
+      htmlContent += `<p>Et se termine à : ${(
         activity.EndDate
       )}</p>`;
       htmlContent += `<p>${activity.post_content}</p>`;

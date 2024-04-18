@@ -9,7 +9,7 @@ const { ObjectId } = require("mongodb");
 const db = client.db("integrativeProjectDB");
 const UsersCollection = db.collection("Users");
 const ActivitiesCollection = db.collection("Activities");
-const { formatUTCDate } = require("../dateUtils/formatDate.js");
+
 
 // This route returns a collection of activities from the database.
 router.get("/", async (req, res) => {
@@ -54,10 +54,10 @@ router.post("/register-activity", async (req, res) => {
         Bienvenue! Vous vous �tes inscrit � l'activit� : ${
           activity.post_title
         }.<br>
-            Date de d�but : ${formatUTCDate(activity.StartDate).toLocaleString(
+            Date de d�but : ${(activity.StartDate).toLocaleString(
               "fr-FR"
             )},<br>
-            Date de fin : ${formatUTCDate(activity.EndDate).toLocaleString(
+            Date de fin : ${(activity.EndDate).toLocaleString(
               "fr-FR"
             )}.<br>
             Tags : ${activity.tags.join(", ")}<br>

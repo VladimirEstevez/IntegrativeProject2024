@@ -36,11 +36,7 @@ cron.schedule("0 0 5 * * *", reminderTask);
 app.post("/", async (req, res) => {
   console.log("Webhook received:");
   console.log(req.body);
-  function adjustDate(dateString) {
-    var date = new Date(dateString);
-    var userTimezoneOffset = date.getTimezoneOffset() * 60000;
-    return new Date(date.getTime() - userTimezoneOffset);
-  }
+ 
 
   if (req.body.post && req.body.post.post_type === "tribe_events") {
     const tags = Object.values(req.body.taxonomies.post_tag || {}).map(

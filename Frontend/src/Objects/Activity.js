@@ -1,7 +1,6 @@
 import React, { useState } from 'react'; // Importing React and useState hook
 import { useLocation, useNavigate } from 'react-router-dom'; // Importing useLocation and useNavigate hooks from react-router-dom
 import "bootstrap/dist/css/bootstrap.min.css"; // Importing Bootstrap CSS
-import formatUTCDate from './utilDate'; // Importing utility function for formatting UTC date
 import { toast, ToastContainer } from 'react-toastify'; // Importing toast notifications
 
 // Functional component for individual activity page
@@ -74,8 +73,8 @@ const Activity = () => {
         <h2 className="my-3">{activity.post_title}</h2> {/* Activity title */}
         <p className="text-muted">{activity.post_excerpt}</p> {/* Activity excerpt */}
         <p className="my-3 text-justify" dangerouslySetInnerHTML={{ __html: postContentWithBreaks }}></p> {/* Activity content */}
-        <p><small className="text-muted">Date de début: {formatUTCDate(activity.StartDate)}</small></p> {/* Start date */}
-        <p><small className="text-muted">Date de fin: {formatUTCDate(activity.EndDate)}</small></p> {/* End date */}
+        <p><small className="text-muted">Date de début: {(activity.StartDate)}</small></p> {/* Start date */}
+        <p><small className="text-muted">Date de fin: {(activity.EndDate)}</small></p> {/* End date */}
         <span>Evenement sur le site Valcourt2030: </span><a href={activity.post_url} onClick={handleEventUrlClick} className=" my-3">   {activity.post_title}  </a> {/* Event URL */}
         <p><small className="text-muted">Mots clés: {activity.tags.join(', ')}</small></p> {/* Tags */}
         <button onClick={() => goBack()} className="btn btn-secondary my-3">Retourner</button> {/* Button to go back */}
