@@ -60,21 +60,21 @@ router.post("/register-activity", async (req, res) => {
         });
 
         await transporter.sendMail({
-            from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
+            from: '"Valcourt2030" <integrativeprojectgroupthree@gmail.com>',
             to: user.courriel,
-            subject: "Activity Registration",
+            subject: "Inscription Ã  une activitÃ©",
             html: `
-            Bienvenue! Vous vous êtes inscrit à l'activité : ${activity.post_title}.<br>
-                Date de début : ${formatUTCDate(activity.StartDate).toLocaleString('fr-FR')},<br>
+            Bienvenue! Vous vous Ãªtes inscrit Ã  l'activitÃ© : ${activity.post_title}.<br>
+                Date de dÃ©but : ${formatUTCDate(activity.StartDate).toLocaleString('fr-FR')},<br>
                 Date de fin : ${formatUTCDate(activity.EndDate).toLocaleString('fr-FR')}.<br>
                 Tags : ${activity.tags.join(', ')}<br>
-                <p>Pour plus de détails, cliquez sur le bouton ci-dessous :
-                <button id="detailsButton" style="background-color: blue; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Voir les détails</button></p>
+                <p>Pour plus de dÃ©tails, cliquez sur le bouton ci-dessous :
+                <button id="detailsButton" style="background-color: blue; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Voir les dÃ©tails</button></p>
 
-                <img src="${activity.post_thumbnail}" alt="Image de l'activité" style="width: 100%; max-width: 600px;">
+                <img src="${activity.post_thumbnail}" alt="Image de l'activitÃ©" style="width: 100%; max-width: 600px;">
                 
                 <script>
-                  // Ajout d'un gestionnaire d'événements au clic du bouton
+                  // Ajout d'un gestionnaire d'Ã©vÃ¨nements au clic du bouton
                   document.getElementById("detailsButton").addEventListener("click", function() {
                     window.location.href = "${activity.event_url}";
                   });

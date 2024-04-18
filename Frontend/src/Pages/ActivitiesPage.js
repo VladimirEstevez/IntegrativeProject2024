@@ -3,7 +3,8 @@ import React, { useEffect, useState, useRef } from "react"; // Importing necessa
 import Card from "../Objects/Card"; // Importing custom Card component
 import { useNavigate } from "react-router-dom"; // Importing hook for navigation
 import "bootstrap/dist/css/bootstrap.min.css"; // Importing Bootstrap CSS
-import { BoxArrowInLeft } from "react-bootstrap-icons"; // Importing logout icon
+import { House,BoxArrowInLeft } from "react-bootstrap-icons"; // Importing logout icon
+import backgroundImage from '../Logo/V2030.png'; // Importing the background image
 
 
 const ActivitiesPage = () => {
@@ -210,9 +211,11 @@ const ActivitiesPage = () => {
 
   // Render activities
   return (
+    <div className="position-relative min-vh-100" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: '0.9' }}>
+
     <div className="container mt-5">
       <div className="row justify-content-center">
-        <h1 className="col-12 text-center mb-4">Vos activités</h1>
+        <h1 className="col-12 text-center mb-4 " style={{ color: 'white' }}>Vos activités</h1>
       </div>
       <div className="row justify-content-center">
         <div className="col-sm-auto text-center">
@@ -253,6 +256,7 @@ const ActivitiesPage = () => {
         </button>
       </div>
     </div>
+  </div>
   );
 };
 

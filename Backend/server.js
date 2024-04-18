@@ -87,14 +87,14 @@ const formattedEndDate = moment(eventData.EndDate).format('YYYY-MM-DD hh:mm A');
                 await transporter.sendMail({
                     from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
                     to: user.courriel,
-                    subject: `Nouvelle activité : ${eventData.post_title}`,
+                    subject: `Nouvelle activitÃ© : ${eventData.post_title}`,
                     html: `
-                    <p>Une nouvelle activité a été ajoutée qui pourrait vous intéresser. L'activité a le(s) tag(s) suivant(s) qui correspondent à vos intérêts : ${matchingTags.join(', ')}.</p>
+                    <p>Une nouvelle activitÃ© a Ã©tÃ© ajoutÃ©e qui pourrait vous intÃ©resser. L'activitÃ© a le(s) tag(s) suivant(s) qui correspondent Ã  vos intÃ©rÃªts : ${matchingTags.join(', ')}.</p>
                     <p>${eventData.post_title} - Du ${new Date(eventData.StartDate).toLocaleString('fr-FR', { dateStyle: 'medium', timeStyle: 'short' })} au ${new Date(eventData.EndDate).toLocaleString('fr-FR', { dateStyle: 'medium', timeStyle: 'short' })}</p>
                     <p>${postContentWithBreaks}</p>
-                    <img src="${eventData.post_thumbnail}" alt="Image de l'activité" style="width: 100%; max-width: 600px;">
-                    <p>Cliquez sur ce <a href="${eventData.post_url}">lien</a> pour accéder à l'événement.</p>
-                    <p><a href="${registerUrl}" style="display: inline-block; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; border: 1px solid transparent; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; border-radius: .25rem; color: #fff; background-color: #007bff;">Cliquez sur ce bouton pour vous inscrire à l'événement !</a></p>
+                    <img src="${eventData.post_thumbnail}" alt="Image de l'activitÃ©" style="width: 100%; max-width: 600px;">
+                    <p>Cliquez sur ce <a href="${eventData.post_url}">lien</a> pour accÃ©der Ã  l'Ã©vÃ©nement.</p>
+                    <p><a href="${registerUrl}" style="display: inline-block; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; border: 1px solid transparent; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; border-radius: .25rem; color: #fff; background-color: #007bff;">Cliquez sur ce bouton pour vous inscrire Ã  l'Ã©vÃ¨nement !</a></p>
  
                 `,
                 }, function (error, info) {

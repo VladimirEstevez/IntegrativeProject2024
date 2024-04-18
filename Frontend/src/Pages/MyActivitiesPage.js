@@ -4,6 +4,7 @@ import Card from "../Objects/Card"; // Importing Card component
 import { useNavigate } from "react-router-dom"; // Importing hook for navigation
 import "bootstrap/dist/css/bootstrap.min.css"; // Importing Bootstrap CSS
 import {House, BoxArrowInLeft } from "react-bootstrap-icons"; // Importing logout icon
+import backgroundImage from '../Logo/V2030.png'; // Importing the background image
 
 
 // Functional component for My Activities Page
@@ -200,52 +201,48 @@ const MyActivitiesPage = () => {
 
   // JSX for rendering My Activities Page
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-
-        <h1 className="col-12 text-center mb-4">Mes activités</h1>
-      </div>
-      <div className="row justify-content-center">
-        <div className="col-sm-auto text-center">
-          <div>{renderFilterMenu()}</div>
+    <div className="position-relative min-vh-100" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: '0.9' }}>
+      <div className="container mt-5">
+        <div className="row justify-content-center">
+          <h1 className="col-12 text-center mb-4 text-white">Mes activités</h1>
         </div>
-        <div className="col-sm-auto text-center mt-2">
-          <div className="mw-75">{renderDateFilterMenu()}</div>
+        <div className="row justify-content-center">
+          <div className="col-sm-auto text-center">
+            <div>{renderFilterMenu()}</div>
+          </div>
+          <div className="col-sm-auto text-center mt-2">
+            <div className="mw-75">{renderDateFilterMenu()}</div>
+          </div>
         </div>
-
-      </div>
-      <div className="row">
-        {filteredActivities.length > 0 ? (
-          filteredActivities.map((activity) => (
-            <div className="col-md-4 mb-4" key={activity._id}>
-              <Card activity={activity} /> {/* Render Card component for each activity */}
-            </div>
-          ))
-        ) : (
-          <p>Aucune activité trouvée.</p>
-        )}
-      </div>
-      <div className="row justify-content-center">
-
-        {/* Logout button */}
-        <button
-          onClick={() => navigate("/")} // Navigate to login page on click
-          className="btn btn-primary mt-4"
-
-          style={{
-            transition: "transform 0.3s",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "scale(1.1)"; // Scaling effect on hover
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "scale(1)"; // Reverting scale effect on hover out
-          }}
-        >
-
-          Retour à la page d'accueil <House size={20} />
-
-        </button>
+        <div className="row">
+          {filteredActivities.length > 0 ? (
+            filteredActivities.map((activity) => (
+              <div className="col-md-4 mb-4" key={activity._id}>
+                <Card activity={activity} /> {/* Render Card component for each activity */}
+              </div>
+            ))
+          ) : (
+            <p>Aucune activité trouvée.</p>
+          )}
+        </div>
+        <div className="row justify-content-center">
+          {/* Logout button */}
+          <button
+            onClick={() => navigate("/")} // Navigate to login page on click
+            className="btn btn-primary mt-4"
+            style={{
+              transition: "transform 0.3s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "scale(1.1)"; // Scaling effect on hover
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "scale(1)"; // Reverting scale effect on hover out
+            }}
+          >
+            Retour à la page d'accueil <House size={20} />
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'; // Importing useLoc
 import "bootstrap/dist/css/bootstrap.min.css"; // Importing Bootstrap CSS
 import formatUTCDate from './utilDate'; // Importing utility function for formatting UTC date
 import { toast, ToastContainer } from 'react-toastify'; // Importing toast notifications
+import V2030transparence1 from '../Logo/V2030transparence1.png';
 
 // Functional component for individual activity page
 const Activity = () => {
@@ -55,8 +56,7 @@ const Activity = () => {
   if (isLoading) {
     return (
       <div className="text-center" style={{background: 'linear-gradient(to bottom, #007bff, #ffffff)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', width: '100vw'}}>
-        <img src="https://valfamille.com/site2022/wp-content/uploads/logo-bleu-marge.jpg" alt="Loading not found" style={{width: '240px', height: '100px'}} />
-        <p>Redirection vers le site web...</p>
+        <img src={V2030transparence1} alt="" className="logo" />         <p>Redirection vers le site web...</p>
       </div>
     );
   }
@@ -74,12 +74,12 @@ const Activity = () => {
         <h2 className="my-3">{activity.post_title}</h2> {/* Activity title */}
         <p className="text-muted">{activity.post_excerpt}</p> {/* Activity excerpt */}
         <p className="my-3 text-justify" dangerouslySetInnerHTML={{ __html: postContentWithBreaks }}></p> {/* Activity content */}
-        <p><small className="text-muted">Start Date: {formatUTCDate(activity.StartDate)}</small></p> {/* Start date */}
-        <p><small className="text-muted">End Date: {formatUTCDate(activity.EndDate)}</small></p> {/* End date */}
-        <span>Evenement sur le site Valcourt2030: </span><a href={activity.post_url} onClick={handleEventUrlClick} className=" my-3">   {activity.post_title}  </a> {/* Event URL */}
+        <p><small className="text-muted">Date de ébut: {formatUTCDate(activity.StartDate)}</small></p> {/* Start date */}
+        <p><small className="text-muted">Date de fin: {formatUTCDate(activity.EndDate)}</small></p> {/* End date */}
+        <span>Évènement sur le site Valcourt2030: </span><a href={activity.post_url} onClick={handleEventUrlClick} className=" my-3">   {activity.post_title}  </a> {/* Event URL */}
         <p><small className="text-muted">Tags: {activity.tags.join(', ')}</small></p> {/* Tags */}
         <button onClick={() => goBack()} className="btn btn-secondary my-3">Go Back</button> {/* Button to go back */}
-        <button onClick={registerActivity} className="register-button btn btn-primary">Register to the activity</button> {/* Button to register */}
+        <button onClick={registerActivity} className="register-button btn btn-primary">S'inscrire à l'Activité</button> {/* Button to register */}
       </div>
     </div>
   );

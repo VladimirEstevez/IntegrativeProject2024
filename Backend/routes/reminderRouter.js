@@ -72,7 +72,7 @@ for (const activity of activities) {
         
     
         await transporter.sendMail({
-            from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
+            from: '"Valcourt2030" <integrativeprojectgroupthree@gmail.com>',
             to: email,
             subject: `L'événement ${activity.post_title} auquel vous vous êtes inscrit aura lieu le ${new Date(activity.StartDate).toLocaleDateString('fr-FR')} `,
             html: htmlContent,

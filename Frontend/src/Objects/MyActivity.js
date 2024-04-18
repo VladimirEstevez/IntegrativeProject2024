@@ -1,6 +1,7 @@
 import React, { useState } from 'react'; // Importing React and useState hook
 import { useLocation, useNavigate } from 'react-router-dom'; // Importing useLocation and useNavigate hooks from react-router-dom
 import "bootstrap/dist/css/bootstrap.min.css"; // Importing Bootstrap CSS
+import V2030transparence1 from '../Logo/V2030transparence1.png';
 import formatUTCDate from './utilDate'; // Importing utility function for formatting UTC date
 
 // Functional component for displaying user's activity details
@@ -29,7 +30,7 @@ const MyActivity = () => {
   if (isLoading) {
     return (
       <div className="text-center" style={{background: 'linear-gradient(to bottom, #007bff, #ffffff)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', width: '100vw'}}>
-        <img src="https://valfamille.com/site2022/wp-content/uploads/logo-bleu-marge.jpg" alt="Loading not found" style={{width: '240px', height: '100px'}} />
+       <img src={V2030transparence1} alt="" className="logo" /> 
         <p>Redirection vers le site web...</p>
       </div>
     );

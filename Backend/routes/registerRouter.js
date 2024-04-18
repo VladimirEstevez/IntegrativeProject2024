@@ -49,11 +49,11 @@ router.post("/subscribe", async (req, res) => {
 
 
     await transporter.sendMail({
-        from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
+        from: '"Valcourt2030" <integrativeprojectgroupthree@gmail.com>',
         to: user.courriel,
-        subject: "Verify your account",
+        subject: "Vérification de votre compte",
         html: `
-            <h1>Welcome to Valcour2030</h1>
+            <h1>Bienvenue à Valcourt2030</h1>
             <p>Merci de vous être inscrit(e) avec nous ! Veuillez cliquer sur le bouton ci-dessous pour vérifier votre compte :</p>
             <a href="http://localhost:8080/register/confirm?token=${token}" style="background-color: #0098d9; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">Verify Account</a>
         `,

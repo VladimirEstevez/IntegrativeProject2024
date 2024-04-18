@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'; // Importing React and useEffect hook
 import { useNavigate, useLocation } from 'react-router-dom'; // Importing useNavigate and useLocation hooks from react-router-dom
 import formatUTCDate from './utilDate'; // Importing utility function for formatting UTC date
+import V2030transparence1 from '../Logo/V2030transparence1.png';
 
 // Functional component for displaying activity card
 const Card = ({ activity }) => {
@@ -26,7 +27,7 @@ const Card = ({ activity }) => {
     return (
         <div className="card shadow-sm mt-1"> {/* Card container */}
             {/* Activity image */}
-            <img src={activity.post_thumbnail} alt="Event" className="card-img-top" style={{ height: "150px" }}/>
+            <img src={V2030transparence1} alt="" className="logo" /> 
             <div className="card-body"> {/* Card body */}
                 {/* Activity title */}
                 <h5 className="card-title text-primary">{activity.post_title}</h5>
@@ -44,7 +45,7 @@ const Card = ({ activity }) => {
                         onClick={goToActivity} 
                         className="btn btn-primary" 
                     >
-                        GO TO ACTIVITY
+                        Aller à l'activité
                     </button>
                 </div>
             </div>

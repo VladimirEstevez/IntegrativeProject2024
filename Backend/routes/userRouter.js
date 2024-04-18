@@ -82,7 +82,7 @@ router.patch("/updateUser", authMiddleware, async (req, res) => {
   }
   try {
     // Use the promisified jwt.verify function with async/await
-   //const user = await jwtVerify(token, process.env.SECRET_TOKEN);
+    const user = req.user
     //console.log("user: ", user);
 
     //console.log("user.email: ", user.courriel);
@@ -110,6 +110,7 @@ router.patch("/updateUser", authMiddleware, async (req, res) => {
     }
   } catch (err) {
     // If the token is not valid, return a 403 status
+    console.log(err)
     return res.sendStatus(403);
   }
 });
@@ -259,7 +260,7 @@ router.get("/requestPasswordModification", authMiddleware, async (req, res) => {
     {
       from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
       to: userCourriel,
-      subject: "Modify password",
+      subject: "Modification du mot de passe ",
       html: `
     <p>Cliquez sur le lien ci-dessous pour modifier votre mot de passe :</p>
     <p><a href="http://localhost:8080/user/passwordModification?token=${encodeURIComponent(newToken)}" style="display: inline-block; background-color: #007bff; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px;">Modifier le mot de passe</a></p>

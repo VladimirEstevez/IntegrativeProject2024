@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css"; // Importing toast notification 
 import { FilePerson, XLg } from "react-bootstrap-icons"; // Importing icons
 import { Container, Form, Button, Row, Col } from 'react-bootstrap'; // Importing Bootstrap components
 import { useNavigate } from "react-router-dom"; // Importing hook for navigation
+import backgroundImage from '../Logo/V2030.png'; // Importing the background image
 
 function InscriptionPage() {
   const navigate = useNavigate(); // Navigation function
@@ -23,6 +24,7 @@ function InscriptionPage() {
   const [tags, setTags] = useState([]); // State for tags
   const [municipalites, setMunicipalites] = useState([]); // State for municipalities
   const [interests, setInterests] = useState([]); // State for interests
+  const [consent, setConsent] = useState(false); // State for consent checkbox
 
   // Fetch data from the server on component mount
   useEffect(() => {
@@ -67,7 +69,10 @@ function InscriptionPage() {
 
   // Handle form field changes
   const handleChange = (event) => {
-    if (event.target.name === 'tags') {
+    const { name, value, type, checked } = event.target;
+    if (type === 'checkbox') {
+      setConsent(checked); // Update consent state
+    } else if (name === 'tags') {
       const selectedTags = Array.from(event.target.selectedOptions, option => option.value);
       setForm({
         ...form,
@@ -76,7 +81,7 @@ function InscriptionPage() {
     } else {
       setForm({
         ...form,
-        [event.target.name]: event.target.value,
+        [name]: value,
       });
     }
   };
@@ -97,6 +102,14 @@ function InscriptionPage() {
     // Copy form state to avoid mutating it
     const finalForm = { ...form };
     finalForm.tags = tags; // Set interests from tags
+
+    if (!consent) { // Check if consent checkbox is checked
+      toast.error("Vous devez consentir pour vous inscrire", {
+        autoClose: 3000,
+        pauseOnHover: false,
+      });
+      return;
+    }
 
     // Regular expression to validate email format
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -173,7 +186,7 @@ function InscriptionPage() {
       setTimeout(() => {
         navigate("/");
         alert(
-          "PLEASE CONFIRM YOUR EMAIL VERIFICATION BEFORE LOGGING IN FOR THE FIRST TIME"
+          "Veuillez vérifier votre courriel pour activer votre compte!"
         );
       }, 4000);
     } else {
@@ -185,57 +198,76 @@ function InscriptionPage() {
   };
 
   return (
-    <Container style={{ minHeight: "100vh" }}>
-      <ToastContainer /> {/* Container for toast notifications */}
-      <Row className="justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
-        <Col md={6}>
-          <Form onSubmit={handleSubmit}> {/* Registration form */}
-            <h1 style={{marginTop: 0}}>Inscription</h1>
-            <Form.Group controlId="courriel">
-              <Form.Label>Courriel:</Form.Label>
-              <Form.Control type="email" name="courriel" onChange={handleChange} />
-            </Form.Group>
-            <Form.Group controlId="prenom">
-              <Form.Label>Prénom:</Form.Label>
-              <Form.Control type="text" name="prenom" onChange={handleChange} />
-            </Form.Group>
-            <Form.Group controlId="nom">
-              <Form.Label>Nom de famille:</Form.Label>
-              <Form.Control type="text" name="nom" onChange={handleChange} />
-            </Form.Group>
-            <Form.Group controlId="motDePasse">
-              <Form.Label>Mot de passe:</Form.Label>
-              <Form.Control type="password" name="motDePasse" onChange={handleChange} />
-            </Form.Group>
-            <Form.Group controlId="confirmerMotDePasse">
-              <Form.Label>Confirmer le mot de passe:</Form.Label>
-              <Form.Control type="password" name="confirmerMotDePasse" onChange={handleChange} />
-            </Form.Group>
-            <Form.Group controlId="municipalite">
-              <Form.Label>Municipalité:</Form.Label>
-              <Form.Control as="select" name="municipalite" onChange={handleChange}>
-                {renderMunicipalites()} {/* Render municipality options */}
-              </Form.Control>
-            </Form.Group>
-            <Form.Group className="mb-3">
-                <Form.Label>Intérêts:</Form.Label>
-                {renderInterests()} {/* Render interests checkboxes */}
+    <div className="position-relative min-vh-100" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: '0.9' }}>
+      <Container>
+        <ToastContainer />
+        <Row className="justify-content-center align-items-center">
+          <Col md={6}>
+            <Form onSubmit={handleSubmit}>
+              <h1 style={{  color: 'white' }}>Inscription</h1>
+              <Form.Group controlId="consent">
+                <Form.Check 
+                  type="checkbox"
+                  label="Consentez-vous à la politique de la loi 25?"
+                  onChange={handleChange}
+                  checked={consent}
+                  style={{  color: 'white' }}
+                />
               </Form.Group>
-            <div className="d-flex justify-content-between">
-              <Button variant="light" className="m-2 btn-custom btn-hover-effect" onClick={() => navigate("/")}>
-                <span>Annuler</span>
-                <XLg size={24} />
+              <Button 
+                variant="light" 
+                className="m-2 btn-custom btn-hover-effect"
+                onClick={() => window.open("https://valcourt2030.org/politique-de-confidentialite/", '_blank')}
+              >
+                Pour plus d'information
               </Button>
-              <Button type="submit" variant="light" className="m-2 btn-custom btn-hover-effect">
-                <span>S'inscrire</span>
-                <FilePerson size={24} />
-              </Button>
-            </div>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+              <Form.Group controlId="courriel">
+                <Form.Label style={{ color: 'white' }}>Courriel:</Form.Label>
+                <Form.Control type="email" name="courriel" onChange={handleChange} />
+              </Form.Group>
+              <Form.Group controlId="prenom">
+                <Form.Label style={{ color: 'white' }}>Prénom:</Form.Label>
+                <Form.Control type="text" name="prenom" onChange={handleChange} />
+              </Form.Group>
+              <Form.Group controlId="nom">
+                <Form.Label style={{  color: 'white' }}>Nom de famille:</Form.Label>
+                <Form.Control type="text" name="nom" onChange={handleChange} />
+              </Form.Group>
+              <Form.Group controlId="motDePasse">
+                <Form.Label style={{  color: 'white' }}>Mot de passe:</Form.Label>
+                <Form.Control type="password" name="motDePasse" onChange={handleChange} />
+              </Form.Group>
+              <Form.Group controlId="confirmerMotDePasse">
+                <Form.Label style={{  color: 'white' }}>Confirmer le mot de passe:</Form.Label>
+                <Form.Control type="password" name="confirmerMotDePasse" onChange={handleChange} />
+              </Form.Group>
+              <Form.Group controlId="municipalite">
+                <Form.Label style={{  color: 'white' }}>Municipalité:</Form.Label>
+                <Form.Control as="select" name="municipalite" onChange={handleChange}>
+                  {renderMunicipalites()}
+                </Form.Control>
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label style={{  color: 'white' }}>Intérêts:</Form.Label>
+                {renderInterests()}
+              </Form.Group>
+              <div className="d-flex justify-content-between">
+                <Button variant="light" className="m-2 btn-custom btn-hover-effect" onClick={() => navigate("/")}>
+                  <span>Annuler</span>
+                  <XLg size={24} />
+                </Button>
+                <Button type="submit" variant="light" className="m-2 btn-custom btn-hover-effect">
+                  <span>S'inscrire</span>
+                  <FilePerson size={24} />
+                </Button>
+              </div>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 }
+
 
 export default InscriptionPage; // Exporting InscriptionPage component
