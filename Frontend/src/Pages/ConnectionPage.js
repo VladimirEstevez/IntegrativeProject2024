@@ -19,6 +19,7 @@ function ConnectionPage() {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("WTF", form);
 
     // Send login request to server
     const response = await fetch('http://localhost:8080/user/login', {

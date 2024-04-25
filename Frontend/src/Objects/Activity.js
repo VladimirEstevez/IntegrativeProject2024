@@ -1,7 +1,7 @@
 import React, { useState } from 'react'; // Importing React and useState hook
 import { useLocation, useNavigate } from 'react-router-dom'; // Importing useLocation and useNavigate hooks from react-router-dom
 import "bootstrap/dist/css/bootstrap.min.css"; // Importing Bootstrap CSS
-
+import backgroundImage from '../Logo/V2030.png'; // Importing the background image
 import { toast, ToastContainer } from 'react-toastify'; // Importing toast notifications
 import V2030transparence1 from '../Logo/V2030transparence1.png';
 
@@ -74,12 +74,12 @@ const Activity = () => {
         <h2 className="my-3">{activity.post_title}</h2> {/* Activity title */}
         <p className="text-muted">{activity.post_excerpt}</p> {/* Activity excerpt */}
         <p className="my-3 text-justify" dangerouslySetInnerHTML={{ __html: postContentWithBreaks }}></p> {/* Activity content */}
-        <p><small className="text-muted">Date de début: {formatUTCDate(activity.StartDate)}</small></p> {/* Start date */}
-        <p><small className="text-muted">Date de fin: {formatUTCDate(activity.EndDate)}</small></p> {/* End date */}
-        <span>Évènement sur le site Valcourt2030: </span><a href={activity.post_url} onClick={handleEventUrlClick} className=" my-3">   {activity.post_title}  </a> {/* Event URL */}
+        <p><small className="text-muted">Date de dÃ©but: {(activity.StartDate)}</small></p> {/* Start date */}
+        <p><small className="text-muted">Date de fin: {(activity.EndDate)}</small></p> {/* End date */}
+        <span>Ã©vÃ©nement sur le site Valcourt2030: </span><a href={activity.post_url} onClick={handleEventUrlClick} className=" my-3">   {activity.post_title}  </a> {/* Event URL */}
         <p><small className="text-muted">Tags: {activity.tags.join(', ')}</small></p> {/* Tags */}
         <button onClick={() => goBack()} className="btn btn-secondary my-3">Go Back</button> {/* Button to go back */}
-        <button onClick={registerActivity} className="register-button btn btn-primary">S'inscrire à l'Activité</button> {/* Button to register */}
+        <button onClick={registerActivity} className="register-button btn btn-primary">S'inscrire ï¿½ l'Activitï¿½</button> {/* Button to register */}
       </div>
     </div>
   );

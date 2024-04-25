@@ -4,7 +4,7 @@ import Card from "../Objects/Card"; // Importing custom Card component
 import { useNavigate } from "react-router-dom"; // Importing hook for navigation
 import "bootstrap/dist/css/bootstrap.min.css"; // Importing Bootstrap CSS
 import { House } from "react-bootstrap-icons"; // Importing logout icon
-
+import backgroundImage from '../Logo/V2030.png'; // Importing the background image
 
 const ActivitiesPage = () => {
   // State variables and constants initialization
