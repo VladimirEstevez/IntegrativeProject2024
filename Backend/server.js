@@ -15,8 +15,12 @@ const nodemailer = require("nodemailer");
 const cron = require("node-cron");
 const reminderTask = require("./routes/reminderRouter.js");
 const moment = require("moment");
+const path = require("path");
 
 //TO RUN SERVER DO NPM START AND ON ANOTHER TERMINAL DO NPX NGROK HTTP 8080
+
+// Use the "/build" folder as a static resource for frontend
+app.use("/", express.static(path.join(__dirname, "build")));
 
 // Middleware setup
 app.use(cors());
@@ -91,7 +95,7 @@ app.post("/", async (req, res) => {
 
         // Generate a unique URL for each user and each activity
 
-        const registerUrl = `http://localhost:8080/activities/register-activity/${
+        const registerUrl = `${process.env.SERVER_URL}/activities/register-activity/${
           user.courriel
         }/${activityId}/${encodeURIComponent(eventData.event_url)}`;
 

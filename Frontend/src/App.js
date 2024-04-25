@@ -14,25 +14,18 @@ function App() {
       const token = localStorage.getItem('token');
 
       if (token) {
-        try {
-          const response = await fetch('http://localhost:8080/user/protectedRoute', {
-            method: 'GET',
-            headers: {
-              authorization: 'Bearer ' + token,
-            },
-          });
+        const response = await fetch('http://localhost:8080/user/protectedRoute', {
+          method: 'GET',
+          headers: {
+            authorization: 'Bearer ' + token,
+          },
+        });
 
-          console.log('response: ', response);
-          if (response.status === 401) {
-            localStorage.deleteItem('token');
-            navigate('/');
-          } else {
-            const user = await response.json();
-            console.log('user: ', user);
-            navigate('/menu');
-          }
-        } catch (error) {
-          console.error('Error:', error);
+        if (response.status === 200) {
+          navigate('/menu');
+        } else {
+          localStorage.removeItem('token');
+          navigate('/');
         }
       }
     };

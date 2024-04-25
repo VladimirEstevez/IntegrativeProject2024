@@ -111,7 +111,7 @@ router.get("/protectedRoute", authMiddleware, async (req, res) => {
 
   try {
     console.log("You have accessed a protected route");
-    res.send(req.user);
+    res.status(200).send(req.user);
   } catch (err) {
     console.log("err: ", err);
     return res.sendStatus(403);
