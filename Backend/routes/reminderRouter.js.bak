@@ -55,6 +55,28 @@ async function sendEmails() {
         <div style="font-family: Arial, sans-serif; color: #333;">
           <h3>${activity.post_title}</h3>
           <p>Bonjour, nous voulons vous rappeler que vous êtes inscrit à l'activité suivante : ${activity.post_title}. Elle aura lieu dans trois jours !</p>
+<<<<<<< HEAD
+        </div>`;        
+        htmlContent += `<p>L'événement commence à : ${formatUTCDate(activity.StartDate)}</p>`;
+        htmlContent += `<p>Et se termine à : ${formatUTCDate(activity.EndDate)}</p>`;
+        htmlContent += `<p>${activity.post_content}</p>`;
+        htmlContent += `<img src="${activity.post_thumbnail}" alt="Activity Thumbnail" style="width: 100%; max-width: 600px;">`;
+        htmlContent += `<p>Cliquez sur ce <button onclick="window.location.href='${activity.event_url}'">${activity.post_title}</button> pour accéder à l'article de l'événement sur le site de Valcourt2030 et voir les détails de l'événement.</p>`;
+        
+    
+        await transporter.sendMail({
+            from: '"Valcourt2030" <integrativeprojectgroupthree@gmail.com>',
+            to: email,
+            subject: `L'événement ${activity.post_title} auquel vous vous êtes inscrit aura lieu le ${new Date(activity.StartDate).toLocaleDateString('fr-FR')} `,
+            html: htmlContent,
+        }, function (error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log("Email sent: " + info.response);
+            }
+        });
+=======
         </div>`;
       htmlContent += `<p>L'événement commence à : ${(
         activity.StartDate
@@ -68,7 +90,7 @@ async function sendEmails() {
 
       await transporter.sendMail(
         {
-          from: '"Valcourt2030" <integrativeprojectgroupthree@gmail.com>',
+          from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
           to: email,
           subject: `L'événement ${
             activity.post_title
@@ -85,6 +107,7 @@ async function sendEmails() {
           }
         }
       );
+>>>>>>> 1e4c2e1effe06f1371ada2e3a5b73d4b521195d3
     }
   }
 }

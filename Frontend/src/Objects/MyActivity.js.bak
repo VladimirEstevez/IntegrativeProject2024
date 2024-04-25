@@ -1,8 +1,11 @@
 import React, { useState } from 'react'; // Importing React and useState hook
 import { useLocation, useNavigate } from 'react-router-dom'; // Importing useLocation and useNavigate hooks from react-router-dom
 import "bootstrap/dist/css/bootstrap.min.css"; // Importing Bootstrap CSS
-import backgroundImage from '../Logo/V2030.png'; // Importing the background image
+<<<<<<< HEAD
 import V2030transparence1 from '../Logo/V2030transparence1.png';
+import formatUTCDate from './utilDate'; // Importing utility function for formatting UTC date
+=======
+>>>>>>> 1e4c2e1effe06f1371ada2e3a5b73d4b521195d3
 
 // Functional component for displaying user's activity details
 const MyActivity = () => {

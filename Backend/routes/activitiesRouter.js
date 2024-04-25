@@ -9,7 +9,7 @@ const { ObjectId } = require("mongodb");
 const db = client.db("integrativeProjectDB");
 const UsersCollection = db.collection("Users");
 const ActivitiesCollection = db.collection("Activities");
-const { formatUTCDate } = require("../dateUtils/formatDate.js");
+
 
 // This route returns a collection of activities from the database.
 router.get("/", async (req, res) => {
@@ -45,31 +45,24 @@ router.post("/register-activity", async (req, res) => {
     },
   });
 
-  await transporter.sendMail(
-    {
-      from: `"Valcour2030" <${process.env.RECIPIENT_EMAIL}>`,
-      to: user.courriel,
-      subject: "Activity Registration",
-      html: `
-        Bienvenue! Vous vous ï¿½tes inscrit ï¿½ l'activitï¿½ : ${
-          activity.post_title
-        }.<br>
-            Date de dï¿½but : ${formatUTCDate(activity.StartDate).toLocaleString(
-              "fr-FR"
-            )},<br>
-            Date de fin : ${formatUTCDate(activity.EndDate).toLocaleString(
-              "fr-FR"
-            )}.<br>
-            Tags : ${activity.tags.join(", ")}<br>
-            <p>Pour plus de dï¿½tails, cliquez sur le bouton ci-dessous :
-            <button id="detailsButton" style="background-color: blue; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Voir les dï¿½tails</button></p>
+   await transporter.sendMail({
+            from: '"Valcourt2030" <integrativeprojectgroupthree@gmail.com>',
+            to: user.courriel,
+            subject: "Inscription à une activité",
+            html: `
+            Bienvenue! Vous vous êtes inscrit à l'activité : ${activity.post_title}.<br>
+                Date de début : ${(activity.StartDate).toLocaleString('fr-FR')},<br>
+                Date de fin : ${(activity.EndDate).toLocaleString('fr-FR')}.<br>
+                Tags : ${activity.tags.join(', ')}<br>
+                <p>Pour plus de détails, cliquez sur le bouton ci-dessous :
+                <button id="detailsButton" style="background-color: blue; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Voir les détails</button></p>
 
             <img src="${
               activity.post_thumbnail
-            }" alt="Image de l'activitï¿½" style="width: 100%; max-width: 600px;">
+            }" alt="Image de l'activit?" style="width: 100%; max-width: 600px;">
             
             <script>
-                // Ajout d'un gestionnaire d'ï¿½vï¿½nements au clic du bouton
+                // Ajout d'un gestionnaire d'?v?nements au clic du bouton
                 document.getElementById("detailsButton").addEventListener("click", function() {
                 window.location.href = "${activity.event_url}";
                 });
@@ -92,7 +85,7 @@ router.post("/register-activity", async (req, res) => {
 router.get(
   "/register-activity/:email/:activityId/:formUrl",
   async (req, res) => {
-    console.log("les activitÃ©s; form;");
+    console.log("les activités; form;");
     const email = req.params.email;
     const activityId = req.params.activityId;
     const formUrl = decodeURIComponent(req.params.formUrl);

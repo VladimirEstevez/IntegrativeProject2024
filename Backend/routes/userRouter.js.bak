@@ -130,7 +130,7 @@ router.get("/protectedRoute", authMiddleware, async (req, res) => {
     // //console.log("user: ", user);
     // req.user = user;
     console.log("You have accessed a protected route");
-    res.status(200).send(req.user);
+    res.send(req.user);
   } catch (err) {
     console.log("err: ", err);
     return res.sendStatus(403);
@@ -257,9 +257,9 @@ router.get("/requestPasswordModification", authMiddleware, async (req, res) => {
 
   await transporter.sendMail(
     {
-      from: '"Valcourt2030" <integrativeprojectgroupthree@gmail.com>',
+      from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
       to: userCourriel,
-      subject: "Modification du mot de passe ",
+      subject: "Modify password",
       html: `
     <p>Cliquez sur le lien ci-dessous pour modifier votre mot de passe :</p>
     <p><a href="http://localhost:8080/user/passwordModification?token=${encodeURIComponent(newToken)}" style="display: inline-block; background-color: #007bff; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px;">Modifier le mot de passe</a></p>
