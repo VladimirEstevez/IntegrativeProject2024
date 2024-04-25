@@ -38,8 +38,8 @@ cron.schedule("0 0 5 * * *", reminderTask);
 
 // Send email to users when a new event is added. The email is sent to the users with matching tags of the event.
 app.post("/", async (req, res) => {
-  //console.log("Webhook received:");
-  //console.log(req.body);
+  console.log("Webhook received:");
+  console.log(req.body);
  
 
   if (req.body.post && req.body.post.post_type === "tribe_events") {
@@ -59,12 +59,6 @@ app.post("/", async (req, res) => {
       tags: tags,
     };
 
-    const formattedStartDate = moment(eventData.StartDate).format(
-      "YYYY-MM-DD hh:mm A"
-    );
-    const formattedEndDate = moment(eventData.EndDate).format(
-      "YYYY-MM-DD hh:mm A"
-    );
     const insertResult = await ActivitiesCollection.insertOne(eventData);
     const activityId = insertResult.insertedId;
     // Get all users from the database
@@ -117,19 +111,19 @@ app.post("/", async (req, res) => {
                     <p>${postContentWithBreaks}</p>
                     <img src="${
                       eventData.post_thumbnail
-                    }" alt="Image de l'activit�" style="width: 100%; max-width: 600px;">
+                    }" alt="Image de l'activité" style="width: 100%; max-width: 600px;">
                     <p>Cliquez sur ce <a href="${
                       eventData.post_url
-                    }">lien</a> pour acc�der � l'�v�nement.</p>
+                    }">lien</a> pour accéder à l'événement.</p>
                     <p><a href="${registerUrl}" style="display: inline-block; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; border: 1px solid transparent; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; border-radius: .25rem; color: #fff; background-color: #007bff;">Cliquez sur ce bouton pour vous inscrire ? l'?v?nement !</a></p>
  
                 `,
           },
           function (error, info) {
             if (error) {
-              //console.log(error);
+              console.log(error);
             } else {
-              //console.log("Email sent: " + info.response);
+              console.log("Email sent: " + info.response);
             }
           }
         );

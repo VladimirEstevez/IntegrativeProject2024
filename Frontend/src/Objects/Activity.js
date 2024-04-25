@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css"; // Importing Bootstrap CSS
 import backgroundImage from '../Logo/V2030.png'; // Importing the background image
 import { toast, ToastContainer } from 'react-toastify'; // Importing toast notifications
 import V2030transparence1 from '../Logo/V2030transparence1.png';
+import { formatDateFunction } from './DateFormattingTool';
 
 // Functional component for individual activity page
 const Activity = () => {
@@ -74,8 +75,8 @@ const Activity = () => {
         <h2 className="my-3">{activity.post_title}</h2> {/* Activity title */}
         <p className="text-muted">{activity.post_excerpt}</p> {/* Activity excerpt */}
         <p className="my-3 text-justify" dangerouslySetInnerHTML={{ __html: postContentWithBreaks }}></p> {/* Activity content */}
-        <p><small className="text-muted">Date de début: {(activity.StartDate)}</small></p> {/* Start date */}
-        <p><small className="text-muted">Date de fin: {(activity.EndDate)}</small></p> {/* End date */}
+        <p><small className="text-muted">Date de début: {formatDateFunction(activity.StartDate)}</small></p> {/* Start date */}
+        <p><small className="text-muted">Date de fin: {formatDateFunction(activity.EndDate)}</small></p> {/* End date */}
         <span>événement sur le site Valcourt2030: </span><a href={activity.post_url} onClick={handleEventUrlClick} className=" my-3">   {activity.post_title}  </a> {/* Event URL */}
         <p><small className="text-muted">Tags: {activity.tags.join(', ')}</small></p> {/* Tags */}
         <button onClick={() => goBack()} className="btn btn-secondary my-3">Go Back</button> {/* Button to go back */}

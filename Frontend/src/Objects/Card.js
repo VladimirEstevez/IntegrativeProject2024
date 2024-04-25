@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'; // Importing React and useEffect hook
 import { useNavigate, useLocation } from 'react-router-dom'; // Importing useNavigate and useLocation hooks from react-router-dom
 import V2030transparence1 from '../Logo/V2030transparence1.png';
+import { formatDateFunction } from './DateFormattingTool';
 // Functional component for displaying activity card
 const Card = ({ activity }) => {
     const navigate = useNavigate(); // Accessing navigate function from react-router-dom
@@ -32,9 +33,9 @@ const Card = ({ activity }) => {
                 {/* Activity excerpt */}
                 <p className="card-text">{activity.post_excerpt}</p>
                 {/* Start date */}
-                <p className="card-text"><small className="text-muted">Début: {(activity.StartDate)}</small></p>
+                <p className="card-text"><small className="text-muted">Début: {formatDateFunction(activity.StartDate)}</small></p>
                 {/* End date */}
-                <p className="card-text"><small className="text-muted">Fin: {(activity.EndDate)}</small></p>
+                <p className="card-text"><small className="text-muted">Fin: {formatDateFunction(activity.EndDate)}</small></p>
                 {/* Tags */}
                 <p className="card-text"><small className="text-muted">Mots clés: {activity.tags.join(', ')}</small></p>
                 <div className='d-flex justify-content-center'> {/* Button container */}

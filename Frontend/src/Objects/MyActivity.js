@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'; // Importing useLoc
 import "bootstrap/dist/css/bootstrap.min.css"; // Importing Bootstrap CSS
 import backgroundImage from '../Logo/V2030.png'; // Importing the background image
 import V2030transparence1 from '../Logo/V2030transparence1.png';
+import { formatDateFunction } from './DateFormattingTool';
 
 // Functional component for displaying user's activity details
 const MyActivity = () => {
@@ -51,9 +52,9 @@ const MyActivity = () => {
       {/* Activity content */}
       <p className="my-3 text-justify" dangerouslySetInnerHTML={{ __html: postContentWithBreaks }}></p>
       {/* Start date */}
-      <p><small className="text-muted">Date de début: {(activity.StartDate)}</small></p>
+      <p><small className="text-muted">Date de début: {formatDateFunction(activity.StartDate)}</small></p>
       {/* End date */}
-      <p><small className="text-muted">Date de fin: {(activity.EndDate)}</small></p>
+      <p><small className="text-muted">Date de fin: {formatDateFunction(activity.EndDate)}</small></p>
       {/* Event URL */}
       <span>Evenement sur le site Valcourt2030: </span><a href={activity.post_url} onClick={handleEventUrlClick} className=" my-3">   {activity.post_title}  </a>
       {/* Tags */}

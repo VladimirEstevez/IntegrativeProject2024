@@ -2,6 +2,7 @@ const { client } = require("../database/database");
 const nodemailer = require("nodemailer");
 const db = client.db("integrativeProjectDB");
 const ActivitiesCollection = db.collection("Activities");
+const formatDateFunction = require("../dateUtils/DateFormattingTool");
 
 
 // This function sends the reminder emails to the registered users of the activities.
@@ -14,7 +15,10 @@ async function sendEmails() {
     },
   });
 
-  const currentDate = new Date();
+/*
+PREVIOUS FUNCTIONS 
+
+const currentDate = new Date();
   const threeDaysFromNow = new Date(
     Date.UTC(
       currentDate.getUTCFullYear(),
@@ -36,6 +40,27 @@ async function sendEmails() {
     )
   );
 
+*/ 
+
+  function getESTDate(daysFromNow) {
+    const currentDate = new Date();
+    const futureDate = new Date(
+      Date.UTC(
+        currentDate.getUTCFullYear(),
+        currentDate.getUTCMonth(),
+        currentDate.getUTCDate() + daysFromNow,
+        0,
+        0,
+        0
+      )
+    );
+  
+    return new Date(futureDate.toLocaleString("fr-FR", { timeZone: "America/Montreal" }));
+  }
+  
+  const threeDaysFromNow = getESTDate(3);
+  const fourDaysFromNow = getESTDate(4);
+
   // Get the activities coming in three days from now.
   const activities = await ActivitiesCollection.find({
     StartDate: {
@@ -56,10 +81,10 @@ async function sendEmails() {
           <h3>${activity.post_title}</h3>
           <p>Bonjour, nous voulons vous rappeler que vous êtes inscrit à l'activité suivante : ${activity.post_title}. Elle aura lieu dans trois jours !</p>
         </div>`;
-      htmlContent += `<p>L'événement commence à : ${(
+      htmlContent += `<p>L'événement commence à : ${formatDateFunction(
         activity.StartDate
       )}</p>`;
-      htmlContent += `<p>Et se termine à : ${(
+      htmlContent += `<p>Et se termine à : ${formatDateFunction(
         activity.EndDate
       )}</p>`;
       htmlContent += `<p>${activity.post_content}</p>`;
@@ -79,9 +104,9 @@ async function sendEmails() {
         },
         function (error, info) {
           if (error) {
-            //console.log(error);
+            console.log(error);
           } else {
-            //console.log("Email sent: " + info.response);
+            console.log("Email sent: " + info.response);
           }
         }
       );
