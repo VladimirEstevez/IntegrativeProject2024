@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-import React, { useEffect, useState } from "react"; // Importing necessary modules and components
-import { useNavigate } from "react-router-dom"; // Importing hook for navigation
-=======
 import React, { useEffect, useState } from 'react'; // Importing necessary modules and components
 import { useNavigate } from 'react-router-dom'; // Importing hook for navigation
-import backgroundImage from '../Logo/V2030.png'; // Importing the background image
->>>>>>> 873fb120fca094da3ddd682c80868a32493f6be2
+import backgroundImage from '../Logo/V2030.png'; // Importing the background i
 
 const MainMenuPage = () => {
   const navigate = useNavigate(); // Navigation function
@@ -45,16 +40,6 @@ const MainMenuPage = () => {
     // If loading state is true, display loading message
     return <div>Loading...</div>;
   }
-
-<<<<<<< HEAD
-  return (
-    // Render main menu page
-    <div className="container-fluid vh-100">
-      <div className="d-flex justify-content-center align-items-start pt-5 m-5">
-        <div className="container-md text-center">
-          <h1 className="fs-4 mb-4">Bonjour {prenom}</h1>{" "}
-          {/* Display greeting with first name */}
-=======
     return ( // Render main menu page
     <div className="position-relative min-vh-100" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: '0.9' }}>
 
@@ -63,9 +48,7 @@ const MainMenuPage = () => {
           <div className="container-md text-center">
             <h1 className="fs-4 mb-4 text-white">Bonjour {prenom}</h1> {/* Display greeting with first name */}
             <h1 className="fs-4 mb-4 text-white">Veuillez utiliser le menu situé en haut à droite pour accéder aux fonctionnalités du site</h1>
-
           </div>
->>>>>>> 873fb120fca094da3ddd682c80868a32493f6be2
         </div>
       </div>
     </div>
