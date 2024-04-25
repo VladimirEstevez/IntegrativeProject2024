@@ -137,12 +137,12 @@ const ModificationPage = () => {
             },
           });
 
-          console.log('response: ', response);
+          //console.log('response: ', response);
           if (response.status === 401) {
             navigate('/'); // Navigate to home page if unauthorized
           } else {
             const user = await response.json(); // Parse user data from response
-            console.log('user: ', user);
+            //console.log('user: ', user);
             setPrenom(user.prenom); // Set first name
             setNom(user.nom); // Set last name
             setMunicipalite(user.municipalite); // Set municipality

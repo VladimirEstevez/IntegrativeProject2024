@@ -48,14 +48,14 @@ router.post("/register-activity", async (req, res) => {
    await transporter.sendMail({
             from: '"Valcourt2030" <integrativeprojectgroupthree@gmail.com>',
             to: user.courriel,
-            subject: "Inscription à une activité",
+            subject: "Inscription ï¿½ une activitï¿½",
             html: `
-            Bienvenue! Vous vous êtes inscrit à l'activité : ${activity.post_title}.<br>
-                Date de début : ${(activity.StartDate).toLocaleString('fr-FR')},<br>
+            Bienvenue! Vous vous ï¿½tes inscrit ï¿½ l'activitï¿½ : ${activity.post_title}.<br>
+                Date de dï¿½but : ${(activity.StartDate).toLocaleString('fr-FR')},<br>
                 Date de fin : ${(activity.EndDate).toLocaleString('fr-FR')}.<br>
                 Tags : ${activity.tags.join(', ')}<br>
-                <p>Pour plus de détails, cliquez sur le bouton ci-dessous :
-                <button id="detailsButton" style="background-color: blue; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Voir les détails</button></p>
+                <p>Pour plus de dï¿½tails, cliquez sur le bouton ci-dessous :
+                <button id="detailsButton" style="background-color: blue; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Voir les dï¿½tails</button></p>
 
             <img src="${
               activity.post_thumbnail
@@ -71,9 +71,9 @@ router.post("/register-activity", async (req, res) => {
     },
     function (error, info) {
       if (error) {
-        console.log(error);
+        //console.log(error);
       } else {
-        console.log("Email sent: " + info.response);
+        //console.log("Email sent: " + info.response);
       }
     }
   );
@@ -85,7 +85,7 @@ router.post("/register-activity", async (req, res) => {
 router.get(
   "/register-activity/:email/:activityId/:formUrl",
   async (req, res) => {
-    console.log("les activités; form;");
+    //console.log("les activitï¿½s; form;");
     const email = req.params.email;
     const activityId = req.params.activityId;
     const formUrl = decodeURIComponent(req.params.formUrl);

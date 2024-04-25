@@ -8,7 +8,7 @@ const Card = ({ activity }) => {
 
     // Effect to log activity when it changes
     useEffect(() => { 
-        console.log(activity);
+        //console.log(activity);
     }, [activity]); // Running effect whenever activity changes
 
     // Function to navigate to activity details page

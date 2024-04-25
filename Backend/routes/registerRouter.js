@@ -13,8 +13,8 @@ const UsersCollection = db.collection("Users");
 const ActivitiesCollection = db.collection("Activities");
 
 // router.post("/", async (req, res) => {
-//   console.log("Webhook received:");
-//   console.log(req.body);
+//   //console.log("Webhook received:");
+//   //console.log(req.body);
 
 //   await ActivitiesCollection.insertOne(req.body);
 
@@ -22,8 +22,8 @@ const ActivitiesCollection = db.collection("Activities");
 // });
 
 router.post("/subscribe", async (req, res) => {
-    console.log("Subscription received:");
-    console.log(req.body);
+    //console.log("Subscription received:");
+    //console.log(req.body);
     const user = req.body;
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(user.motDePasse, saltRounds);
@@ -59,9 +59,9 @@ router.post("/subscribe", async (req, res) => {
         `,
     }, function(error, info) {
         if (error) {
-            console.log(error);
+            //console.log(error);
         } else {
-            console.log("Email sent: " + info.response);
+            //console.log("Email sent: " + info.response);
         }
     });
   res.status(200).send({

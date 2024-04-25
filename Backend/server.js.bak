@@ -34,8 +34,8 @@ cron.schedule("0 0 5 * * *", reminderTask);
 
 // Send email to users when a new event is added. The email is sent to the users with matching tags of the event.
 app.post("/", async (req, res) => {
-  console.log("Webhook received:");
-  console.log(req.body);
+  //console.log("Webhook received:");
+  //console.log(req.body);
  
 
   if (req.body.post && req.body.post.post_type === "tribe_events") {
@@ -142,9 +142,9 @@ app.post("/", async (req, res) => {
           },
           function (error, info) {
             if (error) {
-              console.log(error);
+              //console.log(error);
             } else {
-              console.log("Email sent: " + info.response);
+              //console.log("Email sent: " + info.response);
             }
           }
         );
@@ -160,11 +160,11 @@ app.get("/data", async (req, res) => {
   const interests = await DataCollection.findOne({
     _id: new ObjectId("65e52fd998321b99c36da1dc"),
   });
-  console.log("interests: ", interests);
+  //console.log("interests: ", interests);
   const municipalities = await DataCollection.findOne({
     _id: new ObjectId("65e52fec98321b99c36da1dd"),
   });
-  console.log(" municipalities: ", municipalities);
+  //console.log(" municipalities: ", municipalities);
 
   res.json({
     interests: interests.Interests,
@@ -187,5 +187,5 @@ app.use("/user", userRouter);
 const port = process.env.PORT;
 app.listen(port, () => {
   connect();
-  console.log("Server listening on port " + port);
+  //console.log("Server listening on port " + port);
 });

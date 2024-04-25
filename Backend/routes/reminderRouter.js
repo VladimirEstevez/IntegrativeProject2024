@@ -46,8 +46,8 @@ async function sendEmails() {
 
   // Iterate over each activity and send email to registered users of that activity.
   for (const activity of activities) {
-    console.log("activity.StartDate: ", (activity.StartDate));
-    console.log("activity.EndDate: ", (activity.EndDate));
+    //console.log("activity.StartDate: ", (activity.StartDate));
+    //console.log("activity.EndDate: ", (activity.EndDate));
 
     // Send an email to each registered user
     for (const email of activity.registeredUsers) {
@@ -79,9 +79,9 @@ async function sendEmails() {
         },
         function (error, info) {
           if (error) {
-            console.log(error);
+            //console.log(error);
           } else {
-            console.log("Email sent: " + info.response);
+            //console.log("Email sent: " + info.response);
           }
         }
       );
