@@ -12,7 +12,7 @@ const MainMenuPage = () => {
       const token = localStorage.getItem("token"); // Get token from local storage
       try {
         const response = await fetch(
-          "http://localhost:8080/user/protectedRoute",
+          `${process.env.SERVER_URL}/user/protectedRoute`,
           {
             method: "GET",
             headers: {

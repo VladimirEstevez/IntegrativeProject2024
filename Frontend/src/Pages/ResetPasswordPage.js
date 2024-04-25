@@ -38,7 +38,7 @@ function ResetPasswordPage() {
 
     // Send data to backend route for password reset
     try {
-      const response = await fetch("http://localhost:8080/user/resetPassword", {
+      const response = await fetch(`${process.env.SERVER_URL}/user/resetPassword`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

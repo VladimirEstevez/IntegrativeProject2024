@@ -18,7 +18,7 @@ const MyActivitiesPage = () => {
     // Fetching user interests from server
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8080/data"); // Fetching data from server
+        const response = await fetch(`${process.env.SERVER_URL}/data`); // Fetching data from server
         const data = await response.json(); // Parsing response as JSON
         setInterests(data.interests); // Setting interests state with fetched data
       } catch (error) {
@@ -151,7 +151,7 @@ const MyActivitiesPage = () => {
     const fetchActivities = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8080/activities/my-activities",
+          `${process.env.SERVER_URL}/activities/my-activities`,
           {
             headers: {
               Authorization: `Bearer ${token}`, // Setting authorization header with token
@@ -171,7 +171,7 @@ const MyActivitiesPage = () => {
       } else {
         try {
           const response = await fetch(
-            "http://localhost:8080/user/protectedRoute",
+            `${process.env.SERVER_URL}/user/protectedRoute`,
             {
               method: "GET",
               headers: {

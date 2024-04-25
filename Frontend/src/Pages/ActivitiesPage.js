@@ -17,7 +17,7 @@ const ActivitiesPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8080/data");
+        const response = await fetch(`${process.env.SERVER_URL}/data`);
         const data = await response.json();
         setInterests(data.interests); // Setting fetched interests data
       } catch (error) {
@@ -158,7 +158,7 @@ const ActivitiesPage = () => {
   useEffect(() => {
     const fetchActivities = async () => {
       try {
-        const response = await fetch("http://localhost:8080/activities", {
+        const response = await fetch(`${process.env.SERVER_URL}/activities`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -176,7 +176,7 @@ const ActivitiesPage = () => {
       } else {
         try {
           const response = await fetch(
-            "http://localhost:8080/user/protectedRoute",
+            `${process.env.SERVER_URL}/user/protectedRoute`,
             {
               method: "GET",
               headers: {

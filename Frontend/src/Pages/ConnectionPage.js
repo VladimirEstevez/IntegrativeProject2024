@@ -22,7 +22,7 @@ function ConnectionPage() {
     console.log("WTF", form);
 
     // Send login request to server
-    const response = await fetch('http://localhost:8080/user/login', {
+    const response = await fetch(`${process.env.SERVER_URL}/user/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ function ConnectionPage() {
 
       if (token) {
         try {
-          const response = await fetch('http://localhost:8080/user/protectedRoute', {
+          const response = await fetch(`${process.env.SERVER_URL}/user/protectedRoute`, {
             method: 'GET',
             headers: {
               authorization: 'Bearer ' + token,
