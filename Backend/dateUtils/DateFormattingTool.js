@@ -9,4 +9,4 @@ function formatDateFunction(unformattedDate) {
     return formattedDate;
   }
 
-  export { formatDateFunction };
+  module.exports =  { formatDateFunction };

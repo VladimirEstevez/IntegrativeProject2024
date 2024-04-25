@@ -40,7 +40,7 @@ function PasswordModificationPage() {
 
     // Send data to backend route for password modification
     try {
-      const response = await fetch(`${process.env.SERVER_URL}/user/passwordModification`, {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/user/passwordModification`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

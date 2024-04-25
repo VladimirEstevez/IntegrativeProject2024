@@ -16,7 +16,7 @@ function App() {
       const token = localStorage.getItem('token');
 
       if (token) {
-        const response = await fetch(`${process.env.SERVER_URL}/user/protectedRoute`, {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/user/protectedRoute`, {
           method: 'GET',
           headers: {
             authorization: 'Bearer ' + token,

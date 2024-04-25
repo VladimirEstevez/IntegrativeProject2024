@@ -33,7 +33,7 @@ function ForgotPasswordPage() {
 
     // Send email verification request to server
     const emailResponse = await fetch(
-      `${process.env.SERVER_URL}/user/verifyEmail`,
+      `${process.env.REACT_APP_SERVER_URL}/user/verifyEmail`,
       {
         method: "POST",
         headers: {
@@ -51,7 +51,7 @@ function ForgotPasswordPage() {
     }
 
     // Send password reset request to server
-    const response = await fetch(`${process.env.SERVER_URL}/user/requestPasswordReset`, {
+    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/user/requestPasswordReset`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

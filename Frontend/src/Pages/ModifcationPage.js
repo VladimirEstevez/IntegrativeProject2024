@@ -16,7 +16,7 @@ const ModificationPage = () => {
   useEffect(() => {
     const fetchData = async () => { // Fetch data for interests and municipalities
       try {
-        const response = await fetch(`${process.env.SERVER_URL}/data`);
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/data`);
         const data = await response.json();
         setInterests(data.interests); // Set interests options
         setMunicipalites(data.municipalities); // Set municipality options
@@ -52,7 +52,7 @@ const ModificationPage = () => {
   async function ModifyPassword(){ // Function to request password modification
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch(`${process.env.SERVER_URL}/user/requestPasswordModification`, {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/user/requestPasswordModification`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ const ModificationPage = () => {
 
     try {
       // Send updatedUser to server to update the user in the database
-      const response = await fetch(`${process.env.SERVER_URL}/user/updateUser`, {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/user/updateUser`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -130,7 +130,7 @@ const ModificationPage = () => {
         navigate('/'); // Navigate to home page if token is not present
       } else {
         try {
-          const response = await fetch(`${process.env.SERVER_URL}/user/protectedRoute`, {
+          const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/user/protectedRoute`, {
             method: 'GET',
             headers: {
               authorization: 'Bearer ' + token,

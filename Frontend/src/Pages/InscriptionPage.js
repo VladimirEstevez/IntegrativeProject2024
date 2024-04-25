@@ -30,7 +30,7 @@ function InscriptionPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${process.env.SERVER_URL}/data`);
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/data`);
         const data = await response.json();
         //console.log('Fetched data:', data);
         setInterests(data.interests); // Set interests from fetched data
@@ -151,7 +151,7 @@ function InscriptionPage() {
 
     // Send email verification request to server
     const emailResponse = await fetch(
-      `${process.env.SERVER_URL}/register/verifyEmail`,
+      `${process.env.REACT_APP_SERVER_URL}/register/verifyEmail`,
       {
         method: "POST",
         headers: {
@@ -169,7 +169,7 @@ function InscriptionPage() {
     }
 
     // Send registration request to server
-    const response = await fetch(`${process.env.SERVER_URL}/register/subscribe`, {
+    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/register/subscribe`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

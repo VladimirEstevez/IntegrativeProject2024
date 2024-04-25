@@ -21,8 +21,9 @@ function ConnectionPage() {
     e.preventDefault();
     //console.log("WTF", form);
 
+    console.log(`${process.env.REACT_APP_SERVER_URL}`)
     // Send login request to server
-    const response = await fetch(`${process.env.SERVER_URL}/user/login`, {
+    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/user/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -56,7 +57,7 @@ function ConnectionPage() {
 
       if (token) {
         try {
-          const response = await fetch(`${process.env.SERVER_URL}/user/protectedRoute`, {
+          const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/user/protectedRoute`, {
             method: 'GET',
             headers: {
               authorization: 'Bearer ' + token,

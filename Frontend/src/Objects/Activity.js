@@ -23,7 +23,7 @@ const Activity = () => {
     const token = localStorage.getItem('token'); // Fetching token from local storage
     
     // Sending registration data to backend route
-    const response = await fetch(`${process.env.SERVER_URL}/activities/register-activity`, {
+    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/activities/register-activity`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
