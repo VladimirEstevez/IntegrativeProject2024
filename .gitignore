@@ -13,6 +13,8 @@
 
 # production
 /build
+/Frontend/build
+/Backend/build
 
 # misc
 .DS_Store

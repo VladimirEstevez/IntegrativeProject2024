@@ -9,9 +9,9 @@ import backgroundImage from '../Logo/V2030.png'; // Importing the background ima
 
 // Functional component for My Activities Page
 const MyActivitiesPage = () => {
-  const [activities, setActivities] = useState([]); // State for activities
   const navigate = useNavigate(); // Navigation hook
   const token = localStorage.getItem("token"); // Retrieving token from local storage
+  const [activities, setActivities] = useState([]); // State for activities
   const [interests, setInterests] = useState([]); // State for user interests
 
   useEffect(() => {
@@ -25,7 +25,6 @@ const MyActivitiesPage = () => {
         console.error("Error:", error); // Logging error if any
       }
     };
-  
     fetchData(); // Calling fetchData function on component mount
   }, []);
 
@@ -181,7 +180,7 @@ const MyActivitiesPage = () => {
             }
           );
 
-          if (response.status === 401) {
+          if (response.status !== 200) {
             navigate("/"); // Redirecting to login page if unauthorized
           }
         } catch (error) {

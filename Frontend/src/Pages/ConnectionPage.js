@@ -33,7 +33,6 @@ function ConnectionPage() {
     // Handle server response
     if (response.ok) {
       const data = await response.json();
-      console.log('Token: ', data.accessToken);
       localStorage.setItem('token', data.accessToken);
 
       // Show success toast notification
@@ -70,8 +69,6 @@ function ConnectionPage() {
             navigate('/');
           } else {
             // Redirect to /menu if user is authenticated
-            const user = await response.json();
-            console.log('user: ', user);
             navigate('/menu');
           }
         } catch (error) {
