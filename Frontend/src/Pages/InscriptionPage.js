@@ -32,10 +32,10 @@ function InscriptionPage() {
       try {
         const response = await fetch(`${process.env.SERVER_URL}/data`);
         const data = await response.json();
-        console.log('Fetched data:', data);
+        //console.log('Fetched data:', data);
         setInterests(data.interests); // Set interests from fetched data
         setMunicipalites(data.municipalities); // Set municipalities from fetched data
-        console.log('Tags state after fetch:', tags); // Log tags state after fetch (won't be updated immediately)
+        //console.log('Tags state after fetch:', tags); // Log tags state after fetch (won't be updated immediately)
       } catch (error) {
         console.error("Error:", error);
       }

@@ -78,9 +78,9 @@ router.post("/register-activity", async (req, res) => {
     },
     function (error, info) {
       if (error) {
-        console.log(error);
+        //console.log(error);
       } else {
-        console.log("Email sent: " + info.response);
+        //console.log("Email sent: " + info.response);
       }
     }
   );
@@ -93,7 +93,7 @@ router.post("/register-activity", async (req, res) => {
         }
 
         const user = await UsersCollection.findOne({ courriel: decoded.courriel });
-        console.log('user: ', user);
+        //console.log('user: ', user);
 
         if (!user) {
             return res.status(404).send({ message: "No user found" });
@@ -134,9 +134,9 @@ router.post("/register-activity", async (req, res) => {
            `,
         }, function (error, info) {
             if (error) {
-                console.log(error);
+                //console.log(error);
             } else {
-                console.log("Email sent: " + info.response);
+                //console.log("Email sent: " + info.response);
             }
         });
 
@@ -151,7 +151,7 @@ router.post("/register-activity", async (req, res) => {
 router.get(
   "/register-activity/:email/:activityId/:formUrl",
   async (req, res) => {
-    console.log("les activités; form;");
+    //console.log("les activités; form;");
     const email = req.params.email;
     const activityId = req.params.activityId;
     const formUrl = decodeURIComponent(req.params.formUrl);

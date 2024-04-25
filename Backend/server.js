@@ -59,12 +59,6 @@ app.post("/", async (req, res) => {
       tags: tags,
     };
 
-    const formattedStartDate = moment(eventData.StartDate).format(
-      "YYYY-MM-DD hh:mm A"
-    );
-    const formattedEndDate = moment(eventData.EndDate).format(
-      "YYYY-MM-DD hh:mm A"
-    );
     const insertResult = await ActivitiesCollection.insertOne(eventData);
     const activityId = insertResult.insertedId;
     // Get all users from the database
@@ -100,9 +94,9 @@ app.post("/", async (req, res) => {
           {
             from: `"Valcourt2030" <${process.env.RECIPIENT_EMAIL}>`,
             to: user.courriel,
-            subject: `Nouvelle activité : ${eventData.post_title}`,
+            subject: `Nouvelle activitï¿½ : ${eventData.post_title}`,
             html: `
-                    <p>Une nouvelle activité a été ajouté qui pourrait vous intéresser. L'activité a le(s) tag(s) suivant(s) qui correspondent à vos intérêts : ${matchingTags.join(
+                    <p>Une nouvelle activitï¿½ a ï¿½tï¿½ ajoutï¿½ qui pourrait vous intï¿½resser. L'activitï¿½ a le(s) tag(s) suivant(s) qui correspondent ï¿½ vos intï¿½rï¿½ts : ${matchingTags.join(
                       ", "
                     )}.</p>
                     <p>${eventData.post_title} - Du ${new Date(
@@ -117,10 +111,10 @@ app.post("/", async (req, res) => {
                     <p>${postContentWithBreaks}</p>
                     <img src="${
                       eventData.post_thumbnail
-                    }" alt="Image de l'activité" style="width: 100%; max-width: 600px;">
+                    }" alt="Image de l'activitÃ©" style="width: 100%; max-width: 600px;">
                     <p>Cliquez sur ce <a href="${
                       eventData.post_url
-                    }">lien</a> pour accéder à l'évènement.</p>
+                    }">lien</a> pour accÃ©der Ã  l'Ã©vÃ©nement.</p>
                     <p><a href="${registerUrl}" style="display: inline-block; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; border: 1px solid transparent; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; border-radius: .25rem; color: #fff; background-color: #007bff;">Cliquez sur ce bouton pour vous inscrire ? l'?v?nement !</a></p>
  
                 `,
@@ -145,11 +139,11 @@ app.get("/data", async (req, res) => {
   const interests = await DataCollection.findOne({
     _id: new ObjectId("65e52fd998321b99c36da1dc"),
   });
-  console.log("interests: ", interests);
+  //console.log("interests: ", interests);
   const municipalities = await DataCollection.findOne({
     _id: new ObjectId("65e52fec98321b99c36da1dd"),
   });
-  console.log(" municipalities: ", municipalities);
+  //console.log(" municipalities: ", municipalities);
 
   res.json({
     interests: interests.Interests,
@@ -172,5 +166,5 @@ app.use("/user", userRouter);
 const port = process.env.PORT;
 app.listen(port, () => {
   connect();
-  console.log("Server listening on port " + port);
+  //console.log("Server listening on port " + port);
 });
