@@ -24,14 +24,15 @@ router.get("/", async (req, res) => {
 
 // This route registers a user to an activity and sends an email to the user.
 router.post("/register-activity", authMiddleware, async (req, res) => {
-  const token = req.headers['authorization'];
-  console.log('token: ', token);
+  const bearerToken = req.headers['authorization'];
+  const token = bearerToken.split(' ')[1];
+
+  // Decode the token
+  const decoded = jwt.decode(token);
 
   const activity = req.body;
-  console.log('activity: ', activity);
 
   const user = await UsersCollection.findOne({ courriel: decoded.courriel });
-  console.log('user: ', user);
 
   if (!user) {
     return res.status(404).send({ message: "No user found" });
