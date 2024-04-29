@@ -52,6 +52,7 @@ function ConnectionPage() {
 
   // Check if user is already authenticated on component mount
   useEffect(() => {
+    console.log(`${process.env.REACT_APP_SERVER_URL}`)
     const fetchProtectedRoute = async () => {
       const token = localStorage.getItem('token');
 

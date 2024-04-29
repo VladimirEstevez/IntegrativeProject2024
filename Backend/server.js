@@ -174,5 +174,5 @@ app.use("/user", userRouter);
 const port = process.env.PORT;
 app.listen(port, () => {
   connect();
-  //console.log("Server listening on port " + port);
+  console.log("Server listening on port " + port);
 });
