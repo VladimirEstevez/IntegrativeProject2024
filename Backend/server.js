@@ -14,8 +14,10 @@ const { ObjectId } = require("mongodb");
 const nodemailer = require("nodemailer");
 const cron = require("node-cron");
 const reminderTask = require("./routes/reminderRouter.js");
-const moment = require("moment");
+
 const path = require("path");
+const moment = require('moment-timezone');
+
 
 //TO RUN SERVER DO NPM START AND ON ANOTHER TERMINAL DO NPX NGROK HTTP 8080
 
@@ -47,17 +49,23 @@ app.post("/", async (req, res) => {
       (tag) => tag.name
     );
 
+    const StartDate = moment.tz(req.body.post_meta._EventStartDate[0], 'YYYY-MM-DD HH:mm', 'America/Montreal').format('YYYY-MM-DDTHH:mm:ss');
+const EndDate = moment.tz(req.body.post_meta._EventEndDate[0], 'YYYY-MM-DD HH:mm', 'America/Montreal').format('YYYY-MM-DDTHH:mm:ss');
+
+
     const eventData = {
       post_content: req.body.post.post_content,
       post_title: req.body.post.post_title,
       post_excerpt: req.body.post.post_excerpt,
-      StartDate: new Date(req.body.post_meta._EventStartDate[0]),
-      EndDate: new Date(req.body.post_meta._EventEndDate[0]),
+      StartDate: StartDate,
+      EndDate: EndDate,
       post_thumbnail: req.body.post_thumbnail,
       event_url: req.body.post_meta._EventURL[0],
       post_url: req.body.post_permalink,
       tags: tags,
     };
+    console.log('EndDate: ', EndDate);
+    console.log('StartDate: ', StartDate);
 
     const insertResult = await ActivitiesCollection.insertOne(eventData);
     const activityId = insertResult.insertedId;

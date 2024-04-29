@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const { client } = require("../database/database.js");
 const nodemailer = require("nodemailer");
 const { ObjectId } = require("mongodb");
-
+const authMiddleware = require("../auth.js");
 //Database setup
 const db = client.db("integrativeProjectDB");
 const UsersCollection = db.collection("Users");
@@ -23,10 +23,15 @@ router.get("/", async (req, res) => {
 });
 
 // This route registers a user to an activity and sends an email to the user.
-router.post("/register-activity", async (req, res) => {
+router.post("/register-activity", authMiddleware, async (req, res) => {
+  const token = req.headers['authorization'];
+  console.log('token: ', token);
+
   const activity = req.body;
+  console.log('activity: ', activity);
 
   const user = await UsersCollection.findOne({ courriel: decoded.courriel });
+  console.log('user: ', user);
 
   if (!user) {
     return res.status(404).send({ message: "No user found" });
@@ -46,7 +51,7 @@ router.post("/register-activity", async (req, res) => {
   });
 
    await transporter.sendMail({
-            from: '"Valcourt2030" <integrativeprojectgroupthree@gmail.com>',
+            from: `"Valcourt2030" <${process.env.RECIPIENT_EMAIL}>`,
             to: user.courriel,
             subject: "Inscription à une activité",
             html: `
@@ -59,7 +64,7 @@ router.post("/register-activity", async (req, res) => {
 
             <img src="${
               activity.post_thumbnail
-            }" alt="Image de l'activit?" style="width: 100%; max-width: 600px;">
+            }" alt="Image de l'activité" style="width: 100%; max-width: 600px;">
             
             <script>
                 // Ajout d'un gestionnaire d'?v?nements au clic du bouton
@@ -72,6 +77,7 @@ router.post("/register-activity", async (req, res) => {
     function (error, info) {
       if (error) {
         console.log(error);
+        console.log('info: ', info);
       } else {
         console.log("Email sent: " + info.response);
       }
@@ -91,6 +97,7 @@ router.get(
     const formUrl = decodeURIComponent(req.params.formUrl);
 
     const user = await UsersCollection.findOne({ courriel: email });
+    console.log('user: ', user);
 
     if (!user) {
       return res.status(404).send({ message: "No user found" });
