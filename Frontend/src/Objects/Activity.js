@@ -1,10 +1,10 @@
-import React, { useState } from 'react'; // Importing React and useState hook
-import { useLocation, useNavigate } from 'react-router-dom'; // Importing useLocation and useNavigate hooks from react-router-dom
+import React, { useState } from "react"; // Importing React and useState hook
+import { useLocation, useNavigate } from "react-router-dom"; // Importing useLocation and useNavigate hooks from react-router-dom
 import "bootstrap/dist/css/bootstrap.min.css"; // Importing Bootstrap CSS
-import backgroundImage from '../Logo/V2030.png'; // Importing the background image
-import { toast, ToastContainer } from 'react-toastify'; // Importing toast notifications
-import V2030transparence1 from '../Logo/V2030transparence1.png';
-import { formatDateFunction } from './DateFormattingTool';
+import backgroundImage from "../Logo/V2030.png"; // Importing the background image
+import { toast, ToastContainer } from "react-toastify"; // Importing toast notifications
+import V2030transparence1 from "../Logo/V2030transparence1.png";
+import { formatDateFunction } from "./DateFormattingTool";
 
 // Functional component for individual activity page
 const Activity = () => {
@@ -15,74 +15,152 @@ const Activity = () => {
 
   // Function to navigate back to activities menu
   const goBack = () => {
-    navigate('/activities'); // Navigating back to activities menu
-  }
+    navigate("/activities"); // Navigating back to activities menu
+  };
 
   // Function to register for the activity
   const registerActivity = async () => {
-    const token = localStorage.getItem('token'); // Fetching token from local storage
-    
+    const token = localStorage.getItem("token"); // Fetching token from local storage
+
     // Sending registration data to backend route
-    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/activities/register-activity`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': token // Sending authorization token in headers
-      },
-      body: JSON.stringify(activity) // Sending activity object in JSON format
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_SERVER_URL}/activities/register-activity`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Sending authorization token in headers
+        },
+        body: JSON.stringify(activity), // Sending activity object in JSON format
+      }
+    );
 
     // Handling response from server
     if (response.ok) {
       // Displaying success message and redirecting to event URL
-      toast.success('Registration successful');
-      setTimeout(() => window.open(activity.event_url, '_blank'), 3000);
+      toast.success("Registration successful");
+      setTimeout(() => window.open(activity.event_url, "_blank"), 3000);
     } else {
       // Displaying error message if registration fails
-      toast.error('Registration failed');
+      toast.error("Registration failed");
     }
-  }
+  };
 
   // Function to handle click on event URL
   const handleEventUrlClick = (event) => {
     setIsLoading(true); // Setting loading state to true
     setTimeout(() => {
-      window.open(activity.post_url, '_blank'); // Opening event URL in new tab after 1 second
+      window.open(activity.post_url, "_blank"); // Opening event URL in new tab after 1 second
       setIsLoading(false); // Setting loading state to false
     }, 1000); // Delaying action for 1 second
     event.preventDefault(); // Preventing default action
-  }
+  };
 
   // Rendering loading state if isLoading is true
   if (isLoading) {
     return (
-      <div className="text-center" style={{background: 'linear-gradient(to bottom, #007bff, #ffffff)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', width: '100vw'}}>
-        <img src={V2030transparence1} alt="" className="logo" />         <p>Redirection vers le site web...</p>
+      <div
+        className="text-center"
+        style={{
+          background: "linear-gradient(to bottom, #007bff, #ffffff)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          width: "100vw",
+        }}
+      >
+        <img src={V2030transparence1} alt="" className="logo" />{" "}
+        <p>Redirection vers le site web...</p>
       </div>
     );
   }
 
   // Formatting post content with line breaks
-  const postContentWithBreaks = activity.post_content.replace(/\r\n/g, '<br>');
+  const postContentWithBreaks = activity.post_content.replace(/\r\n/g, "<br>");
 
   // Rendering activity details
   return (
-    <div>
+    <div
+      className="activity p-5 shadow-sm bg-white rounded text-center"
+      style={{
+        background: "linear-gradient(to bottom, #007bff, #bdd668)",
+        maxWidth: "100%",
+        color: "#333",
+      }}
+    >
       <ToastContainer /> {/* Toast notifications container */}
       {/* Activity details */}
-      <div className="activity p-5 shadow-sm bg-white rounded text-center" style={{background: 'linear-gradient(to bottom, #007bff, #ffffff)', maxWidth: '100%', color: '#333', height: '100vh', width: '100vw'}}>
-        <img src={activity.post_thumbnail} alt="Event" className="activity-img my-3 img-fluid rounded d-block" style={{maxWidth: '50%'}} /> {/* Activity image */}
-        <h2 className="my-3">{activity.post_title}</h2> {/* Activity title */}
-        <p className="text-muted">{activity.post_excerpt}</p> {/* Activity excerpt */}
-        <p className="my-3 text-justify" dangerouslySetInnerHTML={{ __html: postContentWithBreaks }}></p> {/* Activity content */}
-        <p><small className="text-muted">Date de début: {formatDateFunction(activity.StartDate)}</small></p> {/* Start date */}
-        <p><small className="text-muted">Date de fin: {formatDateFunction(activity.EndDate)}</small></p> {/* End date */}
-        <span>événement sur le site Valcourt2030: </span><a href={activity.post_url} onClick={handleEventUrlClick} className=" my-3">   {activity.post_title}  </a> {/* Event URL */}
-        <p><small className="text-muted">Tags: {activity.tags.join(', ')}</small></p> {/* Tags */}
-        <button onClick={() => goBack()} className="btn btn-secondary my-3">Go Back</button> {/* Button to go back */}
-        <button onClick={registerActivity} className="register-button btn btn-primary">S'inscrire � l'Activit�</button> {/* Button to register */}
+      <div className="container-flex">
+        <div className="row">
+          <div className="col">
+            <img
+              src={activity.post_thumbnail}
+              alt="Event"
+              className="activity-img my-3 img-fluid d-block  mx-auto"
+            />{" "}
+            {/* Activity image */}
+          </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <h2 className="my-3">{activity.post_title}</h2>{" "}
+              {/* Activity title */}
+              <p className="text-muted">{activity.post_excerpt}</p>{" "}
+              {/* Activity excerpt */}
+              <p
+                className="my-3 text-justify"
+                dangerouslySetInnerHTML={{ __html: postContentWithBreaks }}
+              ></p>{" "}
+              {/* Activity content */}
+              <p>
+                <small className="text-muted">
+                  Date de début: {formatDateFunction(activity.StartDate)}
+                </small>
+              </p>{" "}
+              {/* Start date */}
+              <p>
+                <small className="text-muted">
+                  Date de fin: {formatDateFunction(activity.EndDate)}
+                </small>
+              </p>{" "}
+              {/* End date */}
+              <span>Événement sur le site Valcourt2030: </span>
+              <a
+                href={activity.post_url}
+                onClick={handleEventUrlClick}
+                className=" my-3"
+              >
+                {" "}
+                {activity.post_title}{" "}
+              </a>{" "}
+              {/* Event URL */}
+              <p>
+                <small className="text-muted">
+                  Intérêts: {activity.tags.join(", ")}
+                </small>
+              </p>{" "}
+              {/* Tags */}
+              <button
+                onClick={() => goBack()}
+                className="btn btn-secondary my-3"
+              >
+                Retour
+              </button>{" "}
+              {/* Button to go back */}
+              <button
+                onClick={registerActivity}
+                className="register-button btn btn-primary"
+              >
+                S'inscrire à l'Activité
+              </button>{" "}
+              {/* Button to register */}
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    
   );
 };
 
