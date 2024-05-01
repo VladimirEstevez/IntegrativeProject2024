@@ -40,8 +40,10 @@ const MainMenuPage = () => {
     // If loading state is true, display loading message
     return <div>Loading...</div>;
   }
+  
     return ( // Render main menu page
-    <div className="position-relative min-vh-100" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: '0.9' }}>
+    <div style={{background: 'linear-gradient(to bottom, #007bff, #B9D56D)',}}>
+    <div className="" style={{  backgroundImage: `url(${backgroundImage})`,  height: '100vh', width: '100vw', backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center', opacity: '0.9'}}>
 
       <div className="container-fluid vh-100">
         <div className="d-flex justify-content-center align-items-start pt-5 m-5">
@@ -51,6 +53,7 @@ const MainMenuPage = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
     );
   };
