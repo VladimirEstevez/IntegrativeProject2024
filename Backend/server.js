@@ -93,18 +93,20 @@ const EndDate = moment.tz(req.body.post_meta._EventEndDate[0], 'YYYY-MM-DD HH:mm
 
         // Generate a unique URL for each user and each activity
 
-        const registerUrl = `${process.env.SERVER_URL}/activities/register-activity/${
+        const registerUrl = `${process.env.REACT_APP_SERVER_URL}/activities/register-activity/${
           user.courriel
         }/${activityId}/${encodeURIComponent(eventData.event_url)}`;
+        console.log('registerUrl: ', registerUrl);
+        const testUrl = 'https://example.com';
 
         // Send an email to the user
         await transporter.sendMail(
           {
             from: `"Valcourt2030" <${process.env.RECIPIENT_EMAIL}>`,
             to: user.courriel,
-            subject: `Nouvelle activit� : ${eventData.post_title}`,
+            subject: `Nouvelle activité : ${eventData.post_title}`,
             html: `
-                    <p>Une nouvelle activit� a �t� ajout� qui pourrait vous int�resser. L'activit� a le(s) tag(s) suivant(s) qui correspondent � vos int�r�ts : ${matchingTags.join(
+                    <p>Une nouvelle activité a été ajoutée qui pourrait vous intéresser. L'activité a de(s) intérêt(s) qui correspondent à vos choix d'intérêt(s) : ${matchingTags.join(
                       ", "
                     )}.</p>
                     <p>${eventData.post_title} - Du ${new Date(
@@ -123,8 +125,9 @@ const EndDate = moment.tz(req.body.post_meta._EventEndDate[0], 'YYYY-MM-DD HH:mm
                     <p>Cliquez sur ce <a href="${
                       eventData.post_url
                     }">lien</a> pour accéder à l'événement.</p>
-                    <p><a href="${registerUrl}" style="display: inline-block; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; border: 1px solid transparent; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; border-radius: .25rem; color: #fff; background-color: #007bff;">Cliquez sur ce bouton pour vous inscrire ? l'?v?nement !</a></p>
+                    <p><a href="${registerUrl}" style="display: inline-block; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; border: 1px solid transparent; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; border-radius: .25rem; color: #fff; background-color: #007bff;">Cliquez sur ce bouton pour vous inscrire à l'événement !</a></p>
  
+                    <p><a href="${testUrl}" style="display: inline-block; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; border: 1px solid transparent; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; border-radius: .25rem; color: #fff; background-color: #007bff;">CTEST TEST TEST à l'événement !</a></p>
                 `,
           },
           function (error, info) {

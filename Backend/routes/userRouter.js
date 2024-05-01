@@ -204,7 +204,7 @@ router.get("/resetPassword", async (req, res) => {
   const { token } = req.query;
 
   // Redirect to the reset password page in the React app
-  res.redirect(`http://localhost:3000/resetPassword?token=${token}`);
+  res.redirect(`/resetPassword?token=${token}`);
 });
 
 // This route handles the POST request made by your React app to reset the password

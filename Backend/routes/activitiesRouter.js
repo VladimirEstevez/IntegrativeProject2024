@@ -90,7 +90,7 @@ router.post("/register-activity", authMiddleware, async (req, res) => {
 
 // This route registers the user to an activity when the user clicks the "Register" button on the email notification and opens up the form to register for the activity.
 router.get(
-  "/register-activity/:email/:activityId/:formUrl",
+  "/register-activity/:email/:activityId/:formUrl", authMiddleware,
   async (req, res) => {
     //console.log("les activit�s; form;");
     const email = req.params.email;
