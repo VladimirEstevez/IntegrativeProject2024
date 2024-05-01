@@ -170,7 +170,7 @@ const DataCollection = db.collection("Data");
 
 // Routes setup
 app.use("/register", registerRouter);
-app.use("/activities", authMiddleware, activitiesRouter);
+app.use("/activities", activitiesRouter);
 app.use("/user", userRouter);
 
 //Start the server
