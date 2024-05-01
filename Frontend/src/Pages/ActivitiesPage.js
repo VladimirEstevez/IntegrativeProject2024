@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom"; // Importing hook for navigation
 import "bootstrap/dist/css/bootstrap.min.css"; // Importing Bootstrap CSS
 import { House } from "react-bootstrap-icons"; // Importing logout icon
 import backgroundImage from '../Logo/V2030.png'; // Importing the background image
+import Dropdown from 'react-bootstrap/Dropdown';
 
 const ActivitiesPage = () => {
   // State variables and constants initialization
@@ -34,6 +35,8 @@ const ActivitiesPage = () => {
   const [selectedFilters, setSelectedFilters] = useState([]); // State for selected filters
   const [filterDropdownOpen, setFilterDropdownOpen] = useState(false); // State for dropdown open/close
   const [selectedDate, setSelectedDate] = useState(null); // State for selected date
+  const [dateDropdownOpen, setDateDropdownOpen] = useState(false); // State for dropdown open/close
+  
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -87,22 +90,22 @@ const ActivitiesPage = () => {
     );
   }
 
+  
   // Render date dropdown button
   function renderDateFilterMenu() {
     return (
-      <div ref={dateDropdownRef}>
-        <div className="bg-white" style={{ zIndex: 1000 }}>
-          <select
-            value={selectedDate || ""}
-            onChange={(e) => setSelectedDate(e.target.value)}
-          >
-            <option value="">Ensemble des Activités</option>
-            <option value="previous">Activités précédentes</option>
-            <option value="today">Activités du jour</option>
-            <option value="upcoming">Activités à venir</option>
-          </select>
-        </div>
-      </div>
+      <Dropdown onSelect={(e) => setSelectedDate(e)}>
+        <Dropdown.Toggle variant="light" id="dateDropdownButton" className="btn btn-light btn-custom btn-hover-effect dropdown-toggle">
+          Choisir date
+        </Dropdown.Toggle>
+  
+        <Dropdown.Menu>
+          <Dropdown.Item eventKey="">Ensemble des Activités</Dropdown.Item>
+          <Dropdown.Item eventKey="previous">Activités précédentes</Dropdown.Item>
+          <Dropdown.Item eventKey="today">Activités du jour</Dropdown.Item>
+          <Dropdown.Item eventKey="upcoming">Activités à venir</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
     );
   }
 
@@ -203,17 +206,17 @@ const ActivitiesPage = () => {
 
   // Render activities
   return (
-  <div className="position-relative min-vh-100" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: '0.9' }}>
+    <div className="text-center" style={{ background: ` linear-gradient(to bottom, #007bff, #B9D56D)`, backgroundSize: 'auto', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
     <div className="container mt-5">
       <div className="row justify-content-center">
         <h1 className="col-12 text-center mb-4 " style={{ color: 'white' }}>Vos activités</h1>
       </div>
-      <div className="row justify-content-center">
+      <div className="row p-3 justify-content-center">
         <div className="col-sm-auto text-center">
           <div>{renderFilterMenu()}</div>
         </div>
-        <div className="col-sm-auto text-center mt-2">
-          <div className="mw-75">{renderDateFilterMenu()}</div>
+        <div className="col-sm-auto text-center">
+          <div>{renderDateFilterMenu()}</div>
         </div>
       </div>
       <div className="row">
