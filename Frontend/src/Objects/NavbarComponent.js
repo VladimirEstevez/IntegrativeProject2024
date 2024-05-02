@@ -25,37 +25,38 @@ function NavbarComponent() {
   // Rendering Navbar component
   return (
     <div>
-      <Navbar
-        style={{
-          backgroundColor: "white", 
-          zIndex: 1000,
-        }}
-        expand="lg"
+   <Navbar
+  style={{
+    backgroundColor: "white", 
+    zIndex: 1000,
+    borderBottom: '1px solid black' 
+  }}
+  expand="lg"
   fixed="top"
   className="d-flex justify-content-between align-items-start"
-        
-      >
+  expanded={isNavbarOpen} // Add this line
+>
         <div>
         <Navbar.Toggle
-          onClick={() => setIsNavbarOpen(!isNavbarOpen)}
-          aria-controls="basic-navbar-nav"
-        />
+  onClick={() => setIsNavbarOpen(prevIsNavbarOpen => !prevIsNavbarOpen)}
+  aria-controls="basic-navbar-nav"
+/>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
             {/* Link to view user's activities */}
-            <Nav.Link className="mx-2" onClick={() => navigate("/myActivities")}>
+            <Nav.Link className="mx-2" onClick={() => { navigate("/myActivities"); setIsNavbarOpen(false); }}>
   <span style={{ marginRight: "5px" }}>Voir mes activités</span>
   <BookmarkHeart size={24} />
 </Nav.Link>
-<Nav.Link className="mx-2" onClick={() => navigate("/activities")}>
+<Nav.Link className="mx-2" onClick={() => { navigate("/activities"); setIsNavbarOpen(false); }}>
   <span style={{ marginRight: "5px" }}>Voir les activités</span>
   <PersonWalking size={24} />
 </Nav.Link>
-<Nav.Link className="mx-2" onClick={() => navigate("/modify")}>
+<Nav.Link className="mx-2" onClick={() => { navigate("/modify"); setIsNavbarOpen(false); }}>
   <span style={{ marginRight: "5px" }}>Modifier Mon Profil</span>
   <PersonGear size={24} />
 </Nav.Link>
-<Nav.Link className="mx-2" onClick={() => SeDeconnecter()}>
+<Nav.Link className="mx-2" onClick={() => { SeDeconnecter(); setIsNavbarOpen(false); }}>
   <span style={{ marginRight: "5px" }}>Se Déconnecter</span>
   <BoxArrowInLeft size={24} />
 </Nav.Link>

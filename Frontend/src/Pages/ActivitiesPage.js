@@ -222,7 +222,7 @@ const ActivitiesPage = () => {
       <div className="row">
         {filteredActivities.length > 0 ? (
           filteredActivities.map((activity) => (
-            <div className="col-12 col-sm-6 col-md-4 mb-4" key={activity._id}>
+            <div className="col-12 col-sm-12 col-md-6 col-lg-4 mb-4" key={activity._id}>
               <Card activity={activity} />
             </div>
           ))

@@ -158,11 +158,21 @@ const ModificationPage = () => {
   }, [navigate]); // Dependency array containing navigate function
 
   return (
-    <div  style={{ fontSize: '1.3em', background: ` linear-gradient(to bottom, #007bff, #B9D56D)`, backgroundSize: 'auto', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', minHeight: '100vh' }}>
-    <div className="d-flex justify-content-center align-items-center">
-      <div className="container">
+    <div style={{ 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      fontSize: '1.3em', 
+      background: `linear-gradient(to bottom, #007bff, #B9D56D)`, 
+      backgroundSize: 'auto', 
+      backgroundPosition: 'center', 
+      backgroundRepeat: 'no-repeat', 
+      minHeight: '100vh' 
+    }}>
+    <div className="d-flex  ">
+      <div className="container ">
         <ToastContainer />
-        <h1 className="mb-4 display-4" style={{  color: 'white' }}>Modifier mon profil</h1>
+        <h1 className="mb-4 text-center display-4" style={{  color: 'white' }}>Modifier mon profil</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="prenom" className='display-6'  style={{  color: 'white' }} > 

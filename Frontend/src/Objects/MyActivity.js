@@ -42,26 +42,77 @@ const MyActivity = () => {
 
   // Rendering user's activity details
   return (
-    <div className="activity p-5 shadow-sm bg-white rounded text-center" style={{background: 'linear-gradient(to bottom, #007bff, #ffffff)', maxWidth: '100%', margin: 'auto', color: '#333', height: '100vh', width: '100vw'}}>
-      {/* Activity image */}
-      <img src={activity.post_thumbnail} alt="Event" className="activity-img my-3 img-fluid rounded mx-auto d-block" style={{maxWidth: '50%'}} />
-      {/* Activity title */}
-      <h2 className="my-3">{activity.post_title}</h2>
-      {/* Activity excerpt */}
-      <p className="text-muted">{activity.post_excerpt}</p>
-      {/* Activity content */}
-      <p className="my-3 text-justify" dangerouslySetInnerHTML={{ __html: postContentWithBreaks }}></p>
-      {/* Start date */}
-      <p><small className="text-muted">Date de début: {formatDateFunction(activity.StartDate)}</small></p>
-      {/* End date */}
-      <p><small className="text-muted">Date de fin: {formatDateFunction(activity.EndDate)}</small></p>
-      {/* Event URL */}
-      <span>Evenement sur le site Valcourt2030: </span><a href={activity.post_url} onClick={handleEventUrlClick} className=" my-3">   {activity.post_title}  </a>
-      {/* Tags */}
-      <p><small className="text-muted">Mots clés: {activity.tags.join(', ')}</small></p>
-      {/* Button to go back */}
-      <button onClick={() => goBack()} className="btn btn-secondary my-3">Retourner</button>
-    </div>
+    <div
+      className="activity p-5 shadow-sm bg-white rounded text-center"
+      style={{
+        background: "linear-gradient(to bottom, #007bff, #bdd668)",
+        maxWidth: "100%",
+        color: "#333",
+      }}
+    >
+      
+      {/* Activity details */}
+      <div className="container bg-white " style={{ borderRadius: '33px' }}>
+        <div className="row">
+          <div className="col">
+            <img
+              src={activity.post_thumbnail}
+              alt="Event"
+              className="activity-img my-3 img-fluid d-block  mx-auto"
+            />{" "}
+            {/* Activity image */}
+          </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <h2 className="my-3 " style={{ fontSize: '1.8em' }}>{activity.post_title}</h2>{" "}
+              {/* Activity title */}
+              
+              {/* Activity excerpt */}
+              <p
+                className="my-3 text-justify" style={{ fontSize: '1.2em' }}
+                dangerouslySetInnerHTML={{ __html: postContentWithBreaks }}
+              ></p>{" "}
+              {/* Activity content */}
+              <p>
+                <small className="text-muted " style={{ fontSize: '1.2em' }}>
+                  Date de début: {formatDateFunction(activity.StartDate)}
+                </small>
+              </p>{" "}
+              {/* Start date */}
+              <p>
+                <small className="text-muted " style={{ fontSize: '1.2em' }}>
+                  Date de fin: {formatDateFunction(activity.EndDate)}
+                </small>
+              </p>{" "}
+              {/* End date */}
+              <span className="text-muted " style={{ fontSize: '1.2em' }}>Événement sur le site Valcourt2030: </span>
+              <a style={{ fontSize: '1.2em' }}
+                href={activity.post_url}
+                onClick={handleEventUrlClick}
+                className=" my-3"
+              >
+                {" "}
+                {activity.post_title}{" "}
+              </a>{" "}
+              {/* Event URL */}
+              <p className="text-muted " style={{ fontSize: '1.2em' }}>
+                <small className="text-muted" >
+                  Intérêts: {activity.tags.join(", ")}
+                </small>
+              </p>{" "}
+              {/* Tags */}
+              <button
+                onClick={() => goBack()}
+                className="btn btn-secondary my-3"
+              >
+                Retour
+              </button>{" "}
+              {/* Button to go back */}
+             </div>
+          </div>
+        </div>
+      </div>
   );
 };
 

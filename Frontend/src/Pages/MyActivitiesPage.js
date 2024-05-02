@@ -195,8 +195,14 @@ const MyActivitiesPage = () => {
 
   // JSX for rendering My Activities Page
   return (
-    <div className="text-center" style={{ background: ` linear-gradient(to bottom, #007bff, #B9D56D)`, backgroundSize: 'auto', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
-    <div className="container ">
+    <div style={{ 
+      background: `linear-gradient(to bottom, #007bff, #B9D56D)`, 
+      backgroundSize: 'auto', 
+      backgroundPosition: 'center', 
+      backgroundRepeat: 'no-repeat', 
+      width: '100vw', 
+      height: '100vh' 
+    }}> <div className="container ">
       <div className="row justify-content-center">
 
         <h1 className="col-12 text-light text-center m-4">Mes activités</h1>
@@ -213,7 +219,7 @@ const MyActivitiesPage = () => {
       <div className="row">
         {filteredActivities.length > 0 ? (
           filteredActivities.map((activity) => (
-            <div className="col-md-4 mb-4" key={activity._id}>
+            <div className="col-12 col-sm-12 col-md-6 col-lg-4 mb-4" key={activity._id}>
               <Card activity={activity} /> {/* Render Card component for each activity */}
             </div>
           ))
