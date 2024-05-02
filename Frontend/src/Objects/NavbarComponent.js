@@ -7,6 +7,7 @@ import {
   PersonGear,
   PersonWalking,
 } from "react-bootstrap-icons"; // Importing icons from react-bootstrap-icons
+import { Link } from 'react-router-dom';
 
 // Functional component for Navbar
 function NavbarComponent() {
@@ -26,12 +27,15 @@ function NavbarComponent() {
     <div>
       <Navbar
         style={{
-          backgroundColor: isNavbarOpen ? "white" : "transparent",
+          backgroundColor: "white", 
           zIndex: 1000,
         }}
         expand="lg"
-        className="position-absolute top-0 end-0"
+  fixed="top"
+  className="d-flex justify-content-between align-items-start"
+        
       >
+        <div>
         <Navbar.Toggle
           onClick={() => setIsNavbarOpen(!isNavbarOpen)}
           aria-controls="basic-navbar-nav"
@@ -39,27 +43,34 @@ function NavbarComponent() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
             {/* Link to view user's activities */}
-            <Nav.Link onClick={() => navigate("/myActivities")}>
-              <span style={{ marginRight: "5px" }}>Voir mes activités</span>
-              <BookmarkHeart size={24} />
-            </Nav.Link>
-            {/* Link to view all activities */}
-            <Nav.Link onClick={() => navigate("/activities")}>
-              <span style={{ marginRight: "5px" }}>Voir les activités</span>
-              <PersonWalking size={24} />
-            </Nav.Link>
-            {/* Link to modify user's profile */}
-            <Nav.Link onClick={() => navigate("/modify")}>
-              <span style={{ marginRight: "5px" }}>Modifier Mon Profil</span>
-              <PersonGear size={24} />
-            </Nav.Link>
-            {/* Button to logout */}
-            <Nav.Link onClick={() => SeDeconnecter()}>
-              <span style={{ marginRight: "5px" }}>Se Déconnecter</span>
-              <BoxArrowInLeft size={24} />
-            </Nav.Link>
+            <Nav.Link className="mx-2" onClick={() => navigate("/myActivities")}>
+  <span style={{ marginRight: "5px" }}>Voir mes activités</span>
+  <BookmarkHeart size={24} />
+</Nav.Link>
+<Nav.Link className="mx-2" onClick={() => navigate("/activities")}>
+  <span style={{ marginRight: "5px" }}>Voir les activités</span>
+  <PersonWalking size={24} />
+</Nav.Link>
+<Nav.Link className="mx-2" onClick={() => navigate("/modify")}>
+  <span style={{ marginRight: "5px" }}>Modifier Mon Profil</span>
+  <PersonGear size={24} />
+</Nav.Link>
+<Nav.Link className="mx-2" onClick={() => SeDeconnecter()}>
+  <span style={{ marginRight: "5px" }}>Se Déconnecter</span>
+  <BoxArrowInLeft size={24} />
+</Nav.Link>
           </Nav>
         </Navbar.Collapse>
+        </div>
+        <Navbar.Brand as={Link} to="/" className="ml-auto">
+    <img
+      src="https://valcourt2030.org/wp-content/uploads/2017/05/2030-180x67.jpg" // Replace with the path to your logo
+      width="100"
+      height="30"
+      className="d-inline-block align-top"
+      alt="Logo"
+    />
+  </Navbar.Brand>
       </Navbar>
     </div>
   );

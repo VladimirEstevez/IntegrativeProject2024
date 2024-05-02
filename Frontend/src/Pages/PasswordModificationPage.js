@@ -2,10 +2,20 @@ import React, { useState } from "react"; // Importing useState hook from React
 import { toast, ToastContainer } from "react-toastify"; // Importing toast notifications
 import { Form, Button } from 'react-bootstrap'; // Importing Form and Button components from react-bootstrap
 import backgroundImage from '../Logo/V2030.png'; // Importing the background image
-
+import { useEffect } from "react"; // Importing useEffect hook from React
 
 // Functional component for password modification page
 function PasswordModificationPage() {
+
+  useEffect(() => {
+    // Add the class when the component is mounted
+    document.body.classList.add('no-padding');
+
+    // Remove the class when the component is unmounted
+    return () => {
+      document.body.classList.remove('no-padding');
+    };
+  }, []);
   // State variables for password, confirmPassword, and success status
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

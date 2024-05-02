@@ -158,7 +158,7 @@ const ModificationPage = () => {
   }, [navigate]); // Dependency array containing navigate function
 
   return (
-    <div  style={{ fontSize: '1.3em', background: ` linear-gradient(to bottom, #007bff, #B9D56D)`, backgroundSize: 'auto', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
+    <div  style={{ fontSize: '1.3em', background: ` linear-gradient(to bottom, #007bff, #B9D56D)`, backgroundSize: 'auto', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', minHeight: '100vh' }}>
     <div className="d-flex justify-content-center align-items-center">
       <div className="container">
         <ToastContainer />
@@ -199,16 +199,16 @@ const ModificationPage = () => {
 
           <div className="d-flex flex-column justify-content-center align-items-center" >
           <div>
-          <button type="button"variant="light" className="m-2 btn-custom btn-hover-effect" onClick={ModifyPassword}> {/* Button to request password modification */}
+          <button type="button" className="m-2 btn btn-light btn-custom btn-hover-effect fs-5" onClick={ModifyPassword}> {/* Button to request password modification */}
             <span style={{ marginRight: '5px' }}>Demander la modification du mot de passe</span>
           </button>
           </div>
           <div className="d-flex  ">
-            <button type="button"variant="light" className="m-2 btn-custom btn-hover-effect" onClick={() => navigate("/menu")}> {/* Button to cancel */}
+            <button type='button'  className=" btn btn-light m-2 btn-custom btn-hover-effect fs-5" onClick={() => navigate("/menu")}> {/* Button to cancel */}
               <span style={{ marginRight: '5px' }}>Annuler</span>
               <XLg size={24} />
             </button>
-            <button type="submit" variant="light" className="m-2 btn-custom btn-hover-effect"> {/* Button to submit form */}
+            <button type="submit" variant="light" className="m-2 btn btn-light btn-custom btn-hover-effect fs-5"> {/* Button to submit form */}
               <span style={{ marginRight: '5px' }}>Modifier Mon Profil</span>
               <PersonGear size={24} />
             </button>

@@ -262,7 +262,7 @@ router.get("/requestPasswordModification", authMiddleware, async (req, res) => {
       subject: "Modification du mot de passe ",
       html: `
     <p>Cliquez sur le lien ci-dessous pour modifier votre mot de passe :</p>
-    <p><a href="${process.env.SERVER_URL}/user/passwordModification?token=${encodeURIComponent(newToken)}" style="display: inline-block; background-color: #007bff; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px;">Modifier le mot de passe</a></p>
+    <p><a href="${process.env.REACT_APP_SERVER_URL}/user/passwordModification?token=${encodeURIComponent(newToken)}" style="display: inline-block; background-color: #007bff; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px;">Modifier le mot de passe</a></p>
   `,
     },
     function (error, info) {

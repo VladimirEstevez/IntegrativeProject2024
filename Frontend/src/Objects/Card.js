@@ -68,7 +68,7 @@ const Card = ({ activity }) => {
         {" "}
         {/* Button container */}
         {/* Button to navigate to activity details */}
-        <button onClick={goToActivity} className="btn btn-primary">
+        <button onClick={goToActivity} className="btn btn-light btn-custom btn-hover-effect">
           Aller à l'activité
         </button>
       </div>

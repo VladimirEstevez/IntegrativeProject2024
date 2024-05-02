@@ -64,3 +64,11 @@
   max-width: 400px; /* Limit the maximum width of the logo */
   height: auto; /* Keep the aspect ratio of the logo */
 }
+
+body {
+  padding-top: 56px; /* Adjust this value depending on the height of your navbar */
+}
+
+body.no-padding {
+  padding-top: 0;
+}

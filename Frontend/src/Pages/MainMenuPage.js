@@ -42,14 +42,32 @@ const MainMenuPage = () => {
   }
   
     return ( // Render main menu page
-    <div style={{background: 'linear-gradient(to bottom, #007bff, #B9D56D)',}}>
-    <div className="" style={{  backgroundImage: `url(${backgroundImage})`,  height: '100vh', width: '100vw', backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center', opacity: '0.9'}}>
+    <div className="" style={{ background: "linear-gradient(to bottom, #007bff, #B9D56D)", backgroundSize: 'auto', backgroundPosition: 'center', backgroundRepeat: 'no-repeat'}}>
+      <div
+        className=""
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          height: "100vh",
+          width: "100vw",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "contain",
+          backgroundPosition: "center",
+          opacity: "0.9",
+        }}
+      >
 
       <div className="container-fluid vh-100">
-        <div className="d-flex justify-content-center align-items-start pt-5 m-5">
-          <div className="container-md text-center">
-            <h1 className="fs-4 mb-4 text-white">Bonjour {prenom}</h1> {/* Display greeting with first name */}
-            <h1 className="fs-4 mb-4 text-white">Veuillez utiliser le menu situé en haut à droite pour accéder aux fonctionnalités du site</h1>
+        <div className="d-flex justify-content-center align-items-start ">
+          <div className="container-md text-center text-white">
+            <h1 className="fs-4 mt-4 text-white">Bonjour {prenom}. On est content de vous revoir!</h1>
+<p className="fs-4">Explorez les événements, connectez-vous avec les autres et restez impliqué dans Valcourt2030 !</p>
+<p className="fs-4">Voici ce que vous pouvez faire sur votre page principale:</p>
+<ul className="fs-5 " style={{textAlign: "left"}}>
+  <li>Découvrez les événements locaux: parcourez les activités à venir par vos balises personnalisées ou par date pour trouver des événements qui vous intéressent.</li>
+  <li>Restez organisé: consultez vos activités enregistrées sur votre propre page dédiée.</li>
+  <li>Connectez-vous avec les autres: rencontrez de nouvelles personnes et établissez des relations avec vos voisins en participant à des événements.</li>
+  <li>Informez-vous : restez à jour sur les dernières nouvelles et événements au sein de la communauté de Valcourt.</li>
+</ul>
           </div>
         </div>
       </div>
