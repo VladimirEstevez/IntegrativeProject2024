@@ -38,11 +38,11 @@ const Activity = () => {
     // Handling response from server
     if (response.ok) {
       // Displaying success message and redirecting to event URL
-      toast.success("Registration successful");
+      toast.success("Inscription à l'activité réussie");
       setTimeout(() => window.open(activity.event_url, "_blank"), 3000);
     } else {
       // Displaying error message if registration fails
-      toast.error("Registration failed");
+      toast.error("Échec de l'enregistrement");
     }
   };
 
@@ -92,7 +92,7 @@ const Activity = () => {
     >
       <ToastContainer /> {/* Toast notifications container */}
       {/* Activity details */}
-      <div className="container-flex">
+      <div className="container bg-white " style={{ borderRadius: '33px' }}>
         <div className="row">
           <div className="col">
             <img
@@ -105,29 +105,29 @@ const Activity = () => {
           </div>
           <div className="row">
             <div className="col">
-              <h2 className="my-3">{activity.post_title}</h2>{" "}
+              <h2 className="my-3 " style={{ fontSize: '1.8em' }}>{activity.post_title}</h2>{" "}
               {/* Activity title */}
-              <p className="text-muted">{activity.post_excerpt}</p>{" "}
+              
               {/* Activity excerpt */}
               <p
-                className="my-3 text-justify"
+                className="my-3 text-justify" style={{ fontSize: '1.2em' }}
                 dangerouslySetInnerHTML={{ __html: postContentWithBreaks }}
               ></p>{" "}
               {/* Activity content */}
               <p>
-                <small className="text-muted">
+                <small className="text-muted " style={{ fontSize: '1.2em' }}>
                   Date de début: {formatDateFunction(activity.StartDate)}
                 </small>
               </p>{" "}
               {/* Start date */}
               <p>
-                <small className="text-muted">
+                <small className="text-muted " style={{ fontSize: '1.2em' }}>
                   Date de fin: {formatDateFunction(activity.EndDate)}
                 </small>
               </p>{" "}
               {/* End date */}
-              <span>Événement sur le site Valcourt2030: </span>
-              <a
+              <span className="text-muted " style={{ fontSize: '1.2em' }}>Événement sur le site Valcourt2030: </span>
+              <a style={{ fontSize: '1.2em' }}
                 href={activity.post_url}
                 onClick={handleEventUrlClick}
                 className=" my-3"
@@ -136,8 +136,8 @@ const Activity = () => {
                 {activity.post_title}{" "}
               </a>{" "}
               {/* Event URL */}
-              <p>
-                <small className="text-muted">
+              <p className="text-muted " style={{ fontSize: '1.2em' }}>
+                <small className="text-muted" >
                   Intérêts: {activity.tags.join(", ")}
                 </small>
               </p>{" "}

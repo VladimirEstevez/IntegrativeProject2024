@@ -60,17 +60,17 @@ const ActivitiesPage = () => {
 
   function renderFilterMenu() {
     return (
-      <div className="dropdown" ref={filterDropdownRef}>
+      <div className="dropdown p-2" ref={filterDropdownRef}>
         <button
-          className="btn btn-light btn-custom btn-hover-effect dropdown-toggle"
+          className="btn btn-light btn-custom btn-hover-effect dropdown-toggle "
           onClick={() => setFilterDropdownOpen(!filterDropdownOpen)}
         >
-          Filtre
+          Filtrer
         </button>
         {filterDropdownOpen && (
 
           <div
-            className="dropdown-menu show p-2"
+            className="dropdown-menu show m-2"
             style={{ zIndex: 1000 }}
           >
             {interests.map((interest, index) => (
@@ -94,7 +94,7 @@ const ActivitiesPage = () => {
   // Render date dropdown button
   function renderDateFilterMenu() {
     return (
-      <Dropdown onSelect={(e) => setSelectedDate(e)}>
+      <Dropdown className="p-2" onSelect={(e) => setSelectedDate(e)}>
         <Dropdown.Toggle variant="light" id="dateDropdownButton" className="btn btn-light btn-custom btn-hover-effect dropdown-toggle">
           Choisir date
         </Dropdown.Toggle>
@@ -207,9 +207,9 @@ const ActivitiesPage = () => {
   // Render activities
   return (
     <div className="text-center" style={{ background: ` linear-gradient(to bottom, #007bff, #B9D56D)`, backgroundSize: 'auto', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
-    <div className="container mt-5">
+    <div className="container">
       <div className="row justify-content-center">
-        <h1 className="col-12 text-center mb-4 " style={{ color: 'white' }}>Vos activités</h1>
+        <h1 className="col-12 text-center m-4 " style={{ color: 'white' }}>Toutes les activités</h1>
       </div>
       <div className="row p-3 justify-content-center">
         <div className="col-sm-auto text-center">
@@ -233,7 +233,7 @@ const ActivitiesPage = () => {
       <div className="row justify-content-center">
         <button
 
-          className="col-4 btn btn-light btn-custom btn-hover-effect position-relative"
+          className="col-4 mb-3 btn btn-light btn-custom btn-hover-effect position-relative"
           onClick={() => navigate("/")} // Logout button with transition effect
 
           style={{

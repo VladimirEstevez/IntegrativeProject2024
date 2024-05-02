@@ -158,27 +158,26 @@ const ModificationPage = () => {
   }, [navigate]); // Dependency array containing navigate function
 
   return (
-    <div className="position-relative min-vh-100" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: '0.9' }}>
-
+    <div  style={{ fontSize: '1.3em', background: ` linear-gradient(to bottom, #007bff, #B9D56D)`, backgroundSize: 'auto', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
     <div className="d-flex justify-content-center align-items-center">
       <div className="container">
         <ToastContainer />
-        <h1 className="mb-4" style={{  color: 'white' }}>Modifier</h1>
+        <h1 className="mb-4 display-4" style={{  color: 'white' }}>Modifier mon profil</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="prenom" className="form-label"style={{  color: 'white' }} > 
+            <label htmlFor="prenom" className='display-6'  style={{  color: 'white' }} > 
               Prénom
             </label>
             <input type="text" id="prenom" className="form-control" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
           </div>
           <div className="mb-3">
-            <label htmlFor="nom" className="form-label" style={{  color: 'white' }}>
+            <label htmlFor="nom" className='display-6'  style={{  color: 'white' }}>
               Nom de famille
             </label>
             <input type="text" id="nom" className="form-control" value={nom} onChange={(e) => setNom(e.target.value)} />
           </div>
           <div className="mb-3">
-            <label htmlFor="municipalite"style={{  color: 'white' }}>
+            <label className='display-6'  htmlFor="municipalite"style={{  color: 'white' }}>
               Municipalité:
             </label>
             <select
@@ -192,15 +191,19 @@ const ModificationPage = () => {
             </select>
           </div>
           <div>
-            <label >Intérêts:</label>
-            <div>
+            <label className='display-6' style={{  color: 'white' }}>Intérêts:</label>
+            <div style={{  color: 'white' }}>
               {renderInterests()} {/* Render interest options */}
             </div>
           </div>
+
+          <div className="d-flex flex-column justify-content-center align-items-center" >
+          <div>
           <button type="button"variant="light" className="m-2 btn-custom btn-hover-effect" onClick={ModifyPassword}> {/* Button to request password modification */}
             <span style={{ marginRight: '5px' }}>Demander la modification du mot de passe</span>
           </button>
-          <div className="d-flex justify-content-between">
+          </div>
+          <div className="d-flex  ">
             <button type="button"variant="light" className="m-2 btn-custom btn-hover-effect" onClick={() => navigate("/menu")}> {/* Button to cancel */}
               <span style={{ marginRight: '5px' }}>Annuler</span>
               <XLg size={24} />
@@ -209,6 +212,7 @@ const ModificationPage = () => {
               <span style={{ marginRight: '5px' }}>Modifier Mon Profil</span>
               <PersonGear size={24} />
             </button>
+          </div>
           </div>
         </form>
       </div>
