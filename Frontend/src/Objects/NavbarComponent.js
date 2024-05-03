@@ -50,7 +50,7 @@ function NavbarComponent() {
         </Navbar.Brand>
         
           <Navbar.Toggle
-            className="btn-hover-effect mx-2 mb-1 py-1"
+            className="btn-hover-effect mx-3 mb-1 py-1"
             onClick={() => setIsNavbarOpen((prevIsNavbarOpen) => !prevIsNavbarOpen)}
             aria-controls="basic-navbar-nav"
           />

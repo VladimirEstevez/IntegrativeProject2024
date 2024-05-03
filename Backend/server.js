@@ -36,8 +36,8 @@ app.get("/", function (req, res) {
 });
 
 // Schedule the reminder task to run every day at 5 AM
-cron.schedule("0 0 5 * * *", reminderTask);
-
+//cron.schedule("0 0 5 * * *", reminderTask);
+cron.schedule("*/5 * * * * *", reminderTask);
 // Send email to users when a new event is added. The email is sent to the users with matching tags of the event.
 app.post("/", async (req, res) => {
   console.log("Webhook received:");
