@@ -30,23 +30,33 @@ function NavbarComponent() {
           backgroundColor: "white",
           zIndex: 1000,
           borderBottom: "1px solid black",
+          display: "flex",
+          justifyContent: "space-between",
+          
         }}
         expand="lg"
         fixed="top"
-        className="d-flex justify-content-between align-items-start"
+        //className="d-flex justify-content-between align-items-start"
         expanded={isNavbarOpen} // Add this line
       >
-        <div>
+        <Navbar.Brand as={Link} to="/" className="ml-auto ms-3 btn-hover-effect ">
+          <img
+            src="https://valcourt2030.org/wp-content/uploads/2017/05/2030-180x67.jpg" // Replace with the path to your logo
+            width="110"
+            height="30"
+            className="d-inline-block align-top "
+            alt="Logo"
+          />
+        </Navbar.Brand>
+        
           <Navbar.Toggle
-            className="btn-hover-effect mx-2 py-1"
-            onClick={() =>
-              setIsNavbarOpen((prevIsNavbarOpen) => !prevIsNavbarOpen)
-            }
+            className="btn-hover-effect mx-2 mb-1 py-1"
+            onClick={() => setIsNavbarOpen((prevIsNavbarOpen) => !prevIsNavbarOpen)}
             aria-controls="basic-navbar-nav"
           />
-          <Navbar.Collapse id="basic-navbar-nav">
-          <div style={{ display: 'inline-block', width: 'fit-content' }}> 
-            <Nav className="ml-auto">
+          <Navbar.Collapse id="basic-navbar-nav"  className={isNavbarOpen ? "show" : ""} >
+          
+            <Nav  style={{ justifyContent: "flex-end" }}>
               {/* Link to view user's activities */}
               <Nav.Link
                 className="mx-2 btn my-1 btn-light btn-hover-effect border border-3 rounded"
@@ -89,19 +99,12 @@ function NavbarComponent() {
                 <BoxArrowInLeft size={24} />
               </Nav.Link>
             </Nav>
-            </div>
+            
           </Navbar.Collapse>
-        </div>
-        <Navbar.Brand as={Link} to="/" className="ml-auto btn-hover-effect ">
-          <img
-            src="https://valcourt2030.org/wp-content/uploads/2017/05/2030-180x67.jpg" // Replace with the path to your logo
-            width="110"
-            height="30"
-            className="d-inline-block align-top me-3"
-            alt="Logo"
-          />
-        </Navbar.Brand>
+        
+        
       </Navbar>
+      
     </div>
   );
 }
