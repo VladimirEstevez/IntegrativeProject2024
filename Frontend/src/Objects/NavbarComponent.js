@@ -56,7 +56,7 @@ function NavbarComponent() {
           />
           <Navbar.Collapse id="basic-navbar-nav"  className={isNavbarOpen ? "show" : ""} >
           
-            <Nav  style={{ justifyContent: "flex-end" }}>
+            <Nav className="me-2" style={{  width: "100%", justifyContent: "flex-end" }}>
               {/* Link to view user's activities */}
               <Nav.Link
                 className="mx-2 btn my-1 btn-light btn-hover-effect border border-3 rounded"
