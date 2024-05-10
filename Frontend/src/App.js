@@ -5,7 +5,8 @@ import { BoxArrowInRight, FilePerson } from "react-bootstrap-icons";
 import { React, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import V2030transparence1 from "./Logo/V2030transparence1.png";
-import backgroundImage from "./Logo/V2030.png"; // Importing the background image
+import backgroundImage from "./Logo/V2030_sans.png"; // Importing the background image
+import logoBlanc from "./Logo/Logo_blanc.png";
 import "./App.css";
 
 function App() {
@@ -62,24 +63,38 @@ function App() {
         }}
       >
        <div className="container-fluid pb-5 mb-5 d-flex flex-column justify-content-center " style={{ height: "100vh" }}>
-       <div className="row pb-5 mb-5  text-light text-center">
+       <div className="row pb-5 d-flex mb-5 justify-content-center  text-light text-center">
   
     <p className="display-4">Bienvenue à Valcourt2030!</p>
     <p className="fs-4" >Connectez-vous avec votre communauté et explorez tout ce que Valcourt a à offrir!</p>
     <p className="fs-4">Pour commencer, créez un compte  en cliquant sur le bouton "S'inscrire". </p>
     <p className="fs-4">Vous avez déjà un compte? Cliquez sur Connexion pour accéder à votre tableau de bord personnalisé.</p>
   
+    <div
+        
+        style={{
+          backgroundImage: `url(${logoBlanc})`,
+          height: "22em",
+          width: "22em",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "contain",
+          backgroundPosition: "center",
+          opacity: "0.9",
+        }}
+      ></div>
 </div>
-  <div className="row pt-5 mt-5   ">
-    <div className="col-md-6 d-flex justify-content-center align-self-start">
+
+
+  <div className="row ">
+    <div className=" d-flex justify-content-center align-self-start">
       <button onClick={() => navigate("/register")} className="btn btn-light m-2 btn-custom btn-hover-effect">
         <span style={{ marginRight: "5px",  fontSize: "1.3em" }}>S'inscrire</span>
         <FilePerson size={28} />
       </button>
     </div>
-    <div className="col-md-6  d-flex justify-content-center pb-5 mb-5 align-self-start">
+    <div className="d-flex justify-content-center pb-5 mb-5 align-self-start">
       <button onClick={() => navigate("/login")} className="btn btn-light m-2 btn-custom btn-hover-effect ">
-        <span style={{ marginRight: "5px", fontSize: "1.3em"  }}>Se connecter</span>
+        <span style={{ marginRight: "5px",  fontSize: "1.3em"  }}>Se connecter</span>
         <BoxArrowInRight size={28} />
       </button>
     </div>
