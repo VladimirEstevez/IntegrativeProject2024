@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css"; // Importing toast notification 
 import { FilePerson, XLg } from "react-bootstrap-icons"; // Importing icons
 import { Container, Form, Button, Row, Col } from 'react-bootstrap'; // Importing Bootstrap components
 import { useNavigate } from "react-router-dom"; // Importing hook for navigation
-import backgroundImage from '../Logo/V2030.png'; // Importing the background image
+import backgroundImage from '../Logo/V2030_sans.png'; // Importing the background image
 
 function InscriptionPage() {
 
@@ -36,7 +36,6 @@ function InscriptionPage() {
   const [tags, setTags] = useState([]); // State for tags
   const [municipalites, setMunicipalites] = useState([]); // State for municipalities
   const [interests, setInterests] = useState([]); // State for interests
-  const [consent, setConsent] = useState(false); // State for consent checkbox
 
   // Fetch data from the server on component mount
   useEffect(() => {
@@ -82,9 +81,7 @@ function InscriptionPage() {
   // Handle form field changes
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
-    if (type === 'checkbox') {
-      setConsent(checked); // Update consent state
-    } else if (name === 'tags') {
+    if (name === 'tags') {
       const selectedTags = Array.from(event.target.selectedOptions, option => option.value);
       setForm({
         ...form,
@@ -115,13 +112,7 @@ function InscriptionPage() {
     const finalForm = { ...form };
     finalForm.tags = tags; // Set interests from tags
 
-    if (!consent) { // Check if consent checkbox is checked
-      toast.error("Vous devez consentir pour vous inscrire", {
-        autoClose: 3000,
-        pauseOnHover: false,
-      });
-      return;
-    }
+   
 
     // Regular expression to validate email format
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -211,6 +202,20 @@ function InscriptionPage() {
 
   return (
     <div  style={{ fontSize: '1.3em', background: ` linear-gradient(to bottom, #007bff, #B9D56D)`, backgroundSize: 'auto', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', minHeight: '100vh' }}>
+     
+     <div
+      className="h-100 d-flex align-items-center" 
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        minHeight: "100vh",
+        width: "100vw",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "contain",
+        backgroundPosition: "center",
+        opacity: "0.9",
+      }}
+    >
+     
       <Container>
         <ToastContainer />
         <Row className="justify-content-center align-items-center">
@@ -274,6 +279,7 @@ function InscriptionPage() {
           </Col>
         </Row>
       </Container>
+    </div>
     </div>
   );
 }

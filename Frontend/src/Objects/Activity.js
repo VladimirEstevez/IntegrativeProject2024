@@ -144,14 +144,15 @@ const Activity = () => {
               {/* Tags */}
               <button
                 onClick={() => goBack()}
-                className="btn btn-secondary my-3"
+                className="btn  btn-hover-effect btn-secondary fs-2 "
               >
                 Retour
               </button>{" "}
               {/* Button to go back */}
               <button
                 onClick={registerActivity}
-                className="register-button btn btn-primary"
+                variant="light" style={{ color: 'white' }} className="m-2 btn register-button btn-custom btn-hover-effect fs-4"
+               
               >
                 S'inscrire à l'Activité
               </button>{" "}

@@ -41,7 +41,7 @@ router.post("/subscribe", async (req, res) => {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: "integrativeprojectgroupthree@gmail.com",
+            user:process.env.RECIPIENT_EMAIL,
             pass: process.env.EMAIL_PASSWORD,
         },
     });
@@ -54,7 +54,7 @@ router.post("/subscribe", async (req, res) => {
         html: `
             <h1>Bienvenue à Valcourt2030</h1>
             <p>Merci de vous être inscrit(e) avec nous ! Veuillez cliquer sur le bouton ci-dessous pour vérifier votre compte :</p>
-            <a href="${process.env.SERVER_URL}/register/confirm?token=${token}" style="background-color: #0098d9; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">Verify Account</a>
+            <a href="${process.env.REACT_APP_SERVER_URL}/register/confirm?token=${token}" style="background-color: #0098d9; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">Vérifier votre compte</a>
         `,
     }, function(error, info) {
         if (error) {

@@ -4,7 +4,7 @@ import { BoxArrowInRight, XLg, BoxArrowUpRight } from 'react-bootstrap-icons'; /
 import { toast, ToastContainer } from 'react-toastify'; // Importing toast notification components
 import 'react-toastify/dist/ReactToastify.css'; // Importing toast notification CSS
 import { useNavigate } from 'react-router-dom'; // Importing hook for navigation
-import backgroundImage from '../Logo/V2030.png'; // Importing the background image
+import backgroundImage from "../Logo/V2030_sans.png"; // Importing the background image
 
 
 function ConnectionPage() {
@@ -104,6 +104,18 @@ function ConnectionPage() {
       backgroundRepeat: 'no-repeat', 
       minHeight: '100vh' 
     }}>
+      <div
+      className="h-100 d-flex align-items-center" 
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        minHeight: "100vh",
+        width: "100vw",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "contain",
+        backgroundPosition: "center",
+        opacity: "0.9",
+      }}
+    >
       <Container>
         <ToastContainer /> {/* Container for toast notifications */}
         <Row className="justify-content-center align-items-center">
@@ -137,6 +149,7 @@ function ConnectionPage() {
           </Col>
         </Row>
       </Container>
+    </div>
     </div>
   );
 }

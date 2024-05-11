@@ -196,12 +196,10 @@ const MyActivitiesPage = () => {
   // JSX for rendering My Activities Page
   return (
     <div style={{ 
-      background: `linear-gradient(to bottom, #007bff, #B9D56D)`, 
-      backgroundSize: 'auto', 
-      backgroundPosition: 'center', 
-      backgroundRepeat: 'no-repeat', 
-      width: '100vw', 
-      height: '100vh' 
+      background: ` linear-gradient(to bottom, #007bff, #B9D56D)`,
+      backgroundSize: "auto",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
     }}> <div className="container ">
       <div className="row justify-content-center">
 
@@ -223,8 +221,11 @@ const MyActivitiesPage = () => {
               <Card activity={activity} /> {/* Render Card component for each activity */}
             </div>
           ))
-        ) : (
-          <p>Aucune activité trouvée.</p>
+        ) : (<div>
+          
+          <h1 className="col-12 text-light text-center m-4" >Vous n'êtez pas enregistré à aucune activité.</h1>
+          <h2 className="col-12 text-light text-center m-4" >Allez à la page des activités pour vous enregistrer.</h2>
+        </div>
         )}
       </div>
       <div className="row justify-content-center">

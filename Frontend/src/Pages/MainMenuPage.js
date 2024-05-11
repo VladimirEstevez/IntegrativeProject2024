@@ -60,14 +60,15 @@ const MainMenuPage = () => {
         <div className="d-flex justify-content-center align-items-start ">
           <div className="container-md text-center text-white">
             <h1 className="fs-4 mt-4 text-white">Bonjour {prenom}. On est content de vous revoir!</h1>
-<p className="fs-4">Explorez les événements, connectez-vous avec les autres et restez impliqué dans Valcourt2030 !</p>
+<p className="fs-4">Explorez nos événements, connectez-vous avec les autres membres de la communauté et restez impliqué dans Valcourt 2030!</p>
 <p className="fs-4">Voici ce que vous pouvez faire sur votre page principale:</p>
 <ul className="fs-5 " style={{textAlign: "left"}}>
-  <li>Découvrez les événements locaux: parcourez les activités à venir par vos balises personnalisées ou par date pour trouver des événements qui vous intéressent.</li>
+  <li>Découvrez nos événements locaux: parcourez nos activités à venir par vos balises personnalisées ou par date pour trouver des événements qui vous intéressent.</li>
   <li>Restez organisé: consultez vos activités enregistrées sur votre propre page dédiée.</li>
   <li>Connectez-vous avec les autres: rencontrez de nouvelles personnes et établissez des relations avec vos voisins en participant à des événements.</li>
-  <li>Informez-vous : restez à jour sur les dernières nouvelles et événements au sein de la communauté de Valcourt.</li>
+  <li>Informez-vous : demeurez à l'affût de nos dernières nouvelles et événements au sein de la communauté du Grand Valcourt.</li>
 </ul>
+<p className="fs-4 mt-4 text-white">Pour en connaître plus à propos de notre organisation, n'oubliez pas de visiter le <a  style={{ color: '#ffc107' }} href='https://www.valcourt2030.org' >www.Valcourt2030.org</a></p>
           </div>
         </div>
       </div>

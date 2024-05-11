@@ -12,7 +12,7 @@ async function sendEmails() {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "integrativeprojectgroupthree@gmail.com",
+      user:process.env.RECIPIENT_EMAIL,
       pass: process.env.EMAIL_PASSWORD,
     },
   });

@@ -75,7 +75,7 @@ const EndDate = moment.tz(req.body.post_meta._EventEndDate[0], 'YYYY-MM-DD HH:mm
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "integrativeprojectgroupthree@gmail.com",
+        user:process.env.RECIPIENT_EMAIL,
         pass: process.env.EMAIL_PASSWORD,
       },
     });

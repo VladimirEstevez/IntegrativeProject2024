@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'; // Importing hook for navigation
 import { toast, ToastContainer } from 'react-toastify'; // Importing toast notifications
 import { Form} from 'react-bootstrap'; // Importing Bootstrap components
 import { PersonGear, XLg } from 'react-bootstrap-icons'; // Importing Bootstrap icons
-import backgroundImage from '../Logo/V2030.png'; // Importing the background image
+import backgroundImage from "../Logo/V2030_sans.png";
 
 const ModificationPage = () => {
   const [prenom, setPrenom] = useState(''); // State for first name
@@ -169,8 +169,10 @@ const ModificationPage = () => {
       backgroundRepeat: 'no-repeat', 
       minHeight: '100vh' 
     }}>
+      
     <div className="d-flex  ">
-      <div className="container ">
+    
+      <div className="container mt-3 " style={{maxWidth: "75vw"}}>
         <ToastContainer />
         <h1 className="mb-4 text-center display-4" style={{  color: 'white' }}>Modifier mon profil</h1>
         <form onSubmit={handleSubmit}>
@@ -228,6 +230,7 @@ const ModificationPage = () => {
       </div>
     </div>
   </div>
+ 
   );
 };
 

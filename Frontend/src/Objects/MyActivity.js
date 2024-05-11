@@ -101,10 +101,9 @@ const MyActivity = () => {
                   Intérêts: {activity.tags.join(", ")}
                 </small>
               </p>{" "}
-              {/* Tags */}
-              <button
+              {/* Tags */} <button
                 onClick={() => goBack()}
-                className="btn btn-secondary my-3"
+                className="btn  btn-hover-effect btn-secondary fs-2 my-3 "
               >
                 Retour
               </button>{" "}
