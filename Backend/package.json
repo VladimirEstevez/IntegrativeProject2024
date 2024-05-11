@@ -6,7 +6,7 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "nodemon server.js",
-        "build": "cd ../Frontend && npm run build && cd ../Backend && move ../Frontend/build ./build && node compress.js"
+        "bundle": "cd ../Frontend && npm run build && cd ../Backend && move ../Frontend/build ./build && node compress.js"
 },
     "keywords": [],
     "author": "",

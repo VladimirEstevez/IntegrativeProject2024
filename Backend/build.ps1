@@ -5,7 +5,7 @@ $scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Definition
 Set-Location -Path $scriptPath
 
 # Run the build command
-npm run build
+npm run deploy
 
 # Pause the script
 Read-Host -Prompt "Press Enter to exit"
