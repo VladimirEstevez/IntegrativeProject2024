@@ -30,10 +30,14 @@ try {
     }
   }
 
+  // get the current date and format it as yyyy-mm-dd
+  const date = new Date();
+  const dateString = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+
   // write the zip file to disk
-  const zipPath = path.join(__dirname, '../Backend.zip');
+  const zipPath = path.join(__dirname, `../New Build - ${dateString}.zip`);
   zip.writeZip(zipPath);
   console.log('Zip file written to:', zipPath);
 } catch (error) {
   console.error('An error occurred:', error);
-}
+} 
