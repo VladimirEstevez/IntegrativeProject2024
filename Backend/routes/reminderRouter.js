@@ -10,7 +10,7 @@ const ActivitiesCollection = db.collection("Activities");
 async function sendEmails() {
   
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    service: process.env.EMAIL_PROVIDER,
     auth: {
       user:process.env.RECIPIENT_EMAIL,
       pass: process.env.EMAIL_PASSWORD,
