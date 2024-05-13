@@ -204,7 +204,7 @@ router.get("/resetPassword", async (req, res) => {
   const { token } = req.query;
 
   // Redirect to the reset password page in the React app
-  res.redirect(`/resetPassword?token=${token}`);
+  res.redirect(`${process.env.SERVER_URL}/resetPassword?token=${token}`);
 });
 
 // This route handles the POST request made by your React app to reset the password
@@ -278,9 +278,10 @@ router.get("/requestPasswordModification", authMiddleware, async (req, res) => {
 // This route handles the initial GET request made when the user clicks the link in the email
 router.get("/passwordModification", async (req, res) => {
   const { token } = req.query;
+  console.log("token: " + token)
 
   // Redirect to the reset password page in the React app
-  res.redirect(`/passwordModification?token=${token}`);
+  res.redirect(`${process.env.SERVER_URL}/passwordModification?token=${token}`);
 });
 
 // This route handles the POST request made by your React app to reset the password
