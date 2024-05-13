@@ -176,7 +176,7 @@ router.post("/requestPasswordReset", async (req, res) => {
   });
 
   await transporter.sendMail({
-    from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
+    from: '"Valcour2030" <process.env.RECIPIENT_EMAIL>',
     to: userCourriel,
     subject: "Réinitialisation du mot de passe",
     html: `
@@ -257,7 +257,7 @@ router.get("/requestPasswordModification", authMiddleware, async (req, res) => {
 
   await transporter.sendMail(
     {
-      from: '"Valcourt2030" <integrativeprojectgroupthree@gmail.com>',
+      from: '"Valcourt2030" <process.env.RECIPIENT_EMAIL>',
       to: userCourriel,
       subject: "Modification du mot de passe ",
       html: `

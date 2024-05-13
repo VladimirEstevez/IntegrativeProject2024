@@ -81,7 +81,7 @@ async function sendEmails() {
 
       await transporter.sendMail(
         {
-          from: '"Valcourt2030" <integrativeprojectgroupthree@gmail.com>',
+          from: '"Valcourt2030" <process.env.RECIPIENT_EMAIL>',
           to: email,
           subject: `L'événement ${
             activity.post_title

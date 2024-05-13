@@ -98,7 +98,7 @@ app.post("/", async (req, res) => {
 
                 // Send an email to the user
                 await transporter.sendMail({
-                    from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
+                    from: '"Valcour2030" <process.env.RECIPIENT_EMAIL>',
                     to: user.courriel,
                     subject: `Nouvelle activité : ${eventData.post_title}`,
                     html: `

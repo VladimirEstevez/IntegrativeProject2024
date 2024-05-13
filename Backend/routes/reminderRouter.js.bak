@@ -65,7 +65,7 @@ async function sendEmails() {
         
     
         await transporter.sendMail({
-            from: '"Valcourt2030" <integrativeprojectgroupthree@gmail.com>',
+            from: '"Valcourt2030" <process.env.RECIPIENT_EMAIL>',
             to: email,
             subject: `L'événement ${activity.post_title} auquel vous vous êtes inscrit aura lieu le ${new Date(activity.StartDate).toLocaleDateString('fr-FR')} `,
             html: htmlContent,
@@ -90,7 +90,7 @@ async function sendEmails() {
 
       await transporter.sendMail(
         {
-          from: '"Valcour2030" <integrativeprojectgroupthree@gmail.com>',
+          from: '"Valcour2030" <process.env.RECIPIENT_EMAIL>',
           to: email,
           subject: `L'événement ${
             activity.post_title

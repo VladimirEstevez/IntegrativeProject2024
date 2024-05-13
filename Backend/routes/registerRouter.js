@@ -48,7 +48,7 @@ router.post("/subscribe", async (req, res) => {
 
 
     await transporter.sendMail({
-        from: '"Valcourt2030" <integrativeprojectgroupthree@gmail.com>',
+        from: `"Valcourt2030" <${process.env.RECIPIENT_EMAIL}>`,
         to: user.courriel,
         subject: "Vérification de votre compte",
         html: `
