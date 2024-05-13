@@ -168,9 +168,9 @@ router.post("/requestPasswordReset", async (req, res) => {
   )
 
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    service: process.env.EMAIL_PROVIDER,
     auth: {
-      user: "integrativeprojectgroupthree@gmail.com",
+      user:process.env.RECIPIENT_EMAIL,
       pass: process.env.EMAIL_PASSWORD,
     },
   });
@@ -248,9 +248,9 @@ router.get("/requestPasswordModification", authMiddleware, async (req, res) => {
   )
 
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    service: process.env.EMAIL_PROVIDER,
     auth: {
-      user: "integrativeprojectgroupthree@gmail.com",
+      user:process.env.RECIPIENT_EMAIL,
       pass: process.env.EMAIL_PASSWORD,
     },
   });
@@ -281,7 +281,11 @@ router.get("/passwordModification", async (req, res) => {
   console.log("token: " + token)
 
   // Redirect to the reset password page in the React app
+<<<<<<< HEAD
   res.redirect(`${process.env.SERVER_URL}/passwordModification?token=${token}`);
+=======
+  res.redirect(`/passwordModification?token=${token}`);
+>>>>>>> f3c5916c191e4203e462af7210fab840548806d9
 });
 
 // This route handles the POST request made by your React app to reset the password

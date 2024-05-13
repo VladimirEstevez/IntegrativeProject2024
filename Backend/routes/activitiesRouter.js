@@ -5,6 +5,7 @@ const { client } = require("../database/database.js");
 const nodemailer = require("nodemailer");
 const { ObjectId } = require("mongodb");
 const authMiddleware = require("../auth.js");
+const { formatDateFunction } = require("../dateUtils/DateFormattingTool.js");
 //Database setup
 const db = client.db("integrativeProjectDB");
 const UsersCollection = db.collection("Users");
@@ -44,35 +45,37 @@ router.post("/register-activity", async (req, res) => {
   );
 
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    service: process.env.EMAIL_PROVIDER,
     auth: {
       user: process.env.RECIPIENT_EMAIL,
       pass: process.env.EMAIL_PASSWORD,
     },
   });
-
+  
+  
    await transporter.sendMail({
             from: `"Valcourt2030" <${process.env.RECIPIENT_EMAIL}>`,
             to: user.courriel,
             subject: "Inscription à une activité",
             html: `
-            Bienvenue! Vous vous êtes inscrit à l'activité : ${activity.post_title}.<br>
-                Date de début : ${(activity.StartDate).toLocaleString('fr-FR')},<br>
-                Date de fin : ${(activity.EndDate).toLocaleString('fr-FR')}.<br>
-                Tags : ${activity.tags.join(', ')}<br>
-                <p>Pour plus de détails, cliquez sur le bouton ci-dessous :
-                <button id="detailsButton" style="background-color: blue; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Voir les détails</button></p>
-
             <img src="${
               activity.post_thumbnail
             }" alt="Image de l'activité" style="width: 100%; max-width: 600px;">
+            Bienvenue! Vous vous êtes inscrit à l'activité : ${activity.post_title}.<br>
+                Date de début : ${formatDateFunction(activity.StartDate)},<br>
+                Date de fin : ${formatDateFunction(activity.EndDate)}.<br>
+                Intérêts : ${activity.tags.join(', ')}<br>
+                <p>Pour voir tous les détails sur l'activité, cliquez sur le bouton ci-dessous :
+                <br>
+                
+                <br>
+                <br>
+                
+                <a href="${activity.post_url}" id="detailsButton" style="background-color: blue; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Détails sur l'activité</a></p>
+
+           
             
-            <script>
-                // Ajout d'un gestionnaire d'?v?nements au clic du bouton
-                document.getElementById("detailsButton").addEventListener("click", function() {
-                window.location.href = "${activity.event_url}";
-                });
-            </script>
+          
         `,
     },
     function (error, info) {
@@ -85,7 +88,7 @@ router.post("/register-activity", async (req, res) => {
     }
   );
 
-  res.status(200).send({ message: "Activity registration successful" });
+  res.status(200).send({ message: "Inscription à l'activité réussie" });
 });
 
 // This route registers the user to an activity when the user clicks the "Register" button on the email notification and opens up the form to register for the activity.

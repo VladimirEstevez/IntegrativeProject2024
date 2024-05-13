@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom"; // Importing hook for navigation
 import "bootstrap/dist/css/bootstrap.min.css"; // Importing Bootstrap CSS
 import { House } from "react-bootstrap-icons"; // Importing logout icon
 import backgroundImage from '../Logo/V2030.png'; // Importing the background image
+import Dropdown from 'react-bootstrap/Dropdown';
 
 
 // Functional component for My Activities Page
@@ -52,23 +53,25 @@ const MyActivitiesPage = () => {
   }, []);
 
   // Function to render filter dropdown menu
+
   function renderFilterMenu() {
     return (
-      <div className="dropdown" ref={filterDropdownRef}>
+      <div className="dropdown p-2" ref={filterDropdownRef}>
         <button
-          className="btn btn-light btn-custom btn-hover-effect dropdown-toggle"
-
+          className="btn btn-light btn-custom btn-hover-effect dropdown-toggle "
           onClick={() => setFilterDropdownOpen(!filterDropdownOpen)}
         >
-          Filtre
+          Filtrer
         </button>
         {filterDropdownOpen && (
+
           <div
-            className="position-absolute bg-white border rounded p-2"
+            className="dropdown-menu show m-2"
             style={{ zIndex: 1000 }}
           >
             {interests.map((interest, index) => (
-              <label key={index} style={{ display: "block", padding: "5px" }}>
+              <label key={index} className="dropdown-item" style={{ padding: "5px" }}>
+
                 <input
                   type="checkbox"
                   onChange={(e) => handleFilterChange(e, interest)}
@@ -86,22 +89,18 @@ const MyActivitiesPage = () => {
   // Function to render date filter dropdown menu
   function renderDateFilterMenu() {
     return (
-      <div ref={dateDropdownRef}>
-          <div
-          className="bg-white"
-          style={{ zIndex: 1000 }}
-        >
-          <select
-            value={selectedDate || ""}
-            onChange={(e) => setSelectedDate(e.target.value)}
-          >
-            <option value="">Ensemble des Activités</option>
-            <option value="previous">Activités précédentes</option>
-            <option value="today">Activités du jour</option>
-            <option value="upcoming">Activités à venir</option>
-          </select>
-        </div>
-      </div>
+      <Dropdown className="p-2" onSelect={(e) => setSelectedDate(e)}>
+        <Dropdown.Toggle variant="light" id="dateDropdownButton" className="btn btn-light btn-custom btn-hover-effect dropdown-toggle">
+          Choisir date
+        </Dropdown.Toggle>
+  
+        <Dropdown.Menu>
+          <Dropdown.Item eventKey="">Ensemble des Activités</Dropdown.Item>
+          <Dropdown.Item eventKey="previous">Activités précédentes</Dropdown.Item>
+          <Dropdown.Item eventKey="today">Activités du jour</Dropdown.Item>
+          <Dropdown.Item eventKey="upcoming">Activités à venir</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
     );
   }
 
@@ -196,30 +195,37 @@ const MyActivitiesPage = () => {
 
   // JSX for rendering My Activities Page
   return (
-  <div className="position-relative min-vh-100" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: '0.9' }}>
-    <div className="container mt-5">
+    <div style={{ 
+      background: ` linear-gradient(to bottom, #007bff, #B9D56D)`,
+      backgroundSize: "auto",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+    }}> <div className="container ">
       <div className="row justify-content-center">
 
-        <h1 className="col-12 text-center mb-4">Mes activités</h1>
+        <h1 className="col-12 text-light text-center m-4">Mes activités</h1>
       </div>
-      <div className="row justify-content-center">
+      <div className="row p-3 justify-content-center">
         <div className="col-sm-auto text-center">
           <div>{renderFilterMenu()}</div>
         </div>
-        <div className="col-sm-auto text-center mt-2">
-          <div className="mw-75">{renderDateFilterMenu()}</div>
+        <div className="col-sm-auto text-center ">
+          <div >{renderDateFilterMenu()}</div>
         </div>
 
       </div>
       <div className="row">
         {filteredActivities.length > 0 ? (
           filteredActivities.map((activity) => (
-            <div className="col-md-4 mb-4" key={activity._id}>
+            <div className="col-12 col-sm-12 col-md-6 col-lg-4 mb-4" key={activity._id}>
               <Card activity={activity} /> {/* Render Card component for each activity */}
             </div>
           ))
-        ) : (
-          <p>Aucune activité trouvée.</p>
+        ) : (<div>
+          
+          <h1 className="col-12 text-light text-center m-4" >Vous n'êtez pas enregistré à aucune activité.</h1>
+          <h2 className="col-12 text-light text-center m-4" >Allez à la page des activités pour vous enregistrer.</h2>
+        </div>
         )}
       </div>
       <div className="row justify-content-center">
@@ -227,7 +233,7 @@ const MyActivitiesPage = () => {
         {/* Logout button */}
         <button
           onClick={() => navigate("/")} // Navigate to login page on click
-          className="col-4 btn btn-light btn-custom btn-hover-effect position-relative"
+          className="col-4 mb-3 btn btn-light btn-custom btn-hover-effect position-relative"
 
           style={{
             transition: "transform 0.3s",

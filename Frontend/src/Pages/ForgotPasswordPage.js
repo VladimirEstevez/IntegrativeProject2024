@@ -5,9 +5,18 @@ import { toast, ToastContainer } from "react-toastify"; // Importing toast notif
 import "react-toastify/dist/ReactToastify.css"; // Importing toast notification CSS
 import { useNavigate } from "react-router-dom"; // Importing hook for navigation
 import backgroundImage from '../Logo/V2030.png'; // Importing the background image
-
+import { useEffect } from "react"; // Importing useEffect hook
 
 function ForgotPasswordPage() {
+  useEffect(() => {
+    // Add the class when the component is mounted
+    document.body.classList.add('no-padding');
+
+    // Remove the class when the component is unmounted
+    return () => {
+      document.body.classList.remove('no-padding');
+    };
+  }, []);
   // State for form field
   const [form, setForm] = useState({
     courriel: "",

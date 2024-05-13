@@ -5,9 +5,21 @@ import "react-toastify/dist/ReactToastify.css"; // Importing toast notification 
 import { FilePerson, XLg } from "react-bootstrap-icons"; // Importing icons
 import { Container, Form, Button, Row, Col } from 'react-bootstrap'; // Importing Bootstrap components
 import { useNavigate } from "react-router-dom"; // Importing hook for navigation
-import backgroundImage from '../Logo/V2030.png'; // Importing the background image
+import backgroundImage from '../Logo/V2030_sans.png'; // Importing the background image
 
 function InscriptionPage() {
+
+  useEffect(() => {
+    // Add the class when the component is mounted
+    document.body.classList.add('no-padding');
+
+    // Remove the class when the component is unmounted
+    return () => {
+      document.body.classList.remove('no-padding');
+    };
+  }, []);
+
+  
   const navigate = useNavigate(); // Navigation function
 
   // State for form fields and tags
@@ -24,7 +36,6 @@ function InscriptionPage() {
   const [tags, setTags] = useState([]); // State for tags
   const [municipalites, setMunicipalites] = useState([]); // State for municipalities
   const [interests, setInterests] = useState([]); // State for interests
-  const [consent, setConsent] = useState(false); // State for consent checkbox
 
   // Fetch data from the server on component mount
   useEffect(() => {
@@ -70,9 +81,7 @@ function InscriptionPage() {
   // Handle form field changes
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
-    if (type === 'checkbox') {
-      setConsent(checked); // Update consent state
-    } else if (name === 'tags') {
+    if (name === 'tags') {
       const selectedTags = Array.from(event.target.selectedOptions, option => option.value);
       setForm({
         ...form,
@@ -103,13 +112,7 @@ function InscriptionPage() {
     const finalForm = { ...form };
     finalForm.tags = tags; // Set interests from tags
 
-    if (!consent) { // Check if consent checkbox is checked
-      toast.error("Vous devez consentir pour vous inscrire", {
-        autoClose: 3000,
-        pauseOnHover: false,
-      });
-      return;
-    }
+   
 
     // Regular expression to validate email format
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -198,65 +201,76 @@ function InscriptionPage() {
   };
 
   return (
-    <div className="position-relative min-vh-100" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: '0.9' }}>
+    <div  style={{ fontSize: '1.3em', background: ` linear-gradient(to bottom, #007bff, #B9D56D)`, backgroundSize: 'auto', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', minHeight: '100vh' }}>
+     
+     <div
+      className="h-100 d-flex align-items-center" 
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        minHeight: "100vh",
+        width: "100vw",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "contain",
+        backgroundPosition: "center",
+        opacity: "0.9",
+      }}
+    >
+     
       <Container>
         <ToastContainer />
         <Row className="justify-content-center align-items-center">
           <Col md={6}>
             <Form onSubmit={handleSubmit}>
-              <h1 style={{  color: 'white' }}>Inscription</h1>
-              <Form.Group controlId="consent">
-                <Form.Check 
-                  type="checkbox"
-                  label="Consentez-vous à la politique de la loi 25?"
-                  onChange={handleChange}
-                  checked={consent}
-                  style={{  color: 'white' }}
-                />
+              <h1 className="display-4 text-center"style={{  color: 'white' }}>Inscription</h1>
+              
+              <Form.Group controlId="courriel">
+                <Form.Label className='fs-3' style={{ color: 'white' }}>Courriel:</Form.Label>
+                <Form.Control type="email" name="courriel" onChange={handleChange} />
+              </Form.Group>
+              <Form.Group controlId="prenom">
+                <Form.Label  className='fs-3' style={{ color: 'white' }}>Prénom:</Form.Label>
+                <Form.Control type="text" name="prenom" onChange={handleChange} />
+              </Form.Group>
+              <Form.Group controlId="nom">
+                <Form.Label className='fs-3' style={{  color: 'white' }}>Nom de famille:</Form.Label>
+                <Form.Control type="text" name="nom" onChange={handleChange} />
+              </Form.Group>
+              <Form.Group controlId="motDePasse">
+                <Form.Label className='fs-3'  style={{  color: 'white' }}>Mot de passe:</Form.Label>
+                <Form.Control type="password" name="motDePasse" onChange={handleChange} />
+              </Form.Group>
+              <Form.Group controlId="confirmerMotDePasse">
+                <Form.Label className='fs-3' style={{  color: 'white' }}>Confirmer le mot de passe:</Form.Label>
+                <Form.Control type="password" name="confirmerMotDePasse" onChange={handleChange} />
+              </Form.Group>
+              <Form.Group controlId="municipalite">
+                <Form.Label className='fs-3' style={{  color: 'white' }}>Municipalité:</Form.Label>
+                <Form.Control as="select" name="municipalite" onChange={handleChange}>
+                  {renderMunicipalites()}
+                </Form.Control>
+              </Form.Group>
+              <Form.Group style={{ color: 'white' }} className="mb-3">
+                <Form.Label className='fs-3' style={{  color: 'white' }}>Intérêts:</Form.Label>
+                {renderInterests()}
+              </Form.Group>
+              <div className="d-flex justify-content-center flex-column align-items-center">
+              <Form.Group style={{ color: 'white', fontStyle: "italic" }} className="text-center" controlId="consent">
+              En vous inscrivant sur ce site, vous acceptez et consentez à respecter la politique établie par la Loi 25. 
               </Form.Group>
               <Button 
                 variant="light" 
                 className="m-2 btn-custom btn-hover-effect"
                 onClick={() => window.open("https://valcourt2030.org/politique-de-confidentialite/", '_blank')}
               >
-                Pour plus d'information
+                Pour plus d'informations sur la Loi 25, cliquez ici
               </Button>
-              <Form.Group controlId="courriel">
-                <Form.Label style={{ color: 'white' }}>Courriel:</Form.Label>
-                <Form.Control type="email" name="courriel" onChange={handleChange} />
-              </Form.Group>
-              <Form.Group controlId="prenom">
-                <Form.Label style={{ color: 'white' }}>Prénom:</Form.Label>
-                <Form.Control type="text" name="prenom" onChange={handleChange} />
-              </Form.Group>
-              <Form.Group controlId="nom">
-                <Form.Label style={{  color: 'white' }}>Nom de famille:</Form.Label>
-                <Form.Control type="text" name="nom" onChange={handleChange} />
-              </Form.Group>
-              <Form.Group controlId="motDePasse">
-                <Form.Label style={{  color: 'white' }}>Mot de passe:</Form.Label>
-                <Form.Control type="password" name="motDePasse" onChange={handleChange} />
-              </Form.Group>
-              <Form.Group controlId="confirmerMotDePasse">
-                <Form.Label style={{  color: 'white' }}>Confirmer le mot de passe:</Form.Label>
-                <Form.Control type="password" name="confirmerMotDePasse" onChange={handleChange} />
-              </Form.Group>
-              <Form.Group controlId="municipalite">
-                <Form.Label style={{  color: 'white' }}>Municipalité:</Form.Label>
-                <Form.Control as="select" name="municipalite" onChange={handleChange}>
-                  {renderMunicipalites()}
-                </Form.Control>
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label style={{  color: 'white' }}>Intérêts:</Form.Label>
-                {renderInterests()}
-              </Form.Group>
+              </div>
               <div className="d-flex justify-content-between">
-                <Button variant="light" className="m-2 btn-custom btn-hover-effect" onClick={() => navigate("/")}>
+                <Button variant="light" className="m-2 btn-custom btn-hover-effect fs-5" onClick={() => navigate("/")}>
                   <span>Annuler</span>
                   <XLg size={24} />
                 </Button>
-                <Button type="submit" variant="light" className="m-2 btn-custom btn-hover-effect">
+                <Button type="submit" variant="light" className="m-2 btn-custom fs-5 btn-hover-effect">
                   <span>S'inscrire</span>
                   <FilePerson size={24} />
                 </Button>
@@ -265,6 +279,7 @@ function InscriptionPage() {
           </Col>
         </Row>
       </Container>
+    </div>
     </div>
   );
 }

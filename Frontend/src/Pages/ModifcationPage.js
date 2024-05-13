@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'; // Importing hook for navigation
 import { toast, ToastContainer } from 'react-toastify'; // Importing toast notifications
 import { Form} from 'react-bootstrap'; // Importing Bootstrap components
 import { PersonGear, XLg } from 'react-bootstrap-icons'; // Importing Bootstrap icons
-import backgroundImage from '../Logo/V2030.png'; // Importing the background image
+import backgroundImage from "../Logo/V2030_sans.png";
 
 const ModificationPage = () => {
   const [prenom, setPrenom] = useState(''); // State for first name
@@ -158,27 +158,38 @@ const ModificationPage = () => {
   }, [navigate]); // Dependency array containing navigate function
 
   return (
-    <div className="position-relative min-vh-100" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: '0.9' }}>
-
-    <div className="d-flex justify-content-center align-items-center">
-      <div className="container">
+    <div style={{ 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      fontSize: '1.3em', 
+      background: `linear-gradient(to bottom, #007bff, #B9D56D)`, 
+      backgroundSize: 'auto', 
+      backgroundPosition: 'center', 
+      backgroundRepeat: 'no-repeat', 
+      minHeight: '100vh' 
+    }}>
+      
+    <div className="d-flex  ">
+    
+      <div className="container mt-3 " style={{maxWidth: "75vw"}}>
         <ToastContainer />
-        <h1 className="mb-4" style={{  color: 'white' }}>Modifier</h1>
+        <h1 className="mb-4 text-center display-4" style={{  color: 'white' }}>Modifier mon profil</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="prenom" className="form-label"style={{  color: 'white' }} > 
+            <label htmlFor="prenom" className='display-6'  style={{  color: 'white' }} > 
               Prénom
             </label>
             <input type="text" id="prenom" className="form-control" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
           </div>
           <div className="mb-3">
-            <label htmlFor="nom" className="form-label" style={{  color: 'white' }}>
+            <label htmlFor="nom" className='display-6'  style={{  color: 'white' }}>
               Nom de famille
             </label>
             <input type="text" id="nom" className="form-control" value={nom} onChange={(e) => setNom(e.target.value)} />
           </div>
           <div className="mb-3">
-            <label htmlFor="municipalite"style={{  color: 'white' }}>
+            <label className='display-6'  htmlFor="municipalite"style={{  color: 'white' }}>
               Municipalité:
             </label>
             <select
@@ -192,28 +203,34 @@ const ModificationPage = () => {
             </select>
           </div>
           <div>
-            <label >Intérêts:</label>
-            <div>
+            <label className='display-6' style={{  color: 'white' }}>Intérêts:</label>
+            <div style={{  color: 'white' }}>
               {renderInterests()} {/* Render interest options */}
             </div>
           </div>
-          <button type="button"variant="light" className="m-2 btn-custom btn-hover-effect" onClick={ModifyPassword}> {/* Button to request password modification */}
+
+          <div className="d-flex flex-column justify-content-center align-items-center" >
+          <div>
+          <button type="button" className="m-2 btn btn-light btn-custom btn-hover-effect fs-5" onClick={ModifyPassword}> {/* Button to request password modification */}
             <span style={{ marginRight: '5px' }}>Demander la modification du mot de passe</span>
           </button>
-          <div className="d-flex justify-content-between">
-            <button type="button"variant="light" className="m-2 btn-custom btn-hover-effect" onClick={() => navigate("/menu")}> {/* Button to cancel */}
+          </div>
+          <div className="d-flex  ">
+            <button type='button'  className=" btn btn-light m-2 btn-custom btn-hover-effect fs-5" onClick={() => navigate("/menu")}> {/* Button to cancel */}
               <span style={{ marginRight: '5px' }}>Annuler</span>
               <XLg size={24} />
             </button>
-            <button type="submit" variant="light" className="m-2 btn-custom btn-hover-effect"> {/* Button to submit form */}
+            <button type="submit" variant="light" className="m-2 btn btn-light btn-custom btn-hover-effect fs-5"> {/* Button to submit form */}
               <span style={{ marginRight: '5px' }}>Modifier Mon Profil</span>
               <PersonGear size={24} />
             </button>
+          </div>
           </div>
         </form>
       </div>
     </div>
   </div>
+ 
   );
 };
 
