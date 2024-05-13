@@ -181,7 +181,7 @@ router.post("/requestPasswordReset", async (req, res) => {
     subject: "Réinitialisation du mot de passe",
     html: `
       <p>Cliquez sur le bouton suivant pour réinitialiser votre mot de passe :
-      <a href="${process.env.SERVER_URL}/user/resetPassword?token=${token}" style="display: inline-block; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; border: 1px solid transparent; padding: .375rem .75rem; font-size: 1rem;
+      <a href="${process.env.REACT_APP_SERVER_URL}/user/resetPassword?token=${token}" style="display: inline-block; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; border: 1px solid transparent; padding: .375rem .75rem; font-size: 1rem;
        line-height: 1.5; border-radius: .25rem; color: #fff; background-color: #007bff; text-decoration: none;">Réinitialiser le mot de passe</a></p>
       <img src="https://valfamille.com/site2022/wp-content/uploads/logo-bleu-marge.jpg" alt="Valcourt 2030" style="max-width: 60%; max-height: 50vh; margin-bottom: 20px;">
 
@@ -204,7 +204,7 @@ router.get("/resetPassword", async (req, res) => {
   const { token } = req.query;
 
   // Redirect to the reset password page in the React app
-  res.redirect(`/resetPassword?token=${token}`);
+  res.redirect(`${process.env.SERVER_URL}/resetPassword?token=${token}`);
 });
 
 // This route handles the POST request made by your React app to reset the password
@@ -262,7 +262,7 @@ router.get("/requestPasswordModification", authMiddleware, async (req, res) => {
       subject: "Modification du mot de passe ",
       html: `
     <p>Cliquez sur le lien ci-dessous pour modifier votre mot de passe :</p>
-    <p><a href="${process.env.SERVER_URL}/user/passwordModification?token=${encodeURIComponent(newToken)}" style="display: inline-block; background-color: #007bff; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px;">Modifier le mot de passe</a></p>
+    <p><a href="${process.env.REACT_APP_SERVER_URL}/user/passwordModification?token=${encodeURIComponent(newToken)}" style="display: inline-block; background-color: #007bff; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px;">Modifier le mot de passe</a></p>
   `,
     },
     function (error, info) {
@@ -278,9 +278,10 @@ router.get("/requestPasswordModification", authMiddleware, async (req, res) => {
 // This route handles the initial GET request made when the user clicks the link in the email
 router.get("/passwordModification", async (req, res) => {
   const { token } = req.query;
+  console.log("token: " + token)
 
   // Redirect to the reset password page in the React app
-  res.redirect(`http://localhost:3000/passwordModification?token=${token}`);
+  res.redirect(`${process.env.SERVER_URL}/passwordModification?token=${token}`);
 });
 
 // This route handles the POST request made by your React app to reset the password
