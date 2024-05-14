@@ -55,7 +55,7 @@ async function sendEmails() {
   for (const activity of activities) {
     //console.log("activity.StartDate: ", (activity.StartDate));
     //console.log("activity.EndDate: ", (activity.EndDate));
-    console.log('activity.registeredUsers: ', activity.registeredUsers);
+    console.log('activity.registeredUsers: ', activity);
 
     // Send an email to each registered user
     for (const email of activity.registeredUsers) {
@@ -75,13 +75,13 @@ async function sendEmails() {
         } catch (error) {
           console.error('Error formatting EndDate:', error);
         }
-      htmlContent += `<p>${activity.post_content}</p>`;
+        htmlContent += `<p>${activity.post_content.replace(/\n/g, '<br>')}</p>`;
       htmlContent += `<img src="${activity.post_thumbnail}" alt="Activity Thumbnail" style="width: 100%; max-width: 600px;">`;
-      htmlContent += `<p>Cliquez sur ce <button onclick="window.location.href='${activity.event_url}'">${activity.post_title}</button> pour accéder à l'article de l'événement sur le site de Valcourt2030 et voir les détails de l'événement.</p>`;
+      htmlContent += `<p>Cliquez sur ce lien <a href="${activity.post_url}">${activity.post_title}</a> pour accéder à l'article de l'événement sur le site de Valcourt2030 et voir les détails de l'événement.</p>`;
 
       await transporter.sendMail(
         {
-          from: '"Valcourt2030" <process.env.RECIPIENT_EMAIL>',
+          from: `"Valcourt2030" <${process.env.RECIPIENT_EMAIL}>`,
           to: email,
           subject: `L'événement ${
             activity.post_title

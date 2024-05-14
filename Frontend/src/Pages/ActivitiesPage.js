@@ -121,6 +121,7 @@ const ActivitiesPage = () => {
           (Array.isArray(activity.tags) &&
             selectedFilters.some((filter) => activity.tags.includes(filter)));
 
+            console.log('activity.StartDate: ', activity.StartDate);
         //Filter by date
         let dateFilter = false;
         const activityDate = new Date(activity.StartDate)

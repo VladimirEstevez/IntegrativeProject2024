@@ -37,7 +37,7 @@ app.get("/", function (req, res) {
 
 // Schedule the reminder task to run every day at 5 AM
 //cron.schedule("0 0 5 * * *", reminderTask);
-cron.schedule("*/5 * * * * *", reminderTask);
+cron.schedule("0 0 * * *", reminderTask);
 // Send email to users when a new event is added. The email is sent to the users with matching tags of the event.
 app.post("/", async (req, res) => {
   console.log("Webhook received:");
@@ -64,8 +64,8 @@ const EndDate = moment.tz(req.body.post_meta._EventEndDate[0], 'YYYY-MM-DD HH:mm
       post_url: req.body.post_permalink,
       tags: tags,
     };
-    console.log('EndDate: ', EndDate);
-    console.log('StartDate: ', StartDate);
+   // console.log('EndDate: ', EndDate);
+    //console.log('StartDate: ', StartDate);
 
     const insertResult = await ActivitiesCollection.insertOne(eventData);
     const activityId = insertResult.insertedId;
@@ -96,8 +96,8 @@ const EndDate = moment.tz(req.body.post_meta._EventEndDate[0], 'YYYY-MM-DD HH:mm
         const registerUrl = `${process.env.REACT_APP_SERVER_URL}/activities/register-activity/${
           user.courriel
         }/${activityId}/${encodeURIComponent(eventData.event_url)}`;
-        console.log('registerUrl: ', registerUrl);
-        const testUrl = 'https://example.com';
+       // console.log('registerUrl: ', registerUrl);
+       // const testUrl = 'https://example.com';
 
         // Send an email to the user
         await transporter.sendMail(

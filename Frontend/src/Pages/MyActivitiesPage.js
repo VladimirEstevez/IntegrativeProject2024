@@ -198,8 +198,9 @@ const MyActivitiesPage = () => {
     <div style={{ 
       background: ` linear-gradient(to bottom, #007bff, #B9D56D)`,
       backgroundSize: "auto",
-      backgroundPosition: "center",
+      backgroundPosition: "contain",
       backgroundRepeat: "no-repeat",
+      minHeight: "100vh",
     }}> <div className="container ">
       <div className="row justify-content-center">
 

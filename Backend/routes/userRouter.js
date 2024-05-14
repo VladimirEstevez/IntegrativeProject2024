@@ -176,7 +176,7 @@ router.post("/requestPasswordReset", async (req, res) => {
   });
 
   await transporter.sendMail({
-    from: '"Valcour2030" <process.env.RECIPIENT_EMAIL>',
+    from: `"Valcourt2030" <${process.env.RECIPIENT_EMAIL}>`,
     to: userCourriel,
     subject: "Réinitialisation du mot de passe",
     html: `
