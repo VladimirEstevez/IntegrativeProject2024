@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'; // Importing necessary modules and components
 import { useNavigate } from 'react-router-dom'; // Importing hook for navigation
-import backgroundImage from '../Logo/V2030.png'; // Importing the background i
+import backgroundImage from "../Logo/V2030_sans.png"; // Importing the background image
+import logoBlanc from "../Logo/Logo_blanc.png";
 
 const MainMenuPage = () => {
   const navigate = useNavigate(); // Navigation function
@@ -43,37 +44,52 @@ const MainMenuPage = () => {
   
     return ( // Render main menu page
     <div className="" style={{ background: "linear-gradient(to bottom, #007bff, #B9D56D)", backgroundSize: 'auto', backgroundPosition: 'center', backgroundRepeat: 'no-repeat'}}>
-      <div
-        className=""
-        style={{
-          backgroundImage: `url(${backgroundImage})`,
-          height: "100vh",
-          width: "100vw",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "contain",
-          backgroundPosition: "center",
-          opacity: "0.9",
-        }}
-      >
-
-      <div className="container-fluid vh-100">
-        <div className="d-flex justify-content-center align-items-start ">
-          <div className="container-md text-center text-white">
-            <h1 className="fs-4 mt-4 text-white">Bonjour {prenom}. On est content de vous revoir!</h1>
-<p className="fs-4">Explorez nos événements, connectez-vous avec les autres membres de la communauté et restez impliqué dans Valcourt 2030!</p>
-<p className="fs-4">Voici ce que vous pouvez faire sur votre page principale:</p>
-<ul className="fs-5 " style={{textAlign: "left"}}>
-  <li>Découvrez nos événements locaux: parcourez nos activités à venir par vos balises personnalisées ou par date pour trouver des événements qui vous intéressent.</li>
-  <li>Restez organisé: consultez vos activités enregistrées sur votre propre page dédiée.</li>
-  <li>Connectez-vous avec les autres: rencontrez de nouvelles personnes et établissez des relations avec vos voisins en participant à des événements.</li>
-  <li>Informez-vous : demeurez à l'affût de nos dernières nouvelles et événements au sein de la communauté du Grand Valcourt.</li>
-</ul>
-<p className="fs-4 mt-4 text-white">Pour en connaître plus à propos de notre organisation, n'oubliez pas de visiter le <a  style={{ color: '#ffc107' }} href='https://www.valcourt2030.org' >www.Valcourt2030.org</a></p>
-          </div>
+  <div
+    className=""
+    style={{
+      backgroundImage: `url(${backgroundImage})`,
+      height: "100vh",
+      width: "100vw",
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "contain",
+      backgroundPosition: "center",
+      opacity: "0.9",
+    }}
+  >
+    <div className="container-fluid vh-100">
+      <div className="row justify-content-center align-items-start">
+        <div className="col-12 text-center text-white">
+          <h1 className="fs-4 mt-4 text-white">Bonjour {prenom}. On est content de vous revoir!</h1>
+          <p className="fs-4">Explorez nos événements, connectez-vous avec les autres membres de la communauté et restez impliqué dans Valcourt 2030!</p>
+          <p className="fs-4">Voici ce que vous pouvez faire sur votre page principale:</p>
+          <ul className="fs-5 " style={{textAlign: "left"}}>
+            <li>Découvrez nos événements locaux: parcourez nos activités à venir par vos balises personnalisées ou par date pour trouver des événements qui vous intéressent.</li>
+            <li>Restez organisé: consultez vos activités enregistrées sur votre propre page dédiée.</li>
+            <li>Connectez-vous avec les autres: rencontrez de nouvelles personnes et établissez des relations avec vos voisins en participant à des événements.</li>
+            <li>Informez-vous : demeurez à l'affût de nos dernières nouvelles et événements au sein de la communauté du Grand Valcourt.</li>
+          </ul>
+          <p className="fs-4 mt-4 text-white">Pour en connaître plus à propos de notre organisation, n'oubliez pas de visiter le <a  style={{ color: '#ffc107' }} href='https://www.valcourt2030.org' >www.Valcourt2030.org</a></p>
+        </div>
+      </div>
+      <div className="row justify-content-center">
+        <div className="col-12 text-center">
+          <div
+            style={{
+              backgroundImage: `url(${logoBlanc})`,
+              height: "33vh",
+              width: "66vw",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "contain",
+              backgroundPosition: "center",
+              opacity: "0.9",
+              margin: "auto",
+            }}
+          ></div>
         </div>
       </div>
     </div>
-    </div>
+  </div>
+</div>
     );
   };
 

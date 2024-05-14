@@ -60,7 +60,7 @@ router.post("/register-activity", async (req, res) => {
             html: `
             <img src="${
               activity.post_thumbnail
-            }" alt="Image de l'activité" style="width: 100%; max-width: 600px;">
+            }" alt="Image de l'activité" style="width: 100%; max-width: 600px;"> <br>
             Bienvenue! Vous vous êtes inscrit à l'activité : ${activity.post_title}.<br>
                 Date de début : ${formatDateFunction(activity.StartDate)},<br>
                 Date de fin : ${formatDateFunction(activity.EndDate)}.<br>
