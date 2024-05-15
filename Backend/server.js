@@ -92,11 +92,11 @@ const EndDate = moment.tz(req.body.post_meta._EventEndDate[0], 'YYYY-MM-DD HH:mm
         );
 
         // Generate a unique URL for each user and each activity
-
+        
         const registerUrl = `${process.env.REACT_APP_SERVER_URL}/activities/register-activity/${
           user.courriel
         }/${activityId}/${encodeURIComponent(eventData.event_url)}`;
-       // console.log('registerUrl: ', registerUrl);
+       console.log('registerUrl: ', registerUrl);
        // const testUrl = 'https://example.com';
 
         // Send an email to the user
@@ -127,8 +127,7 @@ const EndDate = moment.tz(req.body.post_meta._EventEndDate[0], 'YYYY-MM-DD HH:mm
                     }">lien</a> pour accéder à l'événement.</p>
                     <p><a href="${registerUrl}" style="display: inline-block; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; border: 1px solid transparent; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; border-radius: .25rem; color: #fff; background-color: #007bff;">Cliquez sur ce bouton pour vous inscrire à l'événement !</a></p>
  
-                    <p><a href="${testUrl}" style="display: inline-block; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; border: 1px solid transparent; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; border-radius: .25rem; color: #fff; background-color: #007bff;">CTEST TEST TEST à l'événement !</a></p>
-                `,
+                     `,
           },
           function (error, info) {
             if (error) {
