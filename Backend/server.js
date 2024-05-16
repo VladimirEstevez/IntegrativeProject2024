@@ -14,7 +14,6 @@ const { ObjectId } = require("mongodb");
 const nodemailer = require("nodemailer");
 const cron = require("node-cron");
 const reminderTask = require("./routes/reminderRouter.js");
-
 const path = require("path");
 const moment = require('moment-timezone');
 
@@ -171,6 +170,12 @@ const DataCollection = db.collection("Data");
 app.use("/register", registerRouter);
 app.use("/activities", activitiesRouter);
 app.use("/user", userRouter);
+
+// The "catchall" handler: for any request that doesn't
+// match one explicitly defined above, return React's index.html file.
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 //Start the server
 const port = process.env.PORT;
