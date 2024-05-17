@@ -218,6 +218,7 @@ const ActivitiesPage = () => {
         backgroundSize: "auto",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
+        minHeight: "100vh",
       }}
     >
       <div className="container">
