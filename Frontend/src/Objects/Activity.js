@@ -88,6 +88,7 @@ const Activity = () => {
         background: "linear-gradient(to bottom, #007bff, #bdd668)",
         maxWidth: "100%",
         color: "#333",
+        minHeight:"100vh"
       }}
     >
       <ToastContainer /> {/* Toast notifications container */}
