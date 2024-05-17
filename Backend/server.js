@@ -33,9 +33,9 @@ app.use(bodyParser.json());
 app.get("/", function (req, res) {
   res.send("Hello World");
 });
-
-// Schedule the reminder task to run every day at 5 AM
-//cron.schedule("0 0 5 * * *", reminderTask);
+// Schedule the reminder task to run every 10 seconds
+cron.schedule("*/10 * * * * *", reminderTask); 
+// Schedule the reminder task to run every day at midnight
 cron.schedule("0 0 * * *", reminderTask);
 // Send email to users when a new event is added. The email is sent to the users with matching tags of the event.
 app.post("/", async (req, res) => {

@@ -91,11 +91,21 @@ function ForgotPasswordPage() {
 
   // Render forgot password form
   return (
-    <div className="position-relative min-vh-100" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: '0.9' }}>
+    <div style={{ 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      fontSize: '1.3em', 
+      background: `linear-gradient(to bottom, #007bff, #B9D56D)`, 
+      backgroundSize: 'auto', 
+      backgroundPosition: 'center', 
+      backgroundRepeat: 'no-repeat', 
+      minHeight: '100vh' 
+    }}>
 
     <div>
       <ToastContainer /> {/* Container for toast notifications */}
-      <div className="container-fluid d-flex justify-content-center align-items-center bg-white" style={{ height: "100vh" }}>
+      <div className="container-fluid d-flex justify-content-center align-items-center " style={{ height: "100vh" }}>
         <div className="text-center">
           <h1>Mot de passe oublié</h1>
           <Form onSubmit={handleSubmit}> {/* Form for forgot password */}
@@ -107,7 +117,7 @@ function ForgotPasswordPage() {
                   onChange={(e) => setForm({ ...form, courriel: e.target.value })}
                   value={form.courriel}
                 />
-                <Button variant="outline-primary" type="button" onClick={() => navigate("/login")} className="btn-rounded">
+                <Button variant="light" type="button" onClick={() => navigate("/login")} className="btn-custom">
                   <span>Annuler</span>
                   <XLg size={24} />
                 </Button>

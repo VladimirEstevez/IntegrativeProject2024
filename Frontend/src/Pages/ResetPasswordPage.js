@@ -74,7 +74,11 @@ function ResetPasswordPage() {
 
   // Render form for password reset
   return (
-    <div className="position-relative min-vh-100" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: '0.9' }}>
+    <div className="position-relative min-vh-100" style={{ background: `linear-gradient(to bottom, #007bff, #B9D56D)`, 
+    backgroundSize: 'auto', 
+    backgroundPosition: 'center', 
+    backgroundRepeat: 'no-repeat', 
+    minHeight: '100vh' }}>
 
     <div
       style={{
@@ -110,24 +114,17 @@ function ResetPasswordPage() {
         />
         {/* Submit button */}
         <div className="d-flex justify-content-center align-items-center my-3">
-          <button
-            type="submit"
-            style={{
-              backgroundColor: "blue",
-              color: "white",
-              padding: "10px 20px",
-              borderRadius: "10px",
-              border: "none",
-              cursor: "pointer",
-              transition: "transform 0.3s", // Adding transition effect
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "scale(1.1)"; // Scaling effect on hover
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "scale(1)"; // Reverting scale effect on hover out
-            }}
-          >
+        <button
+  type="submit"
+  variant="light"
+  className="btn-custom m-2"
+  onMouseEnter={(e) => {
+    e.currentTarget.style.transform = "scale(1.1)"; // Scaling effect on hover
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.transform = "scale(1)"; // Reverting scale effect on hover out
+  }}
+>
             Confirmer
           </button>
         </div>

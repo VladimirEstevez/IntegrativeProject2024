@@ -62,7 +62,7 @@ const MainMenuPage = () => {
           <h1 className="fs-4 mt-4 text-white">Bonjour {prenom}. On est content de vous revoir!</h1>
           <p className="fs-4">Explorez nos événements, connectez-vous avec les autres membres de la communauté et restez impliqué dans Valcourt 2030!</p>
           <p className="fs-4">Voici ce que vous pouvez faire sur votre page principale:</p>
-          <ul className="fs-5 " style={{textAlign: "left"}}>
+          <ul className="fs-5 justify-content-center " style={{textAlign: "center", listStylePosition: "inside"}}>
             <li>Découvrez nos événements locaux: parcourez nos activités à venir par vos balises personnalisées ou par date pour trouver des événements qui vous intéressent.</li>
             <li>Restez organisé: consultez vos activités enregistrées sur votre propre page dédiée.</li>
             <li>Connectez-vous avec les autres: rencontrez de nouvelles personnes et établissez des relations avec vos voisins en participant à des événements.</li>

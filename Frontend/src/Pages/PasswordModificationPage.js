@@ -92,8 +92,11 @@ function PasswordModificationPage() {
   } else {
     // Render form if password modification is not yet successful
     return (
-      <div className="position-relative min-vh-100" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: '0.9' }}>
-
+      <div className="position-relative min-vh-100" style={{ background: `linear-gradient(to bottom, #007bff, #B9D56D)`, 
+      backgroundSize: 'auto', 
+      backgroundPosition: 'center', 
+      backgroundRepeat: 'no-repeat', 
+      minHeight: '100vh' }}>
       <div
         style={{
           display: "flex",

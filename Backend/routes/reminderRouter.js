@@ -65,13 +65,13 @@ async function sendEmails() {
           <p>Bonjour, nous voulons vous rappeler que vous êtes inscrit à l'activité suivante : ${activity.post_title}. Elle aura lieu dans trois jours !</p>
         </div>`;
         try {
-          htmlContent += `<p>L'événement commence à : ${formatDateFunction(activity.StartDate)}</p>`;
+          htmlContent += `<p>L'événement commence le ${formatDateFunction(activity.StartDate)}</p>`;
         } catch (error) {
           console.error('Error formatting StartDate:', error);
         }
         
         try {
-          htmlContent += `<p>Et se termine à : ${formatDateFunction(activity.EndDate)}</p>`;
+          htmlContent += `<p>Et se termine le ${formatDateFunction(activity.EndDate)}</p>`;
         } catch (error) {
           console.error('Error formatting EndDate:', error);
         }
